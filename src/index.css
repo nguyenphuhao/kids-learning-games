@@ -43,6 +43,17 @@ button {
   font-size: clamp(1.5rem, 5vw, 2.5rem);
 }
 
+.home-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.home-title img {
+  width: clamp(40px, 10vw, 56px);
+  height: auto;
+}
+
 .lang-toggle {
   display: flex;
   gap: 4px;

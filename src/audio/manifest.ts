@@ -21,4 +21,7 @@ export const AUDIO_KEYS: string[] = [
   ...SHAPES.map((s) => `shape-${s}`),
   'compare-more',
   'compare-less',
+  ...['start', 'fork', 'lake', 'garden', 'end-duck', 'end-turtle', 'end-squirrel', 'end-lift', 'outro'].map(
+    (k) => `story-${k}`,
+  ),
 ]

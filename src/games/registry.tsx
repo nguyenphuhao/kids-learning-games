@@ -8,14 +8,19 @@ import { FlagBuilderGame } from './flag-builder/FlagBuilderGame'
 import { FlagDriveGame } from './flag-drive/FlagDriveGame'
 import type { GameProps } from './shared/session'
 import { ShapesGame } from './shapes/ShapesGame'
+import { Car } from './story/art'
+import { endingsBadge } from './story/endings'
+import { StoryGame } from './story/StoryGame'
 
-export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags' | 'builder'
+export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags' | 'builder' | 'story'
 
 export type GameDef = {
   id: GameId
   color: string
   icon: ReactNode
   component: ComponentType<GameProps>
+  /** Chữ nhỏ hiện trên ô ở màn hình chính thay cho số cúp (ví dụ số kết thúc truyện đã khám phá). */
+  badge?: () => string | null
 }
 
 // Biểu tượng vẽ bằng SVG.
@@ -74,9 +79,19 @@ const builderIcon = (
   </svg>
 )
 
+const storyIcon = (
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <rect x="8" y="16" width="84" height="68" rx="10" fill="#fff" />
+    <rect x="8" y="64" width="84" height="20" rx="4" fill="#9ccc65" />
+    <circle cx="78" cy="30" r="8" fill="#ffd54f" />
+    <Car x={50} y={80} color="red" s={0.75} />
+  </svg>
+)
+
 export const GAMES: GameDef[] = [
   { id: 'flags', color: '#d1c4e9', icon: flagsIcon, component: FlagDriveGame },
   { id: 'builder', color: '#ffe0b2', icon: builderIcon, component: FlagBuilderGame },
+  { id: 'story', color: '#b2ebf2', icon: storyIcon, component: StoryGame, badge: endingsBadge },
   { id: 'counting', color: '#ffcdd2', icon: countingIcon, component: CountingGame },
   { id: 'colors', color: '#fff9c4', icon: colorsIcon, component: ColorsGame },
   { id: 'shapes', color: '#c8e6c9', icon: shapesIcon, component: ShapesGame },

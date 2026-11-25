@@ -102,20 +102,31 @@ function duck(on: boolean) {
 let fallbackVoice: HTMLAudioElement | null = null
 let fallbackMusic: HTMLAudioElement | null = null
 
-export function playLine(lang: Lang, key: string): void {
+/** Phát một câu thoại. `onEnd` được gọi khi câu đọc xong (không gọi nếu bị câu khác chen ngang). */
+export function playLine(lang: Lang, key: string, onEnd?: () => void): void {
   const a = getAudio()
   if (!a) {
     fallbackVoice?.pause()
-    fallbackVoice = new Audio(lineUrl(lang, key))
-    fallbackVoice.play().catch(() => {})
+    const el = new Audio(lineUrl(lang, key))
+    fallbackVoice = el
+    if (onEnd) {
+      el.addEventListener('ended', () => fallbackVoice === el && onEnd())
+      el.addEventListener('error', () => fallbackVoice === el && onEnd())
+    }
+    el.play().catch(() => onEnd && window.setTimeout(onEnd, 1500))
     return
   }
   const request = ++voiceRequest
   voiceSource?.stop()
   voiceSource = null
   load(lineUrl(lang, key)).then((buffer) => {
-    // Bỏ qua nếu đã có câu khác được yêu cầu sau câu này, hoặc file lỗi.
-    if (!buffer || request !== voiceRequest) return
+    // Bỏ qua nếu đã có câu khác được yêu cầu sau câu này.
+    if (request !== voiceRequest) return
+    // File lỗi: vẫn báo "đọc xong" để trò chơi/truyện không bị kẹt.
+    if (!buffer) {
+      if (onEnd) window.setTimeout(onEnd, 1500)
+      return
+    }
     if (a.ctx.state !== 'running') a.ctx.resume().catch(() => {})
     const src = a.ctx.createBufferSource()
     src.buffer = buffer
@@ -124,6 +135,7 @@ export function playLine(lang: Lang, key: string): void {
       if (voiceSource === src) {
         voiceSource = null
         duck(false)
+        onEnd?.()
       }
     }
     voiceSource = src
