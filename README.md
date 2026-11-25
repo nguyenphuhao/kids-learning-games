@@ -26,6 +26,7 @@ src/
   games/registry.tsx       Danh sách 4 trò chơi (thêm trò mới ở đây)
   games/shared/            Thanh câu hỏi, mức Dễ/Khó, hàm dùng chung
   games/counting, colors, shapes, compare   4 trò học số, màu, hình
+  games/flag-builder/      Trò "Ghép quốc kỳ" (thiết kế cờ trong designs.ts, hình mảnh trong PieceArt.tsx)
   games/flag-drive/        Trò "Lái xe tìm cờ" (danh sách nước trong countries.ts)
   i18n/strings.ts          Chữ giao diện VI/EN
   i18n/                   Ngôn ngữ hiện tại (LanguageProvider, useLanguage)
@@ -48,12 +49,13 @@ Mỗi lượt chơi gồm 5 câu; mỗi câu đúng thêm một ngôi sao trên 
 | Trò | Cách chơi | Dễ | Vừa | Khó |
 |---|---|---|---|---|
 | Lái xe tìm cờ / Flag drive | Kéo xe theo đường tới lá cờ đúng, hoặc chạm thẳng vào lá cờ | 2 cờ, 6 nước quen thuộc | 3 cờ, 14 nước, không có cặp cờ dễ nhầm | 3 cờ, 14 nước, cờ dễ nhầm (Việt Nam/Trung Quốc, Anh/Úc) đặt cạnh nhau |
+| Ghép quốc kỳ / Build a flag | Kéo mảnh (nền, sọc, ngôi sao, vòng tròn…) từ khay lộn xộn vào khung để ghép đúng cờ | Có cờ mẫu, 2 mảnh nhiễu; Việt Nam, Nhật, Pháp, Đức | Có cờ mẫu, 4 mảnh nhiễu; thêm Ý, Hàn, Canada | Không có mẫu, 5 mảnh nhiễu; thêm Trung Quốc, Brazil |
 | Đếm đồ vật / Counting | Chạm từng quả táo (giọng đọc đếm theo), rồi chọn đúng số | 1–3 quả | 1–6 quả | 1–10 quả |
 | Tìm màu / Find the color | Chạm quả bóng đúng màu, bóng bay lên | 2 bóng, đỏ/xanh dương/vàng | 3 bóng, 6 màu | 5 bóng, 6 màu |
 | Xếp hình / Shape match | Kéo hình vào ô cùng hình dạng | 2 hình (tròn, vuông, tam giác) | 3 hình | 4 hình (thêm ngôi sao) |
 | Nhiều hay ít / More or less | Chạm giỏ có nhiều hơn (hoặc ít hơn) | "Nhiều hơn", 1–5 quả, chênh ≥ 3 | "Nhiều hơn", 1–7 quả, chênh ≥ 2 | "Nhiều hơn" hoặc "ít hơn", 1–9 quả, chênh ≥ 1 |
 
-Đồ hoạ của 4 trò đầu vẽ bằng SVG. Trò lái xe dùng hình cờ và xe của Kenney.
+Đồ hoạ của các trò học số, màu, hình và trò ghép cờ vẽ bằng SVG (cờ trong trò ghép được vẽ theo lớp, đơn giản hoá). Trò lái xe dùng hình cờ và xe của Kenney.
 
 ### Lái xe tìm cờ
 
@@ -72,6 +74,7 @@ File âm thanh của các trò khác:
 - Tìm màu: `colors-find-<red|blue|yellow|green|orange|purple>`
 - Xếp hình: `shapes-intro`, `shape-<circle|square|triangle|star>`
 - Nhiều hay ít: `compare-more`, `compare-less`
+- Ghép quốc kỳ: `build-<VN|CN|JP|KR|CA|BR|FR|IT|DE>`
 
 ## Âm thanh
 

@@ -15,6 +15,7 @@ export const strings = {
       shapes: 'Xếp hình',
       compare: 'Nhiều hay ít',
       flags: 'Lái xe tìm cờ',
+      builder: 'Ghép quốc kỳ',
     },
     flagDrive: {
       find: 'Lấy cờ {name}!',
@@ -33,6 +34,10 @@ export const strings = {
       playAgain: 'Chơi lại',
       home: 'Trang chủ',
       trophies: 'Số cúp',
+    },
+    flagBuilder: {
+      build: 'Bé ghép cờ {name} nhé!',
+      model: 'Mẫu',
     },
     counting: {
       intro: 'Bé chạm vào từng quả táo để đếm nhé!',
@@ -73,6 +78,7 @@ export const strings = {
       shapes: 'Shape match',
       compare: 'More or less',
       flags: 'Flag drive',
+      builder: 'Build a flag',
     },
     flagDrive: {
       find: 'Find the flag of {name}!',
@@ -91,6 +97,10 @@ export const strings = {
       playAgain: 'Play again',
       home: 'Home',
       trophies: 'Trophies',
+    },
+    flagBuilder: {
+      build: "Let's build the flag of {name}!",
+      model: 'Example',
     },
     counting: {
       intro: 'Tap each apple to count them!',

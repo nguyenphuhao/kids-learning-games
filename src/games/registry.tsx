@@ -4,11 +4,12 @@ import type { ComponentType, ReactNode } from 'react'
 import { ColorsGame } from './colors/ColorsGame'
 import { CompareGame } from './compare/CompareGame'
 import { CountingGame } from './counting/CountingGame'
+import { FlagBuilderGame } from './flag-builder/FlagBuilderGame'
 import { FlagDriveGame } from './flag-drive/FlagDriveGame'
 import type { GameProps } from './shared/session'
 import { ShapesGame } from './shapes/ShapesGame'
 
-export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags'
+export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags' | 'builder'
 
 export type GameDef = {
   id: GameId
@@ -62,8 +63,20 @@ const flagsIcon = (
   </svg>
 )
 
+// Biểu tượng trò ghép cờ: khung cờ đỏ có ngôi sao đang được ghép vào.
+const builderIcon = (
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <rect x="10" y="22" width="66" height="44" fill="#e53935" />
+    <rect x="10" y="22" width="66" height="44" fill="none" stroke="#fff" strokeWidth="3" strokeDasharray="6 5" />
+    <path d="M74 52 L78 64 L91 64 L81 72 L85 85 L74 77 L63 85 L67 72 L57 64 L70 64 Z" fill="#fdd835" stroke="#fff" strokeWidth="2" />
+    <rect x="16" y="74" width="10" height="20" fill="#1e40af" />
+    <rect x="30" y="74" width="10" height="20" fill="#fff" stroke="#b0bec5" />
+  </svg>
+)
+
 export const GAMES: GameDef[] = [
   { id: 'flags', color: '#d1c4e9', icon: flagsIcon, component: FlagDriveGame },
+  { id: 'builder', color: '#ffe0b2', icon: builderIcon, component: FlagBuilderGame },
   { id: 'counting', color: '#ffcdd2', icon: countingIcon, component: CountingGame },
   { id: 'colors', color: '#fff9c4', icon: colorsIcon, component: ColorsGame },
   { id: 'shapes', color: '#c8e6c9', icon: shapesIcon, component: ShapesGame },
