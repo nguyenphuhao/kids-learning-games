@@ -1,9 +1,10 @@
 // Danh sách trò chơi. Thêm trò mới: tạo component rồi khai báo ở đây.
 
 import type { ComponentType, ReactNode } from 'react'
+import { FlagDriveGame } from './flag-drive/FlagDriveGame'
 import { GamePlaceholder } from './GamePlaceholder'
 
-export type GameId = 'counting' | 'colors' | 'shapes' | 'compare'
+export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags'
 
 export type GameDef = {
   id: GameId
@@ -48,9 +49,19 @@ const compareIcon = (
   </svg>
 )
 
+// Biểu tượng dùng hình Kenney (xe và cờ).
+const flagsIcon = (
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <image href="/assets/kenney/flag-pack/VN.svg" x="52" y="10" width="40" height="40" />
+    <rect x="50" y="10" width="3" height="60" fill="#5d4037" />
+    <image href="/assets/kenney/racing-pack/car_red_1.png" x="18" y="30" width="34" height="63" />
+  </svg>
+)
+
 export const GAMES: GameDef[] = [
   { id: 'counting', color: '#ffcdd2', icon: countingIcon, component: GamePlaceholder },
   { id: 'colors', color: '#fff9c4', icon: colorsIcon, component: GamePlaceholder },
   { id: 'shapes', color: '#c8e6c9', icon: shapesIcon, component: GamePlaceholder },
   { id: 'compare', color: '#bbdefb', icon: compareIcon, component: GamePlaceholder },
+  { id: 'flags', color: '#d1c4e9', icon: flagsIcon, component: FlagDriveGame },
 ]

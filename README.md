@@ -25,13 +25,16 @@ src/
   components/              HomeScreen, GameScreen, LanguageToggle
   games/registry.tsx       Danh sách 4 trò chơi (thêm trò mới ở đây)
   games/GamePlaceholder.tsx  Màn hình tạm cho trò chưa làm
+  games/flag-drive/        Trò "Lái xe tìm cờ" (danh sách nước trong countries.ts)
   i18n/strings.ts          Chữ giao diện VI/EN
   i18n/                   Ngôn ngữ hiện tại (LanguageProvider, useLanguage)
   audio/audio.ts           Phát file public/audio/<vi|en>/<key>.mp3
   lib/storage.ts           Đọc/ghi localStorage an toàn
 public/
   audio/vi, audio/en       File giọng nói từ ElevenLabs
-  assets/kenney            Hình tải từ Kenney (kèm file License của từng bộ)
+  assets/kenney            Hình tải từ Kenney, mỗi bộ kèm License.txt (CC0)
+    flag-pack/             14 lá cờ (SVG)
+    racing-pack/           Xe ô tô
 ```
 
 ## Trò chơi (bản đầu tiên)
@@ -42,3 +45,14 @@ public/
 | Tìm màu / Find the color | Chưa làm |
 | Xếp hình / Shape match | Chưa làm |
 | Nhiều hay ít / More or less | Chưa làm |
+| Lái xe tìm cờ / Flag drive | Chơi được, chưa có âm thanh |
+
+### Lái xe tìm cờ
+
+Xe chạy tới ngã rẽ, mỗi nhánh có một lá cờ. Game đọc và hiện chữ "Lấy cờ Việt Nam!", bé chạm vào nhánh có cờ đúng để xe rẽ vào lấy cờ. Chạm sai thì lá cờ lắc nhẹ và game nhắc "Thử lại nhé!". Phụ huynh chọn 2 hoặc 3 lá cờ mỗi lượt. Các cặp cờ dễ nhầm (Việt Nam / Trung Quốc, Anh / Úc) không xuất hiện cùng lượt.
+
+File âm thanh cần tạo (đặt trong `public/audio/vi/` và `public/audio/en/`):
+
+- `flags-find-<MÃ NƯỚC>.mp3` cho 14 nước: VN, US, GB, JP, KR, CN, FR, DE, IT, BR, CA, AU, TH, IN
+- `flags-great.mp3`
+- `flags-retry.mp3`

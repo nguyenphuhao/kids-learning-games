@@ -14,6 +14,14 @@ export const strings = {
       colors: 'Tìm màu',
       shapes: 'Xếp hình',
       compare: 'Nhiều hay ít',
+      flags: 'Lái xe tìm cờ',
+    },
+    flagDrive: {
+      find: 'Lấy cờ {name}!',
+      retry: 'Thử lại nhé!',
+      great: 'Giỏi quá!',
+      replay: 'Nghe lại',
+      choices: 'Số lá cờ',
     },
   },
   en: {
@@ -25,6 +33,14 @@ export const strings = {
       colors: 'Find the color',
       shapes: 'Shape match',
       compare: 'More or less',
+      flags: 'Flag drive',
+    },
+    flagDrive: {
+      find: 'Find the flag of {name}!',
+      retry: 'Try again!',
+      great: 'Great job!',
+      replay: 'Listen again',
+      choices: 'Number of flags',
     },
   },
 } as const
