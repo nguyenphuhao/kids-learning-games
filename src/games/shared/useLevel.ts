@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { loadValue, saveValue } from '../../lib/storage'
 
-export type Level = 'easy' | 'hard'
+export type Level = 'easy' | 'medium' | 'hard'
+
+export const LEVELS: Level[] = ['easy', 'medium', 'hard']
 
 /** Mức dễ/khó của một trò, lưu trên máy theo `key`. */
 export function useLevel(key: string): [Level, (level: Level) => void] {

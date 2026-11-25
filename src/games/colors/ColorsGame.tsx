@@ -1,5 +1,5 @@
 // Trò "Tìm màu": "Chạm vào quả bóng màu đỏ!". Bóng đúng bay lên.
-// Mức dễ 3 quả bóng, mức khó 5 quả.
+// Dễ: 2 bóng, chỉ đỏ/xanh dương/vàng. Vừa: 3 bóng, 6 màu. Khó: 5 bóng, 6 màu.
 //
 // Âm thanh: colors-find-<màu>, common-great, common-retry.
 
@@ -26,8 +26,9 @@ type ColorName = keyof typeof COLORS
 type Round = { options: ColorName[]; target: ColorName }
 
 function makeRound(level: Level, previous?: ColorName): Round {
-  const count = level === 'easy' ? 3 : 5
-  const options = shuffle(Object.keys(COLORS) as ColorName[]).slice(0, count)
+  const count = { easy: 2, medium: 3, hard: 5 }[level]
+  const pool: ColorName[] = level === 'easy' ? ['red', 'blue', 'yellow'] : (Object.keys(COLORS) as ColorName[])
+  const options = shuffle(pool).slice(0, count)
   const target = pick(options.filter((c) => c !== previous))
   return { options, target }
 }

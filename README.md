@@ -41,23 +41,23 @@ public/
 
 ## Trò chơi
 
-Mỗi trò có mức Dễ/Khó (lựa chọn lưu trên máy), giọng nói VI/EN và nhạc nền. Bé làm sai thì được nhắc "Thử lại nhé!", không có âm báo sai.
+Mỗi trò có 3 mức Dễ / Vừa / Khó (lựa chọn lưu trên máy, đổi mức thì bắt đầu lượt mới), giọng nói VI/EN và nhạc nền. Bé làm sai thì được nhắc "Thử lại nhé!", không có âm báo sai.
 
 Mỗi lượt chơi gồm 5 câu; mỗi câu đúng thêm một ngôi sao trên thanh tiến độ. Đủ 5 sao thì hiện màn hình hoàn thành (cúp, sao, pháo giấy, lời khen "Hoàn thành rồi! Bé giỏi quá!") với nút Chơi lại và Trang chủ. Mỗi lần hoàn thành được một cúp; số cúp hiện trên ô trò chơi ở màn hình chính (lưu trên máy).
 
-| Trò | Cách chơi | Dễ | Khó |
-|---|---|---|---|
-| Lái xe tìm cờ / Flag drive | Kéo xe theo đường tới lá cờ đúng, hoặc chạm thẳng vào lá cờ | 2 cờ | 3 cờ |
-| Đếm đồ vật / Counting | Chạm từng quả táo (giọng đọc đếm theo), rồi chọn đúng số | 1–5 quả | 1–10 quả |
-| Tìm màu / Find the color | Chạm quả bóng đúng màu, bóng bay lên | 3 bóng | 5 bóng |
-| Xếp hình / Shape match | Kéo hình vào ô cùng hình dạng | 2 hình | 4 hình |
-| Nhiều hay ít / More or less | Chạm giỏ có nhiều hơn (hoặc ít hơn) | Chỉ hỏi "nhiều hơn", chênh ≥ 3 quả | Hỏi cả "ít hơn", chênh ≥ 1 quả |
+| Trò | Cách chơi | Dễ | Vừa | Khó |
+|---|---|---|---|---|
+| Lái xe tìm cờ / Flag drive | Kéo xe theo đường tới lá cờ đúng, hoặc chạm thẳng vào lá cờ | 2 cờ, 6 nước quen thuộc | 3 cờ, 14 nước, không có cặp cờ dễ nhầm | 3 cờ, 14 nước, cờ dễ nhầm (Việt Nam/Trung Quốc, Anh/Úc) đặt cạnh nhau |
+| Đếm đồ vật / Counting | Chạm từng quả táo (giọng đọc đếm theo), rồi chọn đúng số | 1–3 quả | 1–6 quả | 1–10 quả |
+| Tìm màu / Find the color | Chạm quả bóng đúng màu, bóng bay lên | 2 bóng, đỏ/xanh dương/vàng | 3 bóng, 6 màu | 5 bóng, 6 màu |
+| Xếp hình / Shape match | Kéo hình vào ô cùng hình dạng | 2 hình (tròn, vuông, tam giác) | 3 hình | 4 hình (thêm ngôi sao) |
+| Nhiều hay ít / More or less | Chạm giỏ có nhiều hơn (hoặc ít hơn) | "Nhiều hơn", 1–5 quả, chênh ≥ 3 | "Nhiều hơn", 1–7 quả, chênh ≥ 2 | "Nhiều hơn" hoặc "ít hơn", 1–9 quả, chênh ≥ 1 |
 
 Đồ hoạ của 4 trò đầu vẽ bằng SVG. Trò lái xe dùng hình cờ và xe của Kenney.
 
 ### Lái xe tìm cờ
 
-Đường có ngã rẽ, mỗi nhánh có một lá cờ. Game đọc và hiện chữ "Lấy cờ Việt Nam!". Bé đặt ngón tay lên xe (có vòng sáng gợi ý) và kéo xe chạy theo đường; xe chỉ chạy trên đường. Kéo tới cờ sai thì lá cờ lắc nhẹ, game nhắc "Thử lại nhé!" và xe lùi về ngã rẽ. Bé cũng có thể chạm thẳng vào lá cờ đúng để xe tự chạy tới. Phụ huynh chọn 2 hoặc 3 lá cờ mỗi lượt. Các cặp cờ dễ nhầm (Việt Nam / Trung Quốc, Anh / Úc) không xuất hiện cùng lượt.
+Đường có ngã rẽ, mỗi nhánh có một lá cờ. Game đọc và hiện chữ "Lấy cờ Việt Nam!". Bé đặt ngón tay lên xe (có vòng sáng gợi ý) và kéo xe chạy theo đường; xe chỉ chạy trên đường. Kéo tới cờ sai thì lá cờ lắc nhẹ, game nhắc "Thử lại nhé!" và xe lùi về ngã rẽ. Bé cũng có thể chạm thẳng vào lá cờ đúng để xe tự chạy tới. Mức chơi quyết định số cờ và nhóm nước (xem bảng trên). Các cặp cờ dễ nhầm (Việt Nam / Trung Quốc, Anh / Úc) không xuất hiện cùng lượt.
 
 File âm thanh (trong `public/audio/vi/` và `public/audio/en/`):
 

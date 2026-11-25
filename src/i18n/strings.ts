@@ -20,8 +20,6 @@ export const strings = {
       find: 'Lấy cờ {name}!',
       retry: 'Thử lại nhé!',
       great: 'Giỏi quá!',
-      replay: 'Nghe lại',
-      choices: 'Số lá cờ',
     },
     common: {
       great: 'Giỏi quá!',
@@ -29,6 +27,7 @@ export const strings = {
       replay: 'Nghe lại',
       level: 'Mức chơi',
       easy: 'Dễ',
+      medium: 'Vừa',
       hard: 'Khó',
       finish: 'Hoàn thành rồi! Bé giỏi quá!',
       playAgain: 'Chơi lại',
@@ -79,8 +78,6 @@ export const strings = {
       find: 'Find the flag of {name}!',
       retry: 'Try again!',
       great: 'Great job!',
-      replay: 'Listen again',
-      choices: 'Number of flags',
     },
     common: {
       great: 'Great job!',
@@ -88,6 +85,7 @@ export const strings = {
       replay: 'Listen again',
       level: 'Level',
       easy: 'Easy',
+      medium: 'Medium',
       hard: 'Hard',
       finish: 'All done! You did it!',
       playAgain: 'Play again',

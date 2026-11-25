@@ -1,6 +1,7 @@
 // Trò "Nhiều hay ít": hai giỏ cam, bé chạm vào giỏ đúng.
-// Mức dễ: chỉ hỏi "nhiều hơn", hai giỏ chênh nhau ít nhất 3 quả (1–6 quả).
-// Mức khó: hỏi "nhiều hơn" hoặc "ít hơn", chênh nhau ít nhất 1 quả (1–9 quả).
+// Dễ: chỉ hỏi "nhiều hơn", 1–5 quả, hai giỏ chênh ít nhất 3 quả.
+// Vừa: chỉ hỏi "nhiều hơn", 1–7 quả, chênh ít nhất 2 quả.
+// Khó: hỏi "nhiều hơn" hoặc "ít hơn", 1–9 quả, chênh ít nhất 1 quả.
 //
 // Âm thanh: compare-more, compare-less, common-great, common-retry.
 
@@ -17,15 +18,15 @@ type Ask = 'more' | 'less'
 type Round = { counts: [number, number]; ask: Ask }
 
 function makeRound(level: Level): Round {
-  const max = level === 'easy' ? 6 : 9
-  const minGap = level === 'easy' ? 3 : 1
+  const max = { easy: 5, medium: 7, hard: 9 }[level]
+  const minGap = { easy: 3, medium: 2, hard: 1 }[level]
   let a = randInt(1, max)
   let b = randInt(1, max)
   while (Math.abs(a - b) < minGap) {
     a = randInt(1, max)
     b = randInt(1, max)
   }
-  const ask: Ask = level === 'easy' ? 'more' : pick(['more', 'less'])
+  const ask: Ask = level === 'hard' ? pick(['more', 'less']) : 'more'
   return { counts: [a, b], ask }
 }
 

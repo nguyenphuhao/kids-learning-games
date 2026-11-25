@@ -2,6 +2,7 @@
 // file public/assets/kenney/flag-pack/<code>.svg (hình cách điệu, không giống y hệt cờ thật).
 
 import type { Lang } from '../../i18n/strings'
+import type { Level } from '../shared/useLevel'
 
 export type Country = { code: string; name: Record<Lang, string> }
 
@@ -22,7 +23,10 @@ export const COUNTRIES: Country[] = [
   { code: 'IN', name: { vi: 'Ấn Độ', en: 'India' } },
 ]
 
-// Cặp cờ dễ nhầm với bé nhỏ: không cho xuất hiện cùng một lượt.
+// Cờ quen thuộc, khác nhau rõ ràng, dùng cho mức Dễ.
+const EASY = ['VN', 'US', 'JP', 'KR', 'FR', 'BR']
+
+// Cặp cờ dễ nhầm: mức Dễ/Vừa không cho xuất hiện cùng lượt; mức Khó cố ý đặt cạnh nhau.
 const LOOKALIKES: [string, string][] = [
   ['VN', 'CN'],
   ['GB', 'AU'],
@@ -43,17 +47,25 @@ function shuffle<T>(list: T[]): T[] {
 
 export type Round = { options: Country[]; target: Country }
 
-// Chọn `count` lá cờ khác nhau và một đáp án, tránh lặp đáp án của lượt trước.
-export function makeRound(count: number, previousTarget?: string): Round {
-  const options: Country[] = []
-  for (const c of shuffle(COUNTRIES)) {
-    if (options.some((o) => clash(o.code, c.code))) continue
-    options.push(c)
-    if (options.length === count) break
+// Dễ: 2 cờ trong 6 nước quen thuộc. Vừa: 3 cờ trong 14 nước, không có cặp dễ nhầm.
+// Khó: 3 cờ trong 14 nước; nếu đáp án có cờ dễ nhầm thì cờ đó luôn có mặt.
+export function makeRound(level: Level, previousTarget?: string): Round {
+  const pool = level === 'easy' ? COUNTRIES.filter((c) => EASY.includes(c.code)) : COUNTRIES
+  const count = level === 'easy' ? 2 : 3
+  const candidates = shuffle(pool.filter((c) => c.code !== previousTarget))
+  const target = candidates[0]
+  const options: Country[] = [target]
+  if (level === 'hard') {
+    const twin = COUNTRIES.find((c) => c.code !== target.code && clash(c.code, target.code))
+    if (twin) options.push(twin)
   }
-  const candidates = options.filter((o) => o.code !== previousTarget)
-  const target = candidates[Math.floor(Math.random() * candidates.length)]
-  return { options, target }
+  for (const c of shuffle(pool)) {
+    if (options.length === count) break
+    if (options.includes(c)) continue
+    if (level !== 'hard' && options.some((o) => clash(o.code, c.code))) continue
+    options.push(c)
+  }
+  return { options: shuffle(options), target }
 }
 
 export const flagSrc = (code: string) => `/assets/kenney/flag-pack/${code}.svg`

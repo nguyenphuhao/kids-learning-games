@@ -8,9 +8,10 @@
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from 'react'
 import { playLine } from '../../audio/audio'
 import { useLanguage } from '../../i18n/useLanguage'
-import { loadValue, saveValue } from '../../lib/storage'
 import { FinishScreen, StarBar } from '../shared/Rewards'
+import { GameTop } from '../shared/GameTop'
 import { useSession, type GameProps } from '../shared/session'
+import { useLevel, type Level } from '../shared/useLevel'
 import { svgPoint } from '../shared/util'
 import '../shared/game.css'
 import { flagSrc, makeRound, type Country, type Round } from './countries'
@@ -104,8 +105,8 @@ const fill = (template: string, name: string) => template.replace('{name}', name
 export function FlagDriveGame({ id, onExit }: GameProps) {
   const session = useSession(id)
   const { lang, t } = useLanguage()
-  const [choices, setChoices] = useState<2 | 3>(() => loadValue<2 | 3>('flags-choices', 2))
-  const [round, setRound] = useState<Round>(() => makeRound(choices))
+  const [level, setLevel] = useLevel('flags')
+  const [round, setRound] = useState<Round>(() => makeRound(level))
   const [phase, setPhase] = useState<Phase>('drive')
   const [pos, setPos] = useState<CarPos>(START_POS)
   const [dragging, setDragging] = useState(false)
@@ -146,8 +147,8 @@ export function FlagDriveGame({ id, onExit }: GameProps) {
     frame.current = requestAnimationFrame(tick)
   }, [])
 
-  const nextRound = useCallback((count: 2 | 3) => {
-    setRound((prev) => makeRound(count, prev.target.code))
+  const nextRound = useCallback((lv: Level) => {
+    setRound((prev) => makeRound(lv, prev.target.code))
     setPos(START_POS)
     setChosen(null)
     setWrong(null)
@@ -179,7 +180,7 @@ export function FlagDriveGame({ id, onExit }: GameProps) {
     playLine(lang, 'flags-great')
     setCollected((list) => [...list, round.options[i]].slice(-12))
     const done = session.win()
-    window.setTimeout(() => (done ? session.finish() : nextRound(choices)), CELEBRATE_MS)
+    window.setTimeout(() => (done ? session.finish() : nextRound(level)), CELEBRATE_MS)
   }
 
   // Chạm thẳng vào lá cờ: sai thì lá cờ lắc, đúng thì xe tự chạy tới.
@@ -220,12 +221,12 @@ export function FlagDriveGame({ id, onExit }: GameProps) {
 
   const onUp = () => setDragging(false)
 
-  const changeChoices = (count: 2 | 3) => {
-    if (count === choices || phase !== 'drive') return
-    setChoices(count)
-    saveValue('flags-choices', count)
+  const changeLevel = (lv: Level) => {
+    if (lv === level || phase !== 'drive') return
+    setLevel(lv)
     session.restart()
-    nextRound(count)
+    setCollected([])
+    nextRound(lv)
   }
 
   const prompt =
@@ -243,25 +244,7 @@ export function FlagDriveGame({ id, onExit }: GameProps) {
 
   return (
     <div className="flag-drive">
-      <div className="fd-top">
-        <button type="button" className="fd-prompt" onClick={sayFind} aria-label={t.flagDrive.replay} aria-live="polite">
-          <span className="fd-speaker" aria-hidden="true">🔊</span>
-          <span>{prompt}</span>
-        </button>
-        <div className="fd-choices" role="group" aria-label={t.flagDrive.choices}>
-          {([2, 3] as const).map((n) => (
-            <button
-              key={n}
-              type="button"
-              className={n === choices ? 'active' : ''}
-              aria-pressed={n === choices}
-              onClick={() => changeChoices(n)}
-            >
-              {n}
-            </button>
-          ))}
-        </div>
-      </div>
+      <GameTop text={prompt} onReplay={sayFind} level={level} onLevel={changeLevel} />
 
       <StarBar stars={session.stars} />
 
@@ -330,7 +313,7 @@ export function FlagDriveGame({ id, onExit }: GameProps) {
           onReplay={() => {
             session.restart()
             setCollected([])
-            nextRound(choices)
+            nextRound(level)
           }}
           onExit={onExit}
         />

@@ -1,5 +1,5 @@
 // Trò "Đếm đồ vật": bé chạm từng quả táo, giọng đọc đếm "một, hai, ba…",
-// đếm xong thì chọn đúng số. Mức dễ 1–5 quả, mức khó 1–10 quả.
+// đếm xong thì chọn đúng số. Dễ 1–3 quả, Vừa 1–6 quả, Khó 1–10 quả.
 //
 // Âm thanh: counting-intro, counting-ask, number-1 … number-10, common-great, common-retry.
 
@@ -22,7 +22,7 @@ const CELL_W = 70
 const CELL_H = 78
 
 function makeRound(level: Level, previous?: number): Round {
-  const max = level === 'easy' ? 5 : 10
+  const max = { easy: 3, medium: 6, hard: 10 }[level]
   let count = randInt(1, max)
   if (count === previous) count = (count % max) + 1
   const cells = shuffle(Array.from({ length: COLS * ROWS }, (_, i) => i)).slice(0, count)

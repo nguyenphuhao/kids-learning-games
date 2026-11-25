@@ -1,7 +1,7 @@
 // Thanh trên cùng của màn chơi: câu yêu cầu (chạm để nghe lại) và nút chọn mức dễ/khó.
 
 import { useLanguage } from '../../i18n/useLanguage'
-import type { Level } from './useLevel'
+import { LEVELS, type Level } from './useLevel'
 import './game.css'
 
 type Props = {
@@ -20,7 +20,7 @@ export function GameTop({ text, onReplay, level, onLevel }: Props) {
         <span>{text}</span>
       </button>
       <div className="g-levels" role="group" aria-label={t.common.level}>
-        {(['easy', 'hard'] as const).map((l) => (
+        {LEVELS.map((l) => (
           <button
             key={l}
             type="button"

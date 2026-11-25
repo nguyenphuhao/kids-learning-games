@@ -1,5 +1,5 @@
 // Trò "Xếp hình": kéo từng hình vào ô có cùng hình dạng.
-// Mức dễ 2 hình, mức khó 4 hình (tròn, vuông, tam giác, ngôi sao).
+// Dễ: 2 hình (tròn, vuông, tam giác). Vừa: 3 hình. Khó: 4 hình (thêm ngôi sao).
 //
 // Âm thanh: shapes-intro, shape-<hình> (khi đặt đúng), common-great, common-retry.
 
@@ -27,7 +27,8 @@ const SIZE = 30 // nửa kích thước hình
 const SNAP = 42 // thả trong khoảng này thì tính là vào ô
 
 function makeRound(level: Level): Round {
-  const shapes = shuffle(ALL).slice(0, level === 'easy' ? 2 : 4)
+  const pool = level === 'easy' ? ALL.filter((s) => s !== 'star') : ALL
+  const shapes = shuffle(pool).slice(0, { easy: 2, medium: 3, hard: 4 }[level])
   const n = shapes.length
   const xs = shapes.map((_, i) => (300 / n) * (i + 0.5))
   const holeXs = shuffle(xs)
