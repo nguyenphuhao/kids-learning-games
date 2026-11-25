@@ -1,4 +1,4 @@
-// Hình minh hoạ cho truyện "Bố và Bin đi xe điện trong công viên". Vẽ bằng SVG, khung 320x200.
+// Hình minh hoạ cho truyện "Ba và Henry đi xe điện trong công viên". Vẽ bằng SVG, khung 320x200.
 
 import type { ReactNode } from 'react'
 
@@ -57,7 +57,7 @@ function Head({ x, y, r, hair }: { x: number; y: number; r: number; hair: string
   )
 }
 
-/** Xe điện nhỏ, bố ngồi lái, Bin ngồi bên cạnh. (x, y) là điểm giữa đáy xe. */
+/** Xe điện nhỏ, ba ngồi lái, Henry ngồi bên cạnh. (x, y) là điểm giữa đáy xe. */
 export function Car({ x, y, color, s = 1, hat = true }: { x: number; y: number; color: CarColor; s?: number; hat?: boolean }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${s})`}>
@@ -210,7 +210,7 @@ export function Scene({ id, color }: { id: SceneId; color: CarColor }) {
         <Sky>
           <Rainbow />
           <Tree x={250} y={125} s={1.3} />
-          {/* Bố đứng nâng Bin lên cao */}
+          {/* Ba đứng nâng Henry lên cao */}
           <rect x="146" y="120" width="28" height="48" rx="10" fill="#5c6bc0" />
           <rect x="148" y="166" width="10" height="22" fill="#37474f" />
           <rect x="162" y="166" width="10" height="22" fill="#37474f" />

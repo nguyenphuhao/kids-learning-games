@@ -76,12 +76,12 @@ File âm thanh của các trò khác:
 - Nhiều hay ít: `compare-more`, `compare-less`
 - Ghép quốc kỳ: `build-<VN|CN|JP|KR|CA|BR|FR|IT|DE>`
 
-## Truyện tương tác: "Bố và Bin đi xe điện trong công viên"
+## Truyện tương tác: "Ba và Henry đi xe điện trong công viên"
 
 Truyện sáng tác riêng cho app (`src/games/story/story.ts`). Mỗi đoạn có hình minh hoạ SVG (`art.tsx`), lời đọc và chữ; câu hỏi lựa chọn nằm ngay trong lời đọc nên bé chưa biết chữ vẫn chọn được bằng hình.
 
 - 3 lần chọn: màu xe (đỏ/xanh, xe giữ màu đó suốt truyện) → đường bên hồ hay vườn hoa → cách giúp đỡ.
-- 4 kết thúc, kết nào cũng có hậu: chở vịt con tìm mẹ, hỏi bác Rùa, nhờ bạn Sóc lấy mũ, bố nâng Bin lên thấy cầu vồng.
+- 4 kết thúc, kết nào cũng có hậu: chở vịt con tìm mẹ, hỏi bác Rùa, nhờ bạn Sóc lấy mũ, ba nâng Henry lên thấy cầu vồng.
 - Tới kết thúc: đọc đoạn kết, rồi "Hết truyện!", rồi màn hình cúp. Ô truyện ở màn hình chính hiện số kết thúc đã khám phá (ví dụ 📖 2/4, lưu trên máy).
 - Âm thanh: `story-<start|fork|lake|garden|end-duck|end-turtle|end-squirrel|end-lift|outro>`.
 

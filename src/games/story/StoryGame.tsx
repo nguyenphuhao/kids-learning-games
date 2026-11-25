@@ -1,4 +1,4 @@
-// Truyện tương tác "Bố và Bin đi xe điện trong công viên".
+// Truyện tương tác "Ba và Henry đi xe điện trong công viên".
 // Mỗi đoạn: hình minh hoạ, lời đọc và chữ. Ở đoạn có lựa chọn, bé chạm vào một trong hai hình
 // để quyết định diễn biến. Tới kết thúc: đọc đoạn kết, rồi "Hết truyện", rồi màn hình cúp.
 

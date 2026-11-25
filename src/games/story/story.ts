@@ -1,4 +1,4 @@
-// Nội dung truyện "Bố và Bin đi xe điện trong công viên" (sáng tác riêng cho app).
+// Nội dung truyện "Ba và Henry đi xe điện trong công viên" (sáng tác riêng cho app).
 // Mỗi đoạn có lời đọc (public/audio/<lang>/story-<audio>.mp3) và chữ hiện trên màn hình.
 // 3 lần chọn: màu xe → đường đi → cách giúp đỡ; 4 kết thúc, kết nào cũng có hậu.
 
@@ -24,8 +24,8 @@ export const STORY: Record<NodeId, StoryNode> = {
     audio: 'start',
     scene: 'start',
     text: {
-      vi: 'Sáng nay trời thật đẹp. Bố và bé Bin đi chơi công viên bằng xe điện. Bé chọn xe màu đỏ, hay xe màu xanh?',
-      en: "It's a sunny morning. Dad and little Bin are going to the park in a tiny electric car. Which car do you pick, the red one or the blue one?",
+      vi: 'Sáng nay trời thật đẹp. Ba và bé Henry đi chơi công viên bằng xe điện. Bé chọn xe màu đỏ, hay xe màu xanh?',
+      en: "It's a sunny morning. Dad and little Henry are going to the park in a tiny electric car. Which car do you pick, the red one or the blue one?",
     },
     choices: [
       { label: { vi: 'Xe đỏ', en: 'Red car' }, icon: 'car-red', next: 'fork', car: 'red' },
@@ -48,8 +48,8 @@ export const STORY: Record<NodeId, StoryNode> = {
     audio: 'lake',
     scene: 'lake',
     text: {
-      vi: 'Bên hồ, một chú vịt con đang khóc vì lạc mẹ. Bố và Bin chở vịt con đi tìm mẹ, hay hỏi bác Rùa giúp đỡ?',
-      en: 'By the lake, a little duckling is crying. It has lost its mommy! Should Dad and Bin drive the duckling around to look, or ask Grandpa Turtle for help?',
+      vi: 'Bên hồ, một chú vịt con đang khóc vì lạc mẹ. Ba và Henry chở vịt con đi tìm mẹ, hay hỏi bác Rùa giúp đỡ?',
+      en: 'By the lake, a little duckling is crying. It has lost its mommy! Should Dad and Henry drive the duckling around to look, or ask Grandpa Turtle for help?',
     },
     choices: [
       { label: { vi: 'Chở vịt con', en: 'Drive the duckling' }, icon: 'duckling', next: 'end-duck' },
@@ -60,12 +60,12 @@ export const STORY: Record<NodeId, StoryNode> = {
     audio: 'garden',
     scene: 'garden',
     text: {
-      vi: 'Trong vườn hoa, gió thổi bay chiếc mũ của Bin lên cành cây cao! Nhờ bạn Sóc leo lên lấy, hay bố nâng Bin lên thật cao?',
-      en: "In the flower garden, the wind blows Bin's hat up into a tall tree! Should they ask the squirrel to fetch it, or should Dad lift Bin up high?",
+      vi: 'Trong vườn hoa, gió thổi bay chiếc mũ của Henry lên cành cây cao! Nhờ bạn Sóc leo lên lấy, hay ba nâng Henry lên thật cao?',
+      en: "In the flower garden, the wind blows Henry's hat up into a tall tree! Should they ask the squirrel to fetch it, or should Dad lift Henry up high?",
     },
     choices: [
       { label: { vi: 'Nhờ bạn Sóc', en: 'Ask the squirrel' }, icon: 'squirrel', next: 'end-squirrel' },
-      { label: { vi: 'Bố nâng Bin', en: 'Dad lifts Bin' }, icon: 'lift', next: 'end-lift' },
+      { label: { vi: 'Ba nâng Henry', en: 'Dad lifts Henry' }, icon: 'lift', next: 'end-lift' },
     ],
   },
   'end-duck': {
@@ -73,8 +73,8 @@ export const STORY: Record<NodeId, StoryNode> = {
     scene: 'duck',
     ending: true,
     text: {
-      vi: 'Xe chạy một vòng quanh hồ. Kìa, vịt mẹ ở đằng kia! Vịt con vui quá, kêu cạp cạp cảm ơn bố và Bin.',
-      en: "They drive all around the lake. Look, there's Mommy Duck! The duckling is so happy. Quack, quack! Thank you, Dad and Bin!",
+      vi: 'Xe chạy một vòng quanh hồ. Kìa, vịt mẹ ở đằng kia! Vịt con vui quá, kêu cạp cạp cảm ơn ba và Henry.',
+      en: "They drive all around the lake. Look, there's Mommy Duck! The duckling is so happy. Quack, quack! Thank you, Dad and Henry!",
     },
   },
   'end-turtle': {
@@ -91,8 +91,8 @@ export const STORY: Record<NodeId, StoryNode> = {
     scene: 'squirrel',
     ending: true,
     text: {
-      vi: 'Bạn Sóc nhanh nhẹn leo lên cây, mang mũ xuống cho Bin. Bin tặng Sóc một hạt dẻ để cảm ơn.',
-      en: 'The quick little squirrel scurries up the tree and brings the hat back down. Bin gives the squirrel a nut to say thank you.',
+      vi: 'Bạn Sóc nhanh nhẹn leo lên cây, mang mũ xuống cho Henry. Henry tặng Sóc một hạt dẻ để cảm ơn.',
+      en: 'The quick little squirrel scurries up the tree and brings the hat back down. Henry gives the squirrel a nut to say thank you.',
     },
   },
   'end-lift': {
@@ -100,15 +100,15 @@ export const STORY: Record<NodeId, StoryNode> = {
     scene: 'lift',
     ending: true,
     text: {
-      vi: 'Bố nâng Bin lên thật cao. Bin lấy được mũ, lại còn nhìn thấy cầu vồng trên vườn hoa nữa!',
-      en: "Dad lifts Bin up, up, up! Bin grabs the hat, and look, there's a rainbow over the garden!",
+      vi: 'Ba nâng Henry lên thật cao. Henry lấy được mũ, lại còn nhìn thấy cầu vồng trên vườn hoa nữa!',
+      en: "Dad lifts Henry up, up, up! Henry grabs the hat, and look, there's a rainbow over the garden!",
     },
   },
 }
 
 export const OUTRO: Text = {
-  vi: 'Rồi bố và Bin lái xe điện về nhà, hẹn ngày mai lại đi chơi. Hết truyện!',
-  en: 'Then Dad and Bin drive home in their little car. See you tomorrow, park! The end.',
+  vi: 'Rồi ba và Henry lái xe điện về nhà, hẹn ngày mai lại đi chơi. Hết truyện!',
+  en: 'Then Dad and Henry drive home in their little car. See you tomorrow, park! The end.',
 }
 
 export const ENDINGS = (Object.keys(STORY) as NodeId[]).filter((id) => STORY[id].ending)
