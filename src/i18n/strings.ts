@@ -9,7 +9,6 @@ export const strings = {
     appTitle: 'Bé học vui',
     back: 'Quay lại',
     music: 'Nhạc nền',
-    comingSoon: 'Trò chơi đang được làm',
     games: {
       counting: 'Đếm đồ vật',
       colors: 'Tìm màu',
@@ -24,12 +23,47 @@ export const strings = {
       replay: 'Nghe lại',
       choices: 'Số lá cờ',
     },
+    common: {
+      great: 'Giỏi quá!',
+      retry: 'Thử lại nhé!',
+      replay: 'Nghe lại',
+      level: 'Mức chơi',
+      easy: 'Dễ',
+      hard: 'Khó',
+    },
+    counting: {
+      intro: 'Bé chạm vào từng quả táo để đếm nhé!',
+      ask: 'Có bao nhiêu quả táo?',
+    },
+    colors: {
+      find: 'Chạm vào quả bóng màu {color}!',
+      names: {
+        red: 'đỏ',
+        blue: 'xanh dương',
+        yellow: 'vàng',
+        green: 'xanh lá',
+        orange: 'cam',
+        purple: 'tím',
+      },
+    },
+    shapes: {
+      intro: 'Bé kéo các hình vào đúng chỗ nhé!',
+      names: {
+        circle: 'Hình tròn',
+        square: 'Hình vuông',
+        triangle: 'Hình tam giác',
+        star: 'Ngôi sao',
+      },
+    },
+    compare: {
+      more: 'Giỏ nào có nhiều hơn?',
+      less: 'Giỏ nào có ít hơn?',
+    },
   },
   en: {
     appTitle: 'Little Learners',
     back: 'Back',
     music: 'Background music',
-    comingSoon: 'This game is coming soon',
     games: {
       counting: 'Counting',
       colors: 'Find the color',
@@ -43,6 +77,42 @@ export const strings = {
       great: 'Great job!',
       replay: 'Listen again',
       choices: 'Number of flags',
+    },
+    common: {
+      great: 'Great job!',
+      retry: 'Try again!',
+      replay: 'Listen again',
+      level: 'Level',
+      easy: 'Easy',
+      hard: 'Hard',
+    },
+    counting: {
+      intro: 'Tap each apple to count them!',
+      ask: 'How many apples are there?',
+    },
+    colors: {
+      find: 'Tap the {color} balloon!',
+      names: {
+        red: 'red',
+        blue: 'blue',
+        yellow: 'yellow',
+        green: 'green',
+        orange: 'orange',
+        purple: 'purple',
+      },
+    },
+    shapes: {
+      intro: 'Drag each shape to its place!',
+      names: {
+        circle: 'Circle',
+        square: 'Square',
+        triangle: 'Triangle',
+        star: 'Star',
+      },
+    },
+    compare: {
+      more: 'Which basket has more?',
+      less: 'Which basket has fewer?',
     },
   },
 } as const

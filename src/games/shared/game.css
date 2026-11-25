@@ -1,0 +1,136 @@
+/* Bố cục chung cho các trò chơi */
+.g-game {
+  align-self: stretch;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.g-top {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.g-prompt {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 64px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: #fff;
+  font-size: clamp(1.1rem, 4.5vw, 1.5rem);
+  font-weight: 700;
+  text-align: left;
+  box-shadow: 0 4px 0 rgb(0 0 0 / 12%);
+}
+
+.g-speaker {
+  font-size: 1.6rem;
+}
+
+.g-levels {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 4px;
+}
+
+.g-levels button {
+  min-width: 56px;
+  min-height: 28px;
+  flex: 1;
+  border-radius: 12px;
+  background: transparent;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.g-levels button.active {
+  background: #ffb300;
+}
+
+.g-scene {
+  flex: 1 1 0;
+  width: 100%;
+  min-height: 0;
+  border-radius: 24px;
+  touch-action: none;
+}
+
+.g-tap {
+  cursor: pointer;
+}
+
+.g-shake {
+  animation: g-shake 0.5s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.g-bounce {
+  animation: g-bounce 0.7s ease 2;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+@keyframes g-shake {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes g-bounce {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+/* Hàng nút trả lời lớn (số, giỏ…) */
+.g-answers {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  min-height: 88px;
+}
+
+.g-answer {
+  width: 88px;
+  height: 88px;
+  border-radius: 24px;
+  background: #fff;
+  font-size: 2.6rem;
+  font-weight: 800;
+  box-shadow: 0 6px 0 rgb(0 0 0 / 12%);
+}
+
+.g-answer:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 rgb(0 0 0 / 12%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .g-shake,
+  .g-bounce {
+    animation: none;
+  }
+}

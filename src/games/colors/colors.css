@@ -1,0 +1,35 @@
+.balloon {
+  animation: balloon-bob 2.4s ease-in-out infinite;
+  transform-box: fill-box;
+}
+
+.balloon.fly {
+  animation: balloon-fly 1.4s ease-in forwards;
+}
+
+.balloon.fade {
+  opacity: 0.3;
+  transition: opacity 0.4s;
+}
+
+@keyframes balloon-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes balloon-fly {
+  to {
+    transform: translateY(-320px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .balloon {
+    animation: none;
+  }
+}

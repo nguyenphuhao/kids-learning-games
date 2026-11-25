@@ -1,8 +1,11 @@
 // Danh sách trò chơi. Thêm trò mới: tạo component rồi khai báo ở đây.
 
 import type { ComponentType, ReactNode } from 'react'
+import { ColorsGame } from './colors/ColorsGame'
+import { CompareGame } from './compare/CompareGame'
+import { CountingGame } from './counting/CountingGame'
 import { FlagDriveGame } from './flag-drive/FlagDriveGame'
-import { GamePlaceholder } from './GamePlaceholder'
+import { ShapesGame } from './shapes/ShapesGame'
 
 export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags'
 
@@ -13,7 +16,7 @@ export type GameDef = {
   component: ComponentType
 }
 
-// Biểu tượng tạm vẽ bằng SVG; sẽ thay bằng hình Kenney nếu có hình phù hợp.
+// Biểu tượng vẽ bằng SVG.
 const countingIcon = (
   <svg viewBox="0 0 100 100" aria-hidden="true">
     <circle cx="30" cy="55" r="16" fill="#e53935" />
@@ -59,9 +62,9 @@ const flagsIcon = (
 )
 
 export const GAMES: GameDef[] = [
-  { id: 'counting', color: '#ffcdd2', icon: countingIcon, component: GamePlaceholder },
-  { id: 'colors', color: '#fff9c4', icon: colorsIcon, component: GamePlaceholder },
-  { id: 'shapes', color: '#c8e6c9', icon: shapesIcon, component: GamePlaceholder },
-  { id: 'compare', color: '#bbdefb', icon: compareIcon, component: GamePlaceholder },
+  { id: 'counting', color: '#ffcdd2', icon: countingIcon, component: CountingGame },
+  { id: 'colors', color: '#fff9c4', icon: colorsIcon, component: ColorsGame },
+  { id: 'shapes', color: '#c8e6c9', icon: shapesIcon, component: ShapesGame },
+  { id: 'compare', color: '#bbdefb', icon: compareIcon, component: CompareGame },
   { id: 'flags', color: '#d1c4e9', icon: flagsIcon, component: FlagDriveGame },
 ]

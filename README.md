@@ -24,7 +24,8 @@ src/
   App.tsx                  Chuyển giữa màn hình chính và màn hình trò chơi
   components/              HomeScreen, GameScreen, LanguageToggle
   games/registry.tsx       Danh sách 4 trò chơi (thêm trò mới ở đây)
-  games/GamePlaceholder.tsx  Màn hình tạm cho trò chưa làm
+  games/shared/            Thanh câu hỏi, mức Dễ/Khó, hàm dùng chung
+  games/counting, colors, shapes, compare   4 trò học số, màu, hình
   games/flag-drive/        Trò "Lái xe tìm cờ" (danh sách nước trong countries.ts)
   i18n/strings.ts          Chữ giao diện VI/EN
   i18n/                   Ngôn ngữ hiện tại (LanguageProvider, useLanguage)
@@ -38,25 +39,37 @@ public/
     racing-pack/           Xe ô tô
 ```
 
-## Trò chơi (bản đầu tiên)
+## Trò chơi
 
-| Trò | Trạng thái |
-|---|---|
-| Đếm đồ vật / Counting | Chưa làm |
-| Tìm màu / Find the color | Chưa làm |
-| Xếp hình / Shape match | Chưa làm |
-| Nhiều hay ít / More or less | Chưa làm |
-| Lái xe tìm cờ / Flag drive | Chơi được, có giọng nói VI/EN và nhạc nền |
+Mỗi trò có mức Dễ/Khó (lựa chọn lưu trên máy), giọng nói VI/EN và nhạc nền. Bé làm sai thì được nhắc "Thử lại nhé!", không có âm báo sai.
+
+| Trò | Cách chơi | Dễ | Khó |
+|---|---|---|---|
+| Đếm đồ vật / Counting | Chạm từng quả táo (giọng đọc đếm theo), rồi chọn đúng số | 1–5 quả | 1–10 quả |
+| Tìm màu / Find the color | Chạm quả bóng đúng màu, bóng bay lên | 3 bóng | 5 bóng |
+| Xếp hình / Shape match | Kéo hình vào ô cùng hình dạng | 2 hình | 4 hình |
+| Nhiều hay ít / More or less | Chạm giỏ có nhiều hơn (hoặc ít hơn) | Chỉ hỏi "nhiều hơn", chênh ≥ 3 quả | Hỏi cả "ít hơn", chênh ≥ 1 quả |
+| Lái xe tìm cờ / Flag drive | Kéo xe theo đường tới lá cờ đúng, hoặc chạm thẳng vào lá cờ | 2 cờ | 3 cờ |
+
+Đồ hoạ của 4 trò đầu vẽ bằng SVG. Trò lái xe dùng hình cờ và xe của Kenney.
 
 ### Lái xe tìm cờ
 
-Xe chạy tới ngã rẽ, mỗi nhánh có một lá cờ. Game đọc và hiện chữ "Lấy cờ Việt Nam!", bé chạm vào nhánh có cờ đúng để xe rẽ vào lấy cờ. Chạm sai thì lá cờ lắc nhẹ và game nhắc "Thử lại nhé!". Phụ huynh chọn 2 hoặc 3 lá cờ mỗi lượt. Các cặp cờ dễ nhầm (Việt Nam / Trung Quốc, Anh / Úc) không xuất hiện cùng lượt.
+Đường có ngã rẽ, mỗi nhánh có một lá cờ. Game đọc và hiện chữ "Lấy cờ Việt Nam!". Bé đặt ngón tay lên xe (có vòng sáng gợi ý) và kéo xe chạy theo đường; xe chỉ chạy trên đường. Kéo tới cờ sai thì lá cờ lắc nhẹ, game nhắc "Thử lại nhé!" và xe lùi về ngã rẽ. Bé cũng có thể chạm thẳng vào lá cờ đúng để xe tự chạy tới. Phụ huynh chọn 2 hoặc 3 lá cờ mỗi lượt. Các cặp cờ dễ nhầm (Việt Nam / Trung Quốc, Anh / Úc) không xuất hiện cùng lượt.
 
 File âm thanh (trong `public/audio/vi/` và `public/audio/en/`):
 
 - `flags-find-<MÃ NƯỚC>.mp3` cho 14 nước: VN, US, GB, JP, KR, CN, FR, DE, IT, BR, CA, AU, TH, IN
 - `flags-great.mp3`
 - `flags-retry.mp3`
+
+File âm thanh của các trò khác:
+
+- Dùng chung: `common-great`, `common-retry`
+- Đếm đồ vật: `counting-intro`, `counting-ask`, `number-1` … `number-10`
+- Tìm màu: `colors-find-<red|blue|yellow|green|orange|purple>`
+- Xếp hình: `shapes-intro`, `shape-<circle|square|triangle|star>`
+- Nhiều hay ít: `compare-more`, `compare-less`
 
 ## Âm thanh
 

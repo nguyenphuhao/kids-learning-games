@@ -130,3 +130,39 @@
     animation: none;
   }
 }
+
+/* Kéo xe */
+.fd-scene {
+  touch-action: none;
+}
+
+.fd-hint {
+  fill: rgb(255 255 255 / 35%);
+  stroke: #fff;
+  stroke-width: 3;
+  animation: fd-hint 1.2s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes fd-hint {
+  0%,
+  100% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.4;
+  }
+}
+
+.fd-car.grabbed image {
+  filter: drop-shadow(0 0 6px #fff);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-hint {
+    animation: none;
+  }
+}
