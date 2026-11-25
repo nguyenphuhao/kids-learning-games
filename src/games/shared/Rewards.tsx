@@ -19,7 +19,19 @@ export function StarBar({ stars }: { stars: number }) {
 
 const CONFETTI_COLORS = ['#e53935', '#fdd835', '#43a047', '#1e88e5', '#8e24aa', '#fb8c00']
 
-export function FinishScreen({ onReplay, onExit }: { onReplay: () => void; onExit: () => void }) {
+export function FinishScreen({
+  onReplay,
+  onExit,
+  text,
+  onNext,
+}: {
+  onReplay: () => void
+  onExit: () => void
+  /** Lời khen thay cho câu mặc định (ví dụ "Xong vòng 2!"). */
+  text?: string
+  /** Có thì nút đầu là "Vòng tiếp" thay cho "Chơi lại". */
+  onNext?: () => void
+}) {
   const { t } = useLanguage()
   const [pieces] = useState(() =>
     shuffle(Array.from({ length: 36 }, (_, i) => i)).map((i) => ({
@@ -29,7 +41,7 @@ export function FinishScreen({ onReplay, onExit }: { onReplay: () => void; onExi
     })),
   )
   return (
-    <div className="g-finish" role="dialog" aria-label={t.common.finish}>
+    <div className="g-finish" role="dialog" aria-label={text ?? t.common.finish}>
       {pieces.map((p, i) => (
         <span
           key={i}
@@ -45,11 +57,17 @@ export function FinishScreen({ onReplay, onExit }: { onReplay: () => void; onExi
         <path d="M50 28 l4 8 9 1 -7 6 2 9 -8 -5 -8 5 2 -9 -7 -6 9 -1 Z" fill="#fff8e1" />
       </svg>
       <StarBar stars={ROUNDS} />
-      <p className="g-finish-text">{t.common.finish}</p>
+      <p className="g-finish-text">{text ?? t.common.finish}</p>
       <div className="g-finish-buttons">
-        <button type="button" onClick={onReplay}>
-          <span aria-hidden="true">↻</span> {t.common.playAgain}
-        </button>
+        {onNext ? (
+          <button type="button" onClick={onNext}>
+            <span aria-hidden="true">▶</span> {t.common.nextRound}
+          </button>
+        ) : (
+          <button type="button" onClick={onReplay}>
+            <span aria-hidden="true">↻</span> {t.common.playAgain}
+          </button>
+        )}
         <button type="button" onClick={onExit}>
           <span aria-hidden="true">⌂</span> {t.common.home}
         </button>

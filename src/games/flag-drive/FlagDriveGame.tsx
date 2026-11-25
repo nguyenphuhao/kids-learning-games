@@ -3,10 +3,14 @@
 // tới lá cờ đúng. Xe chỉ chạy trên đường. Bé cũng có thể chạm thẳng vào lá cờ,
 // khi đó xe tự chạy tới.
 //
-// Âm thanh (public/audio/<vi|en>/): flags-find-<CODE>, flags-great, flags-retry.
+// Chơi theo vòng: mỗi vòng tìm 5 lá cờ. Xong vòng thì sang vòng mới với cảnh nền khác
+// (đồng cỏ, bãi biển, xứ tuyết, sa mạc, thành phố, rừng thu, đêm trăng) và khó dần lên
+// (nhiều lá cờ hơn, nhiều nước hơn, rồi cờ dễ nhầm đặt cạnh nhau). Mức Dễ/Vừa/Khó chọn vòng bắt đầu.
+//
+// Âm thanh (public/audio/<vi|en>/): flags-find-<CODE> (100 nước), flags-great, flags-retry.
 
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from 'react'
-import { playLine } from '../../audio/audio'
+import { playLine, preloadLines } from '../../audio/audio'
 import { useLanguage } from '../../i18n/useLanguage'
 import { FinishScreen, StarBar } from '../shared/Rewards'
 import { GameTop } from '../shared/GameTop'
@@ -14,7 +18,9 @@ import { useSession, type GameProps } from '../shared/session'
 import { useLevel, type Level } from '../shared/useLevel'
 import { svgPoint } from '../shared/util'
 import '../shared/game.css'
-import { flagSrc, makeRound, type Country, type Round } from './countries'
+import { COUNTRIES, flagSrc, makeQuestion, START_ROUND, type Country, type Question } from './countries'
+import { Scenery } from './Scenery'
+import { themeOf } from './themes'
 import './flagDrive.css'
 
 type Phase = 'drive' | 'auto' | 'celebrate'
@@ -28,7 +34,8 @@ const START: Point = { x: 150, y: 355 }
 const FORK: Point = { x: 150, y: 262 }
 const CONTROL: Point = { x: 150, y: 150 }
 const BRANCH_END_Y = 112
-const FLAG_SIZE = 64
+// Lá cờ tỉ lệ 4:3; đường có 4 nhánh thì cờ nhỏ hơn cho vừa.
+const flagSize = (count: number) => (count >= 4 ? { w: 58, h: 44 } : { w: 72, h: 54 })
 const CAR_W = 34
 const CAR_H = 63
 
@@ -41,7 +48,9 @@ const CELEBRATE_MS = 1600
 const START_POS: CarPos = { seg: -1, t: 0 }
 
 function branchXs(count: number): number[] {
-  return count === 2 ? [80, 220] : [50, 150, 250]
+  if (count === 2) return [80, 220]
+  if (count === 3) return [50, 150, 250]
+  return [36, 112, 188, 264]
 }
 
 function bezier(p2: Point, t: number): CarPose {
@@ -101,12 +110,18 @@ function nearestOnRoad(p: Point, current: CarPos, xs: number[]): CarPos | null {
 const ease = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2)
 
 const fill = (template: string, name: string) => template.replace('{name}', name)
+const fillN = (template: string, n: number) => template.replace('{n}', String(n))
 
 export function FlagDriveGame({ id, onExit }: GameProps) {
   const session = useSession(id)
   const { lang, t } = useLanguage()
   const [level, setLevel] = useLevel('flags')
-  const [round, setRound] = useState<Round>(() => makeRound(level))
+  /** Vòng hiện tại (1, 2, 3…): quyết định độ khó và cảnh nền. */
+  const [stage, setStage] = useState(() => START_ROUND[level])
+  const [first] = useState<Question>(() => makeQuestion(START_ROUND[level]))
+  /** Các nước đã hỏi trong vòng này (không hỏi lại). */
+  const [asked, setAsked] = useState<string[]>([first.target.code])
+  const [round, setRound] = useState<Question>(first)
   const [phase, setPhase] = useState<Phase>('drive')
   const [pos, setPos] = useState<CarPos>(START_POS)
   const [dragging, setDragging] = useState(false)
@@ -119,6 +134,13 @@ export function FlagDriveGame({ id, onExit }: GameProps) {
 
   const xs = branchXs(round.options.length)
   const target = round.target.code
+  const theme = themeOf(stage)
+  const fs = flagSize(round.options.length)
+
+  // Tải trước câu "Lấy cờ …" của cả 100 nước (từng nhóm nhỏ, chạy nền).
+  useEffect(() => {
+    preloadLines(lang, COUNTRIES.map((c) => `flags-find-${c.code}`))
+  }, [lang])
 
   useEffect(() => () => {
     if (frame.current) cancelAnimationFrame(frame.current)
@@ -147,8 +169,12 @@ export function FlagDriveGame({ id, onExit }: GameProps) {
     frame.current = requestAnimationFrame(tick)
   }, [])
 
-  const nextRound = useCallback((lv: Level) => {
-    setRound((prev) => makeRound(lv, prev.target.code))
+  /** Câu hỏi mới của vòng `st`. `seen` là các nước đã hỏi trong vòng (null = vòng mới). */
+  const nextQuestion = useCallback((st: number, seen: string[] | null) => {
+    const list = seen ?? []
+    const q = makeQuestion(st, list)
+    setAsked([...list, q.target.code])
+    setRound(q)
     setPos(START_POS)
     setChosen(null)
     setWrong(null)
@@ -180,7 +206,7 @@ export function FlagDriveGame({ id, onExit }: GameProps) {
     playLine(lang, 'flags-great')
     setCollected((list) => [...list, round.options[i]].slice(-12))
     const done = session.win()
-    window.setTimeout(() => (done ? session.finish() : nextRound(level)), CELEBRATE_MS)
+    window.setTimeout(() => (done ? session.finish() : nextQuestion(stage, asked)), CELEBRATE_MS)
   }
 
   // Chạm thẳng vào lá cờ: sai thì lá cờ lắc, đúng thì xe tự chạy tới.
@@ -224,9 +250,26 @@ export function FlagDriveGame({ id, onExit }: GameProps) {
   const changeLevel = (lv: Level) => {
     if (lv === level || phase !== 'drive') return
     setLevel(lv)
+    setStage(START_ROUND[lv])
     session.restart()
     setCollected([])
-    nextRound(lv)
+    nextQuestion(START_ROUND[lv], null)
+  }
+
+  /** Sang vòng mới: cảnh mới, khó hơn. */
+  const goNextStage = () => {
+    const next = stage + 1
+    setStage(next)
+    session.restart()
+    setCollected([])
+    nextQuestion(next, null)
+  }
+
+  /** Chơi lại vòng vừa xong. */
+  const replayStage = () => {
+    session.restart()
+    setCollected([])
+    nextQuestion(stage, null)
   }
 
   const prompt =
@@ -246,7 +289,12 @@ export function FlagDriveGame({ id, onExit }: GameProps) {
     <div className="flag-drive">
       <GameTop text={prompt} onReplay={sayFind} level={level} onLevel={changeLevel} />
 
-      <StarBar stars={session.stars} />
+      <div className="fd-status">
+        <span className="fd-round">
+          {fillN(t.flagDrive.round, stage)} · {theme.name[lang]}
+        </span>
+        <StarBar stars={session.stars} />
+      </div>
 
       <svg
         ref={svgRef}
@@ -258,17 +306,21 @@ export function FlagDriveGame({ id, onExit }: GameProps) {
         onPointerUp={onUp}
         onPointerCancel={onUp}
       >
-        <rect x="-200" y="-100" width="700" height="600" fill="#9ccc65" />
+        <Scenery theme={theme} />
 
         {/* Đường: thân chính + các nhánh */}
         <g fill="none" strokeLinecap="round" pointerEvents="none">
-          <path d={`M ${START.x} 460 L ${FORK.x} ${FORK.y}`} stroke="#616161" strokeWidth="46" />
+          <path d={`M ${START.x} 460 L ${FORK.x} ${FORK.y}`} stroke={theme.roadEdge} strokeWidth="52" />
           {xs.map((x) => (
-            <path key={`r${x}`} d={roadPath(x)} stroke="#616161" strokeWidth="40" />
+            <path key={`e${x}`} d={roadPath(x)} stroke={theme.roadEdge} strokeWidth="46" />
           ))}
-          <path d={`M ${START.x} 460 L ${FORK.x} ${FORK.y}`} stroke="#fff" strokeWidth="3" strokeDasharray="12 12" />
+          <path d={`M ${START.x} 460 L ${FORK.x} ${FORK.y}`} stroke={theme.road} strokeWidth="44" />
           {xs.map((x) => (
-            <path key={`d${x}`} d={roadPath(x)} stroke="#fff" strokeWidth="3" strokeDasharray="10 12" />
+            <path key={`r${x}`} d={roadPath(x)} stroke={theme.road} strokeWidth="38" />
+          ))}
+          <path d={`M ${START.x} 460 L ${FORK.x} ${FORK.y}`} stroke={theme.dash} strokeWidth="3" strokeDasharray="12 12" />
+          {xs.map((x) => (
+            <path key={`d${x}`} d={roadPath(x)} stroke={theme.dash} strokeWidth="3" strokeDasharray="10 12" />
           ))}
         </g>
 
@@ -278,11 +330,19 @@ export function FlagDriveGame({ id, onExit }: GameProps) {
           const cls = ['fd-flag', wrong === i ? 'shake' : '', chosen === i && phase === 'celebrate' ? 'won' : ''].join(' ')
           return (
             <g key={c.code} className={cls} onClick={() => tapFlag(i)} role="button" aria-label={c.name[lang]}>
-              <rect x={x - 45} y={10} width={90} height={84} fill="transparent" />
+              <rect x={x - fs.w / 2 - 6} y={10} width={fs.w + 12} height={84} fill="transparent" />
               <rect x={x - 2} y={40} width={4} height={BRANCH_END_Y - 40} fill="#5d4037" pointerEvents="none" />
               <g className="fd-flag-art" style={{ transformOrigin: `${x}px 50px` }}>
-                <rect x={x - FLAG_SIZE / 2 - 4} y={14} width={FLAG_SIZE + 8} height={FLAG_SIZE + 8} rx={10} fill="#fff" />
-                <image href={flagSrc(c.code)} x={x - FLAG_SIZE / 2} y={18} width={FLAG_SIZE} height={FLAG_SIZE} />
+                <rect x={x - fs.w / 2 - 4} y={20} width={fs.w + 8} height={fs.h + 8} rx={8} fill="#fff" />
+                <image
+                  href={flagSrc(c.code)}
+                  x={x - fs.w / 2}
+                  y={24}
+                  width={fs.w}
+                  height={fs.h}
+                  preserveAspectRatio="xMidYMid slice"
+                />
+                <rect x={x - fs.w / 2} y={24} width={fs.w} height={fs.h} fill="none" stroke="#000" strokeOpacity="0.15" />
               </g>
             </g>
           )
@@ -309,14 +369,7 @@ export function FlagDriveGame({ id, onExit }: GameProps) {
         ))}
       </div>
       {session.finished && (
-        <FinishScreen
-          onReplay={() => {
-            session.restart()
-            setCollected([])
-            nextRound(level)
-          }}
-          onExit={onExit}
-        />
+        <FinishScreen onReplay={replayStage} onNext={goNextStage} onExit={onExit} text={fillN(t.flagDrive.roundDone, stage)} />
       )}
     </div>
   )

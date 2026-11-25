@@ -61,9 +61,11 @@
 }
 
 .fd-collected img {
-  width: 36px;
-  height: 36px;
-  border-radius: 6px;
+  width: 40px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 25%);
   animation: fd-pop 0.4s ease;
 }
 
@@ -116,6 +118,50 @@
 
 @media (prefers-reduced-motion: reduce) {
   .fd-hint {
+    animation: none;
+  }
+}
+
+/* Dòng trạng thái: vòng hiện tại + cảnh, và thanh sao */
+.fd-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.fd-status .g-stars {
+  gap: 1px;
+  font-size: 1.25rem;
+}
+
+.fd-round {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.95rem;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 10%);
+}
+
+/* Đom đóm trong cảnh đêm */
+.fd-twinkle {
+  animation: fd-twinkle 1.8s ease-in-out infinite;
+}
+
+@keyframes fd-twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-twinkle {
     animation: none;
   }
 }

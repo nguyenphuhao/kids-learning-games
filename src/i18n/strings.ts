@@ -25,6 +25,8 @@ export const strings = {
       find: 'Lấy cờ {name}!',
       retry: 'Thử lại nhé!',
       great: 'Giỏi quá!',
+      round: 'Vòng {n}',
+      roundDone: 'Xong vòng {n}! Bé giỏi quá!',
     },
     common: {
       great: 'Giỏi quá!',
@@ -36,6 +38,7 @@ export const strings = {
       hard: 'Khó',
       finish: 'Hoàn thành rồi! Bé giỏi quá!',
       playAgain: 'Chơi lại',
+      nextRound: 'Vòng tiếp',
       home: 'Trang chủ',
       trophies: 'Số cúp',
     },
@@ -92,6 +95,8 @@ export const strings = {
       find: 'Find the flag of {name}!',
       retry: 'Try again!',
       great: 'Great job!',
+      round: 'Round {n}',
+      roundDone: 'Round {n} done! You did it!',
     },
     common: {
       great: 'Great job!',
@@ -103,6 +108,7 @@ export const strings = {
       hard: 'Hard',
       finish: 'All done! You did it!',
       playAgain: 'Play again',
+      nextRound: 'Next round',
       home: 'Home',
       trophies: 'Trophies',
     },

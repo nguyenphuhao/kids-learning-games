@@ -28,7 +28,7 @@ src/
   games/shared/            Thanh câu hỏi, mức Dễ/Khó, hàm dùng chung
   games/counting, colors, shapes, compare   4 trò học số, màu, hình
   games/flag-builder/      Trò "Ghép quốc kỳ" (thiết kế cờ trong designs.ts, hình mảnh trong PieceArt.tsx)
-  games/flag-drive/        Trò "Lái xe tìm cờ" (danh sách nước trong countries.ts)
+  games/flag-drive/        Trò "Lái xe tìm cờ" (100 nước và các vòng trong countries.ts, cảnh nền trong themes.ts + Scenery.tsx)
   i18n/strings.ts          Chữ giao diện VI/EN
   i18n/                   Ngôn ngữ hiện tại (LanguageProvider, useLanguage)
   audio/audio.ts           Phát file public/audio/<vi|en>/<key>.mp3
@@ -37,7 +37,8 @@ public/
   audio/vi, audio/en       File giọng nói từ ElevenLabs
   audio/music              Nhạc nền phát lặp trong màn chơi (có nút bật/tắt)
   assets/kenney            Hình tải từ Kenney, mỗi bộ kèm License.txt (CC0)
-    flag-pack/             14 lá cờ (SVG)
+    flag-pack/             Cờ Việt Nam trên ô trò chơi (SVG)
+  assets/flags             100 lá cờ cho trò lái xe, từ bộ flag-icons (MIT, kèm LICENSE.txt)
     racing-pack/           Xe ô tô
 ```
 
@@ -49,22 +50,35 @@ Mỗi lượt chơi gồm 5 câu; mỗi câu đúng thêm một ngôi sao trên 
 
 | Trò | Cách chơi | Dễ | Vừa | Khó |
 |---|---|---|---|---|
-| Lái xe tìm cờ / Flag drive | Kéo xe theo đường tới lá cờ đúng, hoặc chạm thẳng vào lá cờ | 2 cờ, 6 nước quen thuộc | 3 cờ, 14 nước, không có cặp cờ dễ nhầm | 3 cờ, 14 nước, cờ dễ nhầm (Việt Nam/Trung Quốc, Anh/Úc) đặt cạnh nhau |
+| Lái xe tìm cờ / Flag drive | Kéo xe theo đường tới lá cờ đúng, hoặc chạm thẳng vào lá cờ | Bắt đầu từ vòng 1 | Bắt đầu từ vòng 3 | Bắt đầu từ vòng 5 (xem mục bên dưới) |
 | Ghép quốc kỳ / Build a flag | Kéo mảnh (nền, sọc, ngôi sao, vòng tròn…) từ khay lộn xộn vào khung để ghép đúng cờ | Có cờ mẫu, 2 mảnh nhiễu; Việt Nam, Nhật, Pháp, Đức | Có cờ mẫu, 4 mảnh nhiễu; thêm Ý, Hàn, Canada | Không có mẫu, 5 mảnh nhiễu; thêm Trung Quốc, Brazil |
 | Đếm đồ vật / Counting | Chạm từng quả táo (giọng đọc đếm theo), rồi chọn đúng số | 1–3 quả | 1–6 quả | 1–10 quả |
 | Tìm màu / Find the color | Chạm quả bóng đúng màu, bóng bay lên | 2 bóng, đỏ/xanh dương/vàng | 3 bóng, 6 màu | 5 bóng, 6 màu |
 | Xếp hình / Shape match | Kéo hình vào ô cùng hình dạng | 2 hình (tròn, vuông, tam giác) | 3 hình | 4 hình (thêm ngôi sao) |
 | Nhiều hay ít / More or less | Chạm giỏ có nhiều hơn (hoặc ít hơn) | "Nhiều hơn", 1–5 quả, chênh ≥ 3 | "Nhiều hơn", 1–7 quả, chênh ≥ 2 | "Nhiều hơn" hoặc "ít hơn", 1–9 quả, chênh ≥ 1 |
 
-Đồ hoạ của các trò học số, màu, hình và trò ghép cờ vẽ bằng SVG (cờ trong trò ghép được vẽ theo lớp, đơn giản hoá). Trò lái xe dùng hình cờ và xe của Kenney.
+Đồ hoạ của các trò học số, màu, hình và trò ghép cờ vẽ bằng SVG (cờ trong trò ghép được vẽ theo lớp, đơn giản hoá). Trò lái xe dùng hình cờ của flag-icons và xe của Kenney.
 
 ### Lái xe tìm cờ
 
-Đường có ngã rẽ, mỗi nhánh có một lá cờ. Game đọc và hiện chữ "Lấy cờ Việt Nam!". Bé đặt ngón tay lên xe (có vòng sáng gợi ý) và kéo xe chạy theo đường; xe chỉ chạy trên đường. Kéo tới cờ sai thì lá cờ lắc nhẹ, game nhắc "Thử lại nhé!" và xe lùi về ngã rẽ. Bé cũng có thể chạm thẳng vào lá cờ đúng để xe tự chạy tới. Mức chơi quyết định số cờ và nhóm nước (xem bảng trên). Các cặp cờ dễ nhầm (Việt Nam / Trung Quốc, Anh / Úc) không xuất hiện cùng lượt.
+Đường có ngã rẽ, mỗi nhánh có một lá cờ. Game đọc và hiện chữ "Lấy cờ Việt Nam!". Bé đặt ngón tay lên xe (có vòng sáng gợi ý) và kéo xe chạy theo đường; xe chỉ chạy trên đường. Kéo tới cờ sai thì lá cờ lắc nhẹ, game nhắc "Thử lại nhé!" và xe lùi về ngã rẽ. Bé cũng có thể chạm thẳng vào lá cờ đúng để xe tự chạy tới. Trò có 100 nước (châu Á, Âu, Mỹ, Phi, Đại Dương). Chơi theo vòng, mỗi vòng tìm 5 lá cờ. Xong 5 lá thì hiện "Xong vòng N! Bé giỏi quá!" với nút **▶ Vòng tiếp**; sang vòng mới thì đổi cảnh nền và khó dần lên. Trong một vòng không hỏi lặp lại một nước.
+
+Cảnh nền xoay vòng theo thứ tự: Đồng cỏ, Bãi biển, Xứ tuyết, Sa mạc, Thành phố, Rừng thu, Đêm trăng (vòng 8 quay lại Đồng cỏ).
+
+| Vòng | Số cờ | Nhóm nước |
+|---|---|---|
+| 1 | 2 | 20 nước quen thuộc, cờ khác nhau rõ |
+| 2 | 3 | 20 nước quen thuộc |
+| 3 | 3 | 50 nước (thêm các nước gần gũi, cờ dễ nhận) |
+| 4 | 3 | Cả 100 nước |
+| 5 | 4 | Cả 100 nước |
+| 6 trở đi | 4 | Cả 100 nước, cặp cờ dễ nhầm (Na Uy / Iceland, Việt Nam / Trung Quốc…) cố ý đặt cạnh nhau |
+
+Ở vòng 1–5, các cặp cờ dễ nhầm không xuất hiện cùng lượt. Mức Dễ / Vừa / Khó chỉ chọn vòng bắt đầu (1 / 3 / 5).
 
 File âm thanh (trong `public/audio/vi/` và `public/audio/en/`):
 
-- `flags-find-<MÃ NƯỚC>.mp3` cho 14 nước: VN, US, GB, JP, KR, CN, FR, DE, IT, BR, CA, AU, TH, IN
+- `flags-find-<MÃ NƯỚC>.mp3` cho cả 100 nước (mã ISO 3166-1 hai chữ, như trong `countries.ts`)
 - `flags-great.mp3`
 - `flags-retry.mp3`
 
