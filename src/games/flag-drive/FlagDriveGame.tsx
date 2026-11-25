@@ -9,7 +9,10 @@ import { useCallback, useEffect, useRef, useState, type PointerEvent } from 'rea
 import { playLine } from '../../audio/audio'
 import { useLanguage } from '../../i18n/useLanguage'
 import { loadValue, saveValue } from '../../lib/storage'
+import { FinishScreen, StarBar } from '../shared/Rewards'
+import { useSession, type GameProps } from '../shared/session'
 import { svgPoint } from '../shared/util'
+import '../shared/game.css'
 import { flagSrc, makeRound, type Country, type Round } from './countries'
 import './flagDrive.css'
 
@@ -98,7 +101,8 @@ const ease = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2)
 
 const fill = (template: string, name: string) => template.replace('{name}', name)
 
-export function FlagDriveGame() {
+export function FlagDriveGame({ id, onExit }: GameProps) {
+  const session = useSession(id)
   const { lang, t } = useLanguage()
   const [choices, setChoices] = useState<2 | 3>(() => loadValue<2 | 3>('flags-choices', 2))
   const [round, setRound] = useState<Round>(() => makeRound(choices))
@@ -174,7 +178,8 @@ export function FlagDriveGame() {
     setMessage('great')
     playLine(lang, 'flags-great')
     setCollected((list) => [...list, round.options[i]].slice(-12))
-    window.setTimeout(() => nextRound(choices), CELEBRATE_MS)
+    const done = session.win()
+    window.setTimeout(() => (done ? session.finish() : nextRound(choices)), CELEBRATE_MS)
   }
 
   // Chạm thẳng vào lá cờ: sai thì lá cờ lắc, đúng thì xe tự chạy tới.
@@ -219,6 +224,7 @@ export function FlagDriveGame() {
     if (count === choices || phase !== 'drive') return
     setChoices(count)
     saveValue('flags-choices', count)
+    session.restart()
     nextRound(count)
   }
 
@@ -256,6 +262,8 @@ export function FlagDriveGame() {
           ))}
         </div>
       </div>
+
+      <StarBar stars={session.stars} />
 
       <svg
         ref={svgRef}
@@ -317,6 +325,16 @@ export function FlagDriveGame() {
           <img key={`${c.code}-${i}`} src={flagSrc(c.code)} alt={c.name[lang]} />
         ))}
       </div>
+      {session.finished && (
+        <FinishScreen
+          onReplay={() => {
+            session.restart()
+            setCollected([])
+            nextRound(choices)
+          }}
+          onExit={onExit}
+        />
+      )}
     </div>
   )
 }

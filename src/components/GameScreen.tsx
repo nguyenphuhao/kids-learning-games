@@ -38,7 +38,7 @@ export function GameScreen({ id, onBack }: { id: GameId; onBack: () => void }) {
         </button>
       </header>
       <section className="game-body">
-        <Game />
+        <Game id={id} onExit={onBack} />
       </section>
     </main>
   )

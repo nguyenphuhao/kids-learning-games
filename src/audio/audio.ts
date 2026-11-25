@@ -6,8 +6,8 @@
 import type { Lang } from '../i18n/strings'
 import { loadValue, saveValue } from '../lib/storage'
 
-const MUSIC_VOLUME = 0.25
-const MUSIC_DUCKED = 0.08 // nhạc nhỏ lại khi đang có lời nói
+const MUSIC_VOLUME = 0.12
+const MUSIC_DUCKED = 0.03 // nhạc nhỏ lại khi đang có lời nói
 
 let voice: HTMLAudioElement | null = null
 let music: HTMLAudioElement | null = null

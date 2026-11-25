@@ -7,6 +7,8 @@ import { useEffect, useRef, useState, type PointerEvent } from 'react'
 import { playLine } from '../../audio/audio'
 import { useLanguage } from '../../i18n/useLanguage'
 import { GameTop } from '../shared/GameTop'
+import { FinishScreen, StarBar } from '../shared/Rewards'
+import { useSession, type GameProps } from '../shared/session'
 import { useLevel, type Level } from '../shared/useLevel'
 import { CELEBRATE_MS, shuffle, svgPoint } from '../shared/util'
 
@@ -62,7 +64,8 @@ function Shape({ name, x, y, hole }: { name: ShapeName; x: number; y: number; ho
   )
 }
 
-export function ShapesGame() {
+export function ShapesGame({ id, onExit }: GameProps) {
+  const session = useSession(id)
   const { lang, t } = useLanguage()
   const [level, setLevel] = useLevel('shapes')
   const [round, setRound] = useState(() => makeRound(level))
@@ -116,7 +119,8 @@ export function ShapesGame() {
       if (nextPlaced.every(Boolean)) {
         setMessage('great')
         playLine(lang, 'common-great')
-        window.setTimeout(() => newRound(level), CELEBRATE_MS)
+        const done = session.win()
+    window.setTimeout(() => (done ? session.finish() : newRound(level)), CELEBRATE_MS)
       } else {
         setMessage(round.shapes[i])
         playLine(lang, `shape-${round.shapes[i]}`)
@@ -134,6 +138,7 @@ export function ShapesGame() {
   const changeLevel = (lv: Level) => {
     if (lv === level || done) return
     setLevel(lv)
+    session.restart()
     newRound(lv)
   }
 
@@ -157,6 +162,7 @@ export function ShapesGame() {
         level={level}
         onLevel={changeLevel}
       />
+      <StarBar stars={session.stars} />
       <svg ref={svgRef} className="g-scene" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet">
         <rect x="-200" y="-100" width="700" height="500" fill="#f3e5f5" />
         <rect x="10" y="30" width="280" height="100" rx="20" fill="#fff" opacity="0.6" />
@@ -184,6 +190,15 @@ export function ShapesGame() {
           </g>
         ))}
       </svg>
+      {session.finished && (
+        <FinishScreen
+          onReplay={() => {
+            session.restart()
+            newRound(level)
+          }}
+          onExit={onExit}
+        />
+      )}
     </div>
   )
 }

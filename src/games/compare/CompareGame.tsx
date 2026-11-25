@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react'
 import { playLine } from '../../audio/audio'
 import { useLanguage } from '../../i18n/useLanguage'
 import { GameTop } from '../shared/GameTop'
+import { FinishScreen, StarBar } from '../shared/Rewards'
+import { useSession, type GameProps } from '../shared/session'
 import { useLevel, type Level } from '../shared/useLevel'
 import { CELEBRATE_MS, pick, randInt } from '../shared/util'
 
@@ -48,7 +50,8 @@ function Basket({ x, count }: { x: number; count: number }) {
   )
 }
 
-export function CompareGame() {
+export function CompareGame({ id, onExit }: GameProps) {
+  const session = useSession(id)
   const { lang, t } = useLanguage()
   const [level, setLevel] = useLevel('compare')
   const [round, setRound] = useState(() => makeRound(level))
@@ -82,12 +85,14 @@ export function CompareGame() {
     }
     setWon(i)
     playLine(lang, 'common-great')
-    window.setTimeout(() => newRound(level), CELEBRATE_MS)
+    const done = session.win()
+    window.setTimeout(() => (done ? session.finish() : newRound(level)), CELEBRATE_MS)
   }
 
   const changeLevel = (lv: Level) => {
     if (lv === level || won !== null) return
     setLevel(lv)
+    session.restart()
     newRound(lv)
   }
 
@@ -105,6 +110,7 @@ export function CompareGame() {
         level={level}
         onLevel={changeLevel}
       />
+      <StarBar stars={session.stars} />
       <svg className="g-scene" viewBox="0 0 300 270" preserveAspectRatio="xMidYMid meet">
         <rect x="-200" y="-100" width="700" height="470" fill="#e3f2fd" />
         <rect x="-200" y="250" width="700" height="120" fill="#a5d6a7" />
@@ -121,6 +127,15 @@ export function CompareGame() {
           </g>
         ))}
       </svg>
+      {session.finished && (
+        <FinishScreen
+          onReplay={() => {
+            session.restart()
+            newRound(level)
+          }}
+          onExit={onExit}
+        />
+      )}
     </div>
   )
 }

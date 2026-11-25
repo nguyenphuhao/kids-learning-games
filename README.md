@@ -43,13 +43,15 @@ public/
 
 Mỗi trò có mức Dễ/Khó (lựa chọn lưu trên máy), giọng nói VI/EN và nhạc nền. Bé làm sai thì được nhắc "Thử lại nhé!", không có âm báo sai.
 
+Mỗi lượt chơi gồm 5 câu; mỗi câu đúng thêm một ngôi sao trên thanh tiến độ. Đủ 5 sao thì hiện màn hình hoàn thành (cúp, sao, pháo giấy, lời khen "Hoàn thành rồi! Bé giỏi quá!") với nút Chơi lại và Trang chủ. Mỗi lần hoàn thành được một cúp; số cúp hiện trên ô trò chơi ở màn hình chính (lưu trên máy).
+
 | Trò | Cách chơi | Dễ | Khó |
 |---|---|---|---|
+| Lái xe tìm cờ / Flag drive | Kéo xe theo đường tới lá cờ đúng, hoặc chạm thẳng vào lá cờ | 2 cờ | 3 cờ |
 | Đếm đồ vật / Counting | Chạm từng quả táo (giọng đọc đếm theo), rồi chọn đúng số | 1–5 quả | 1–10 quả |
 | Tìm màu / Find the color | Chạm quả bóng đúng màu, bóng bay lên | 3 bóng | 5 bóng |
 | Xếp hình / Shape match | Kéo hình vào ô cùng hình dạng | 2 hình | 4 hình |
 | Nhiều hay ít / More or less | Chạm giỏ có nhiều hơn (hoặc ít hơn) | Chỉ hỏi "nhiều hơn", chênh ≥ 3 quả | Hỏi cả "ít hơn", chênh ≥ 1 quả |
-| Lái xe tìm cờ / Flag drive | Kéo xe theo đường tới lá cờ đúng, hoặc chạm thẳng vào lá cờ | 2 cờ | 3 cờ |
 
 Đồ hoạ của 4 trò đầu vẽ bằng SVG. Trò lái xe dùng hình cờ và xe của Kenney.
 
@@ -65,7 +67,7 @@ File âm thanh (trong `public/audio/vi/` và `public/audio/en/`):
 
 File âm thanh của các trò khác:
 
-- Dùng chung: `common-great`, `common-retry`
+- Dùng chung: `common-great`, `common-retry`, `common-finish`
 - Đếm đồ vật: `counting-intro`, `counting-ask`, `number-1` … `number-10`
 - Tìm màu: `colors-find-<red|blue|yellow|green|orange|purple>`
 - Xếp hình: `shapes-intro`, `shape-<circle|square|triangle|star>`
@@ -79,4 +81,4 @@ Tạo bằng ElevenLabs, đưa vào repo dưới dạng mp3:
 - Giọng tiếng Anh: "Lila – Upbeat Kids Learning Voice", model `eleven_v4`
 - Nhạc nền: model `eleven_music_v2_5`, không lời, 60 giây, thêm fade 0,4 s / 0,6 s ở hai đầu để lặp lại êm hơn
 
-Nhạc nhỏ lại khi đang có lời nói. Lựa chọn bật/tắt nhạc được lưu trên máy.
+Nhạc nền phát nhỏ (âm lượng 0,12) và nhỏ hơn nữa (0,03) khi đang có lời nói. Lựa chọn bật/tắt nhạc được lưu trên máy.

@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react'
 import { playLine } from '../../audio/audio'
 import { useLanguage } from '../../i18n/useLanguage'
 import { GameTop } from '../shared/GameTop'
+import { FinishScreen, StarBar } from '../shared/Rewards'
+import { useSession, type GameProps } from '../shared/session'
 import { useLevel, type Level } from '../shared/useLevel'
 import { CELEBRATE_MS, pick, shuffle } from '../shared/util'
 import './colors.css'
@@ -30,7 +32,8 @@ function makeRound(level: Level, previous?: ColorName): Round {
   return { options, target }
 }
 
-export function ColorsGame() {
+export function ColorsGame({ id, onExit }: GameProps) {
+  const session = useSession(id)
   const { lang, t } = useLanguage()
   const [level, setLevel] = useLevel('colors')
   const [round, setRound] = useState(() => makeRound(level))
@@ -62,12 +65,14 @@ export function ColorsGame() {
     setWon(true)
     setMessage('great')
     playLine(lang, 'common-great')
-    window.setTimeout(() => newRound(level), CELEBRATE_MS)
+    const done = session.win()
+    window.setTimeout(() => (done ? session.finish() : newRound(level)), CELEBRATE_MS)
   }
 
   const changeLevel = (lv: Level) => {
     if (lv === level || won) return
     setLevel(lv)
+    session.restart()
     newRound(lv)
   }
 
@@ -88,6 +93,7 @@ export function ColorsGame() {
         level={level}
         onLevel={changeLevel}
       />
+      <StarBar stars={session.stars} />
       <svg className="g-scene" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet">
         <rect x="-200" y="-100" width="700" height="500" fill="#e1f5fe" />
         <ellipse cx="60" cy="50" rx="40" ry="14" fill="#fff" />
@@ -121,6 +127,15 @@ export function ColorsGame() {
           )
         })}
       </svg>
+      {session.finished && (
+        <FinishScreen
+          onReplay={() => {
+            session.restart()
+            newRound(level)
+          }}
+          onExit={onExit}
+        />
+      )}
     </div>
   )
 }

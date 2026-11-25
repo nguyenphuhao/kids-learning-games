@@ -134,3 +134,108 @@
     animation: none;
   }
 }
+
+/* Thanh sao tiến độ */
+.g-stars {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.g-stars span {
+  color: rgb(0 0 0 / 15%);
+  transition: color 0.3s, transform 0.3s;
+}
+
+.g-stars span.on {
+  color: #ffb300;
+  transform: scale(1.15);
+  text-shadow: 0 2px 0 rgb(0 0 0 / 15%);
+}
+
+/* Màn hình hoàn thành */
+.g-finish {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
+  background: rgb(255 248 225 / 96%);
+  overflow: hidden;
+  animation: g-pop 0.4s ease;
+}
+
+.g-trophy {
+  width: min(50vw, 220px);
+  height: min(50vw, 220px);
+  animation: g-bounce 0.8s ease 3;
+}
+
+.g-finish .g-stars {
+  font-size: 2.6rem;
+}
+
+.g-finish-text {
+  margin: 0;
+  font-size: clamp(1.5rem, 6vw, 2.2rem);
+  font-weight: 800;
+  text-align: center;
+}
+
+.g-finish-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.g-finish-buttons button {
+  min-height: 64px;
+  padding: 0 20px;
+  border-radius: 20px;
+  background: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  box-shadow: 0 5px 0 rgb(0 0 0 / 12%);
+}
+
+.g-finish-buttons button:first-child {
+  background: #ffb300;
+}
+
+.g-confetti {
+  position: absolute;
+  top: -20px;
+  width: 10px;
+  height: 16px;
+  border-radius: 2px;
+  animation: g-fall 2.6s linear forwards;
+}
+
+@keyframes g-fall {
+  to {
+    transform: translateY(110vh) rotate(540deg);
+  }
+}
+
+@keyframes g-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .g-confetti,
+  .g-trophy,
+  .g-finish {
+    animation: none;
+  }
+  .g-confetti {
+    display: none;
+  }
+}

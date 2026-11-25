@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react'
 import { playLine } from '../../audio/audio'
 import { useLanguage } from '../../i18n/useLanguage'
 import { GameTop } from '../shared/GameTop'
+import { FinishScreen, StarBar } from '../shared/Rewards'
+import { useSession, type GameProps } from '../shared/session'
 import { useLevel, type Level } from '../shared/useLevel'
 import { CELEBRATE_MS, randInt, shuffle } from '../shared/util'
 
@@ -55,7 +57,8 @@ function AppleShape({ x, y, number }: Apple & { number?: number }) {
   )
 }
 
-export function CountingGame() {
+export function CountingGame({ id, onExit }: GameProps) {
+  const session = useSession(id)
   const { lang, t } = useLanguage()
   const [level, setLevel] = useLevel('counting')
   const [round, setRound] = useState(() => makeRound(level))
@@ -103,7 +106,8 @@ export function CountingGame() {
     setPhase('celebrate')
     setMessage('great')
     playLine(lang, 'common-great')
-    window.setTimeout(() => newRound(level), CELEBRATE_MS)
+    const done = session.win()
+    window.setTimeout(() => (done ? session.finish() : newRound(level)), CELEBRATE_MS)
   }
 
   const replay = () => {
@@ -119,6 +123,7 @@ export function CountingGame() {
   const changeLevel = (lv: Level) => {
     if (lv === level || phase === 'celebrate') return
     setLevel(lv)
+    session.restart()
     newRound(lv)
   }
 
@@ -134,6 +139,7 @@ export function CountingGame() {
   return (
     <div className="g-game">
       <GameTop text={text} onReplay={replay} level={level} onLevel={changeLevel} />
+      <StarBar stars={session.stars} />
       <svg className="g-scene" viewBox="0 0 300 260" preserveAspectRatio="xMidYMid meet">
         <rect x="-200" y="-100" width="700" height="460" fill="#fff3e0" />
         {round.apples.map((a, i) => {
@@ -165,6 +171,15 @@ export function CountingGame() {
             </button>
           ))}
       </div>
+      {session.finished && (
+        <FinishScreen
+          onReplay={() => {
+            session.restart()
+            newRound(level)
+          }}
+          onExit={onExit}
+        />
+      )}
     </div>
   )
 }

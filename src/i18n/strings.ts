@@ -30,6 +30,10 @@ export const strings = {
       level: 'Mức chơi',
       easy: 'Dễ',
       hard: 'Khó',
+      finish: 'Hoàn thành rồi! Bé giỏi quá!',
+      playAgain: 'Chơi lại',
+      home: 'Trang chủ',
+      trophies: 'Số cúp',
     },
     counting: {
       intro: 'Bé chạm vào từng quả táo để đếm nhé!',
@@ -85,6 +89,10 @@ export const strings = {
       level: 'Level',
       easy: 'Easy',
       hard: 'Hard',
+      finish: 'All done! You did it!',
+      playAgain: 'Play again',
+      home: 'Home',
+      trophies: 'Trophies',
     },
     counting: {
       intro: 'Tap each apple to count them!',
