@@ -78,7 +78,7 @@ button {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
-  margin-top: 24px;
+  margin-top: 20px;
 }
 
 .game-tile {
@@ -112,6 +112,78 @@ button {
 .game-name {
   font-size: clamp(1rem, 4vw, 1.4rem);
   font-weight: 700;
+}
+
+/* Hai tab Truyện / Trò chơi */
+.home-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 6px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 4px 0 rgb(0 0 0 / 8%);
+}
+
+.home-tab {
+  min-height: 56px;
+  border-radius: 999px;
+  background: transparent;
+  font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+  font-weight: 800;
+}
+
+.home-tab.active {
+  background: #ffb300;
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.story-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 10px 14px;
+  border-radius: 28px;
+  box-shadow: 0 6px 0 rgb(0 0 0 / 12%);
+  transition: transform 0.1s;
+}
+
+.story-card:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 rgb(0 0 0 / 12%);
+}
+
+.story-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.story-cover svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Bìa ở trang chủ đứng yên cho nhẹ máy. */
+.story-cover * {
+  animation: none !important;
+}
+
+.story-card-title {
+  font-size: clamp(1.05rem, 4vw, 1.3rem);
+  font-weight: 800;
+  text-align: center;
 }
 
 /* Màn hình trò chơi */

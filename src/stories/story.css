@@ -1,0 +1,234 @@
+.story {
+  gap: 10px;
+}
+
+.story-scene {
+  flex: 1 1 0;
+  min-height: 0;
+  border-radius: 24px;
+  /* Màu nền theo màu của truyện (đặt bằng style), lấp phần trống khi hình không đủ cao/rộng. */
+  animation: story-fade 0.45s ease-out;
+  overflow: hidden;
+  box-shadow: 0 4px 0 rgb(0 0 0 / 12%);
+}
+
+.story-scene svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.story-text {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 16px;
+  border-radius: 20px;
+  background: #fff;
+  font-size: clamp(1rem, 4vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: left;
+  box-shadow: 0 4px 0 rgb(0 0 0 / 12%);
+}
+
+.story-outro {
+  color: #e65100;
+}
+
+.story-choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.story-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 22px;
+  background: #fff;
+  font-size: 1.1rem;
+  font-weight: 800;
+  box-shadow: 0 6px 0 rgb(0 0 0 / 12%);
+  animation: story-pulse 1.6s ease-in-out infinite;
+}
+
+.story-choice:nth-child(2) {
+  animation-delay: 0.8s;
+}
+
+.story-choice svg {
+  width: 100%;
+  max-width: 140px;
+  height: auto;
+}
+
+.story-choice:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 rgb(0 0 0 / 12%);
+}
+
+.story-found {
+  margin: 0;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+@keyframes story-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes story-fade {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Chuyển động nhẹ trong hình vẽ (lớp a-… trong art/kit.tsx). */
+.a-bob,
+.a-sway,
+.a-twinkle,
+.a-drift,
+.a-pulse,
+.a-hop,
+.a-spin,
+.a-drip {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.a-bob {
+  animation: a-bob 2.4s ease-in-out infinite;
+}
+
+.a-sway {
+  transform-origin: 50% 100%;
+  animation: a-sway 3.2s ease-in-out infinite;
+}
+
+.a-twinkle {
+  animation: a-twinkle 2s ease-in-out infinite;
+}
+
+.a-drift {
+  animation: a-drift 7s ease-in-out infinite;
+}
+
+.a-pulse {
+  animation: a-pulse 1.4s ease-in-out infinite;
+}
+
+.a-hop {
+  transform-origin: 50% 100%;
+  animation: a-hop 1.1s ease-in-out infinite;
+}
+
+.a-spin {
+  animation: a-spin 24s linear infinite;
+}
+
+.a-drip {
+  animation: a-drip 1.6s ease-in infinite;
+}
+
+@keyframes a-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes a-sway {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes a-twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes a-drift {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes a-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+@keyframes a-hop {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
+  40% {
+    transform: translateY(-8px) scaleY(1.04);
+  }
+  70% {
+    transform: translateY(0) scaleY(0.95);
+  }
+}
+
+@keyframes a-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes a-drip {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-choice,
+  .story-scene,
+  .story-scene *,
+  .story-cover * {
+    animation: none !important;
+  }
+}

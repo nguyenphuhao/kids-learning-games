@@ -16,7 +16,10 @@ export const strings = {
       compare: 'Nhiều hay ít',
       flags: 'Lái xe tìm cờ',
       builder: 'Ghép quốc kỳ',
-      story: 'Truyện: Ba và Henry đi công viên',
+    },
+    tabs: {
+      stories: 'Truyện',
+      games: 'Trò chơi',
     },
     flagDrive: {
       find: 'Lấy cờ {name}!',
@@ -80,7 +83,10 @@ export const strings = {
       compare: 'More or less',
       flags: 'Flag drive',
       builder: 'Build a flag',
-      story: "Story: Henry's park ride with Dad",
+    },
+    tabs: {
+      stories: 'Stories',
+      games: 'Games',
     },
     flagDrive: {
       find: 'Find the flag of {name}!',

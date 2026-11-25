@@ -21,9 +21,10 @@ npm run dev
 
 ```
 src/
-  App.tsx                  Chuyển giữa màn hình chính và màn hình trò chơi
-  components/              HomeScreen, GameScreen, LanguageToggle
-  games/registry.tsx       Danh sách 4 trò chơi (thêm trò mới ở đây)
+  App.tsx                  Chuyển giữa màn hình chính, màn chơi và màn đọc truyện
+  components/              HomeScreen (2 tab), PlayScreen, GameScreen, LanguageToggle
+  games/registry.tsx       Danh sách trò chơi (thêm trò mới ở đây)
+  stories/                 Truyện tương tác: data.ts (nội dung), StoryPlayer, art/ (hình vẽ)
   games/shared/            Thanh câu hỏi, mức Dễ/Khó, hàm dùng chung
   games/counting, colors, shapes, compare   4 trò học số, màu, hình
   games/flag-builder/      Trò "Ghép quốc kỳ" (thiết kế cờ trong designs.ts, hình mảnh trong PieceArt.tsx)
@@ -76,14 +77,25 @@ File âm thanh của các trò khác:
 - Nhiều hay ít: `compare-more`, `compare-less`
 - Ghép quốc kỳ: `build-<VN|CN|JP|KR|CA|BR|FR|IT|DE>`
 
-## Truyện tương tác: "Ba và Henry đi xe điện trong công viên"
+## Truyện tương tác
 
-Truyện sáng tác riêng cho app (`src/games/story/story.ts`). Mỗi đoạn có hình minh hoạ SVG (`art.tsx`), lời đọc và chữ; câu hỏi lựa chọn nằm ngay trong lời đọc nên bé chưa biết chữ vẫn chọn được bằng hình.
+Trang chủ có hai tab: **📖 Truyện** và **🎮 Trò chơi** (tab đang chọn được lưu trên máy). Có 6 truyện sáng tác riêng cho app, nhân vật chính là Ba và bé Henry. Nội dung chữ VI/EN của mọi truyện nằm trong `src/stories/data.ts`.
 
-- 3 lần chọn: màu xe (đỏ/xanh, xe giữ màu đó suốt truyện) → đường bên hồ hay vườn hoa → cách giúp đỡ.
-- 4 kết thúc, kết nào cũng có hậu: chở vịt con tìm mẹ, hỏi bác Rùa, nhờ bạn Sóc lấy mũ, ba nâng Henry lên thấy cầu vồng.
-- Tới kết thúc: đọc đoạn kết, rồi "Hết truyện!", rồi màn hình cúp. Ô truyện ở màn hình chính hiện số kết thúc đã khám phá (ví dụ 📖 2/4, lưu trên máy).
-- Âm thanh: `story-<start|fork|lake|garden|end-duck|end-turtle|end-squirrel|end-lift|outro>`.
+| Truyện | Lựa chọn đầu (giữ suốt truyện) | Ngã rẽ | 4 kết thúc |
+|---|---|---|---|
+| Ba và Henry đi công viên / Park Ride with Dad | xe đỏ / xe xanh | hồ nước / vườn hoa | chở vịt con, hỏi bác Rùa, nhờ bạn Sóc, ba nâng Henry |
+| Henry và cá voi con / Henry and the Baby Whale | áo phao vàng / cam | rạn san hô / đảo nhỏ | cá hề, rùa biển, đèn hải đăng, bầy hải âu |
+| Chuyến tàu tìm ông Trăng / The Moon Train | tàu xanh lá / tím | núi cao / đồng đom đóm | thổi mây, bác Cú, hát cho đom đóm, xếp hình trăng |
+| Vườn rau của bà / Grandma's Garden | nón lá / mũ rơm | luống rau / cây ăn trái | cà rốt, bí đỏ, xoài, dâu tây |
+| Bác sĩ thú y Henry / Doctor Henry | túi thuốc đỏ / xanh | bạn Mèo / bạn Thỏ | gỡ gai, dán băng sao, nước ấm, khăn len |
+| Đi chợ hoa ngày Tết / Flower Market at Tết | áo dài đỏ / vàng | mai vàng / đào hồng | bao lì xì, đèn lồng, bánh chưng, múa lân |
+
+- Mỗi đoạn có hình minh hoạ, lời đọc và chữ; câu hỏi lựa chọn nằm ngay trong lời đọc nên bé chưa biết chữ vẫn chọn được bằng hình.
+- Tới kết thúc: đọc đoạn kết, rồi đoạn "Hết truyện!", rồi màn hình cúp. Bìa truyện ở trang chủ hiện số kết thúc đã khám phá (ví dụ 📖 2/4, lưu trên máy).
+- Thêm truyện mới: khai báo trong `data.ts`, vẽ `src/stories/art/<id>.tsx` (xuất `Scene` và `Icon`), thêm vào `art/index.ts`, tạo 9 file âm thanh mỗi thứ tiếng.
+- Âm thanh: `story-<id>-<đoạn>.mp3` (đoạn: `start`, `fork`, hai nhánh, bốn `end-…`, `outro`), chỉ tải khi mở truyện đó.
+
+Hình vẽ bằng SVG (`src/stories/art/`): `kit.tsx` chứa dải màu dùng chung (trời, biển, cỏ, lớp đổ bóng và độ bóng), nhân vật Henry, Ba, Bà và cảnh vật; mỗi truyện một file cảnh riêng. Một số chi tiết chuyển động nhẹ (lá cây, mây, đom đóm, sao); máy bật "giảm chuyển động" thì đứng yên. Bản dev (`npm run dev`) có trang xem trước mọi cảnh của một truyện: mở `/#art=<id>`, ví dụ `/#art=tet`.
 
 ## Logo
 
@@ -93,10 +105,10 @@ Truyện sáng tác riêng cho app (`src/games/story/story.ts`). Mỗi đoạn c
 
 Tạo bằng ElevenLabs, đưa vào repo dưới dạng mp3:
 
-- Giọng tiếng Việt: "Han Nguyen - Warm Southern Storyteller", model `eleven_v4`
+- Giọng tiếng Việt: "Han Nguyen - Warm Southern Storyteller" cho trò chơi, "Phú Hảo" cho truyện, model `eleven_v4`
 - Giọng tiếng Anh: "Lila – Upbeat Kids Learning Voice", model `eleven_v4`
 - Nhạc nền: model `eleven_music_v2_5`, không lời, 60 giây, thêm fade 0,4 s / 0,6 s ở hai đầu để lặp lại êm hơn
 
-Âm thanh phát bằng Web Audio API (`src/audio/audio.ts`): âm lượng chỉnh được trên mọi máy (Safari iOS bỏ qua âm lượng của thẻ `<audio>`), âm thanh được mở khoá ở lần chạm đầu tiên, và mọi câu thoại của ngôn ngữ đang chọn được tải trước, giải mã sẵn trong bộ nhớ (danh sách trong `src/audio/manifest.ts`). File âm thanh và hình Kenney được trình duyệt cache 7 ngày (`vercel.json`).
+Âm thanh phát bằng Web Audio API (`src/audio/audio.ts`): âm lượng chỉnh được trên mọi máy (Safari iOS bỏ qua âm lượng của thẻ `<audio>`), âm thanh được mở khoá ở lần chạm đầu tiên, và câu thoại trò chơi của ngôn ngữ đang chọn được tải trước, giải mã sẵn trong bộ nhớ (danh sách trong `src/audio/manifest.ts`); câu thoại của một truyện được tải khi mở truyện đó. File âm thanh và hình Kenney được trình duyệt cache 7 ngày (`vercel.json`).
 
 Mức âm lượng: file giọng nói đã được chuẩn hoá lên đỉnh −1 dB; file nhạc đã giảm sẵn 12 dB và phát ở mức 0,5, còn 0,15 khi đang có lời nói. Khi thêm câu thoại mới, nhớ chuẩn hoá tương tự và thêm vào `manifest.ts`. Lựa chọn bật/tắt nhạc được lưu trên máy.

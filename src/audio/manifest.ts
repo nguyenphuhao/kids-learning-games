@@ -1,4 +1,5 @@
-// Danh sách mọi câu thoại có trong public/audio/<lang>/<key>.mp3, để tải trước.
+// Câu thoại của các trò chơi trong public/audio/<lang>/<key>.mp3, tải trước khi mở web.
+// Câu thoại của truyện nằm trong src/stories/data.ts, chỉ tải khi mở truyện đó.
 
 const FLAG_CODES = ['VN', 'US', 'GB', 'JP', 'KR', 'CN', 'FR', 'DE', 'IT', 'BR', 'CA', 'AU', 'TH', 'IN']
 const BUILD_CODES = ['VN', 'CN', 'JP', 'KR', 'CA', 'BR', 'FR', 'IT', 'DE']
@@ -21,7 +22,4 @@ export const AUDIO_KEYS: string[] = [
   ...SHAPES.map((s) => `shape-${s}`),
   'compare-more',
   'compare-less',
-  ...['start', 'fork', 'lake', 'garden', 'end-duck', 'end-turtle', 'end-squirrel', 'end-lift', 'outro'].map(
-    (k) => `story-${k}`,
-  ),
 ]

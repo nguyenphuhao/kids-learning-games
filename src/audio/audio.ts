@@ -91,6 +91,15 @@ export async function preloadAudio(lang: Lang): Promise<void> {
   }
 }
 
+/** Tải trước một nhóm câu thoại (ví dụ các đoạn của một truyện khi bé mở truyện). */
+export async function preloadLines(lang: Lang, keys: string[]): Promise<void> {
+  if (!getAudio()) return
+  const urls = keys.map((k) => lineUrl(lang, k))
+  for (let i = 0; i < urls.length; i += 6) {
+    await Promise.all(urls.slice(i, i + 6).map(load))
+  }
+}
+
 function duck(on: boolean) {
   if (!audio) return
   const g = audio.musicGain.gain
