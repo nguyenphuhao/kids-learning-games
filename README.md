@@ -84,4 +84,6 @@ Tạo bằng ElevenLabs, đưa vào repo dưới dạng mp3:
 - Giọng tiếng Anh: "Lila – Upbeat Kids Learning Voice", model `eleven_v4`
 - Nhạc nền: model `eleven_music_v2_5`, không lời, 60 giây, thêm fade 0,4 s / 0,6 s ở hai đầu để lặp lại êm hơn
 
-Nhạc nền phát nhỏ (âm lượng 0,12) và nhỏ hơn nữa (0,03) khi đang có lời nói. Lựa chọn bật/tắt nhạc được lưu trên máy.
+Âm thanh phát bằng Web Audio API (`src/audio/audio.ts`): âm lượng chỉnh được trên mọi máy (Safari iOS bỏ qua âm lượng của thẻ `<audio>`), âm thanh được mở khoá ở lần chạm đầu tiên, và mọi câu thoại của ngôn ngữ đang chọn được tải trước, giải mã sẵn trong bộ nhớ (danh sách trong `src/audio/manifest.ts`). File âm thanh và hình Kenney được trình duyệt cache 7 ngày (`vercel.json`).
+
+Mức âm lượng: file giọng nói đã được chuẩn hoá lên đỉnh −1 dB; file nhạc đã giảm sẵn 12 dB và phát ở mức 0,5, còn 0,15 khi đang có lời nói. Khi thêm câu thoại mới, nhớ chuẩn hoá tương tự và thêm vào `manifest.ts`. Lựa chọn bật/tắt nhạc được lưu trên máy.
