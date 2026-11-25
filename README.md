@@ -32,6 +32,7 @@ src/
   lib/storage.ts           Đọc/ghi localStorage an toàn
 public/
   audio/vi, audio/en       File giọng nói từ ElevenLabs
+  audio/music              Nhạc nền phát lặp trong màn chơi (có nút bật/tắt)
   assets/kenney            Hình tải từ Kenney, mỗi bộ kèm License.txt (CC0)
     flag-pack/             14 lá cờ (SVG)
     racing-pack/           Xe ô tô
@@ -45,14 +46,24 @@ public/
 | Tìm màu / Find the color | Chưa làm |
 | Xếp hình / Shape match | Chưa làm |
 | Nhiều hay ít / More or less | Chưa làm |
-| Lái xe tìm cờ / Flag drive | Chơi được, chưa có âm thanh |
+| Lái xe tìm cờ / Flag drive | Chơi được, có giọng nói VI/EN và nhạc nền |
 
 ### Lái xe tìm cờ
 
 Xe chạy tới ngã rẽ, mỗi nhánh có một lá cờ. Game đọc và hiện chữ "Lấy cờ Việt Nam!", bé chạm vào nhánh có cờ đúng để xe rẽ vào lấy cờ. Chạm sai thì lá cờ lắc nhẹ và game nhắc "Thử lại nhé!". Phụ huynh chọn 2 hoặc 3 lá cờ mỗi lượt. Các cặp cờ dễ nhầm (Việt Nam / Trung Quốc, Anh / Úc) không xuất hiện cùng lượt.
 
-File âm thanh cần tạo (đặt trong `public/audio/vi/` và `public/audio/en/`):
+File âm thanh (trong `public/audio/vi/` và `public/audio/en/`):
 
 - `flags-find-<MÃ NƯỚC>.mp3` cho 14 nước: VN, US, GB, JP, KR, CN, FR, DE, IT, BR, CA, AU, TH, IN
 - `flags-great.mp3`
 - `flags-retry.mp3`
+
+## Âm thanh
+
+Tạo bằng ElevenLabs, đưa vào repo dưới dạng mp3:
+
+- Giọng tiếng Việt: "Han Nguyen - Warm Southern Storyteller", model `eleven_v4`
+- Giọng tiếng Anh: "Lila – Upbeat Kids Learning Voice", model `eleven_v4`
+- Nhạc nền: model `eleven_music_v2_5`, không lời, 60 giây, thêm fade 0,4 s / 0,6 s ở hai đầu để lặp lại êm hơn
+
+Nhạc nhỏ lại khi đang có lời nói. Lựa chọn bật/tắt nhạc được lưu trên máy.

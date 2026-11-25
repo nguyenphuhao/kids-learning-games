@@ -8,6 +8,7 @@ export const strings = {
   vi: {
     appTitle: 'Bé học vui',
     back: 'Quay lại',
+    music: 'Nhạc nền',
     comingSoon: 'Trò chơi đang được làm',
     games: {
       counting: 'Đếm đồ vật',
@@ -27,6 +28,7 @@ export const strings = {
   en: {
     appTitle: 'Little Learners',
     back: 'Back',
+    music: 'Background music',
     comingSoon: 'This game is coming soon',
     games: {
       counting: 'Counting',

@@ -112,6 +112,21 @@ button {
 
 .game-header h2 {
   margin: 0;
+  flex: 1;
+}
+
+.music-button {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  font-size: 1.6rem;
+  box-shadow: 0 4px 0 rgb(0 0 0 / 12%);
+}
+
+.music-button.off {
+  opacity: 0.4;
+  text-decoration: line-through;
 }
 
 .back-button {
