@@ -1,0 +1,135 @@
+:root {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: #3e2723;
+  background: #fff8e1;
+  -webkit-tap-highlight-color: transparent;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: #fff8e1;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+}
+
+/* Màn hình chính */
+.home {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.home-header h1 {
+  margin: 0;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+}
+
+.lang-toggle {
+  display: flex;
+  gap: 4px;
+  background: #fff;
+  border-radius: 999px;
+  padding: 4px;
+}
+
+.lang-toggle button {
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 999px;
+  background: transparent;
+  font-weight: 700;
+}
+
+.lang-toggle button.active {
+  background: #ffb300;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.game-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 28px;
+  box-shadow: 0 6px 0 rgb(0 0 0 / 12%);
+  transition: transform 0.1s;
+}
+
+.game-tile:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 rgb(0 0 0 / 12%);
+}
+
+.game-icon svg {
+  width: min(32vw, 160px);
+  height: min(32vw, 160px);
+}
+
+.game-name {
+  font-size: clamp(1rem, 4vw, 1.4rem);
+  font-weight: 700;
+}
+
+/* Màn hình trò chơi */
+.game-screen {
+  min-height: 100dvh;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.game-header h2 {
+  margin: 0;
+}
+
+.back-button {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #fff;
+  font-size: 2rem;
+  box-shadow: 0 4px 0 rgb(0 0 0 / 12%);
+}
+
+.game-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder {
+  font-size: 1.25rem;
+}
