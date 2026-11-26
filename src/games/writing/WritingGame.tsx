@@ -1,7 +1,8 @@
 // Trò "Tập viết chữ" và "Tập viết số".
 // Bé chọn một chữ trong bảng (chữ thường / chữ hoa, hoặc số 0–9), xem hoạt ảnh viết từng nét
-// theo thứ tự, rồi tô theo bằng ngón tay. Chữ đã viết xong có dấu sao trên bảng (lưu trên máy).
-// Mức chơi là độ hỗ trợ khi tô: Dễ (chữ mờ đậm, vệt tô rộng), Vừa (chữ mờ nhạt), Khó (chỉ có chấm đặt bút).
+// theo thứ tự, rồi tự viết theo bằng ngón tay / bút; từng nét được chấm, sai thì viết lại (Writer.tsx).
+// Chữ đã viết xong có dấu sao trên bảng (lưu trên máy).
+// Mức chơi: chỉ Dễ và Khó, cả hai đều có chữ mẫu nét đứt; Dễ cho lệch nhiều, Khó cho lệch ít.
 // Mỗi chữ viết xong được một sao; đủ 5 sao thì được một cúp.
 //
 // Âm thanh: write-pick-letter / write-pick-number, write-watch, write-trace, common-great, common-retry.
@@ -13,13 +14,15 @@ import { loadValue, saveValue } from '../../lib/storage'
 import { GameTop } from '../shared/GameTop'
 import { FinishScreen, StarBar } from '../shared/Rewards'
 import { useSession, type GameProps } from '../shared/session'
-import { useLevel } from '../shared/useLevel'
+import { useLevel, type Level } from '../shared/useLevel'
 import { CELEBRATE_MS } from '../shared/util'
 import { ALPHABET, glyphBox, NUMBERS, type Glyph, type GlyphKind } from './glyphs'
 import { Writer, type Phase } from './Writer'
 import './writing.css'
 
 type Mode = 'letters' | 'numbers'
+
+const WRITING_LEVELS: Level[] = ['easy', 'hard']
 
 function useDone(key: string): [Set<string>, (id: string) => void] {
   const [done, setDone] = useState(() => new Set(loadValue<string[]>(key, [])))
@@ -47,7 +50,9 @@ function Mini({ g, kind }: { g: Glyph; kind: GlyphKind }) {
 export function WritingGame({ id, onExit, mode }: GameProps & { mode: Mode }) {
   const session = useSession(id)
   const { lang, t } = useLanguage()
-  const [level, setLevel] = useLevel(id)
+  // Trò tập viết chỉ có Dễ và Khó; ai đã lưu mức Vừa (bản cũ) thì tính là Dễ.
+  const [savedLevel, setLevel] = useLevel(id)
+  const level: Level = savedLevel === 'medium' ? 'easy' : savedLevel
   const [tab, setTab] = useState<'lower' | 'upper'>(() => loadValue(`write-tab-${id}`, 'lower'))
   const kind: GlyphKind = mode === 'numbers' ? 'number' : tab
   const list = mode === 'numbers' ? NUMBERS : ALPHABET[lang][tab]
@@ -109,7 +114,7 @@ export function WritingGame({ id, onExit, mode }: GameProps & { mode: Mode }) {
     saveValue(`write-tab-${id}`, next)
   }
 
-  const changeLevel = (lv: typeof level) => {
+  const changeLevel = (lv: Level) => {
     if (lv === level) return
     setLevel(lv)
     if (glyph && phase !== 'watch') {
@@ -139,7 +144,7 @@ export function WritingGame({ id, onExit, mode }: GameProps & { mode: Mode }) {
 
   return (
     <div className="g-game w-game">
-      <GameTop text={text} onReplay={replay} level={level} onLevel={changeLevel} />
+      <GameTop text={text} onReplay={replay} level={level} onLevel={changeLevel} levels={WRITING_LEVELS} />
       {/* Điện thoại xoay ngang: nội dung bên trái, sao và nút xếp dọc bên phải (xem writing.css). */}
       <div className="w-main">
         <div className="w-starbar">

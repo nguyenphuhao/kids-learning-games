@@ -99,21 +99,19 @@
   animation: g-bounce 0.8s ease infinite;
 }
 
-.w-pulse {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: w-pulse 1.2s ease-in-out infinite;
+/* Mũi tên hướng dẫn đầu nét: nhấp nháy nhẹ cho bé chú ý, không phóng to để không che chỗ viết. */
+.w-hint {
+  animation: w-hint 1.2s ease-in-out infinite;
 }
 
-@keyframes w-pulse {
+@keyframes w-hint {
   50% {
-    transform: scale(1.6);
-    opacity: 0.1;
+    opacity: 0.35;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .w-pulse,
+  .w-hint,
   .w-actions button.w-next {
     animation: none;
   }
@@ -232,5 +230,24 @@
     grid-column: 2;
     grid-row: 1 / -1;
     min-height: 0;
+  }
+}
+
+/* Nét bé viết sai: chuyển sang đỏ nhạt rồi mờ dần trước khi biến mất. */
+path.w-fail {
+  stroke: #e57373;
+}
+
+circle.w-fail {
+  fill: #e57373;
+}
+
+.w-fail {
+  animation: w-fade 0.7s ease-in forwards;
+}
+
+@keyframes w-fade {
+  to {
+    opacity: 0;
   }
 }

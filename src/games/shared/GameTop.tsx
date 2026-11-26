@@ -9,9 +9,11 @@ type Props = {
   onReplay: () => void
   level: Level
   onLevel: (level: Level) => void
+  /** Các mức hiện trên nút (mặc định Dễ / Vừa / Khó). */
+  levels?: Level[]
 }
 
-export function GameTop({ text, onReplay, level, onLevel }: Props) {
+export function GameTop({ text, onReplay, level, onLevel, levels = LEVELS }: Props) {
   const { t } = useLanguage()
   return (
     <div className="g-top">
@@ -20,7 +22,7 @@ export function GameTop({ text, onReplay, level, onLevel }: Props) {
         <span>{text}</span>
       </button>
       <div className="g-levels" role="group" aria-label={t.common.level}>
-        {LEVELS.map((l) => (
+        {levels.map((l) => (
           <button
             key={l}
             type="button"

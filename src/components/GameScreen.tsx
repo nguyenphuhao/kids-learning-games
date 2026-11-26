@@ -7,7 +7,7 @@ export function GameScreen({ id, onBack }: { id: GameId; onBack: () => void }) {
   const game = GAMES.find((g) => g.id === id)!
   const Game = game.component
   return (
-    <PlayScreen title={t.games[id]} color={game.color} onBack={onBack}>
+    <PlayScreen title={t.games[id]} color={game.color} page={{ kind: 'game', id }} onBack={onBack}>
       <Game id={id} onExit={onBack} />
     </PlayScreen>
   )
