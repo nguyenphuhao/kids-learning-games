@@ -1,6 +1,7 @@
 // Danh sách trò chơi. Thêm trò mới: tạo component rồi khai báo ở đây.
 
 import type { ComponentType, ReactNode } from 'react'
+import { AddingGame } from './adding/AddingGame'
 import { ColorsGame } from './colors/ColorsGame'
 import { CompareGame } from './compare/CompareGame'
 import { CountingGame } from './counting/CountingGame'
@@ -13,7 +14,7 @@ import { ShapesGame } from './shapes/ShapesGame'
 import { TracingGame } from './tracing/TracingGame'
 import { LettersGame, NumbersGame } from './writing/WritingGame'
 
-export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags' | 'builder' | 'tracing' | 'letters' | 'numbers' | 'forest' | 'memory'
+export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags' | 'builder' | 'tracing' | 'letters' | 'numbers' | 'forest' | 'memory' | 'adding'
 
 export type GameDef = {
   id: GameId
@@ -140,6 +141,17 @@ const memoryIcon = (
   </svg>
 )
 
+// Biểu tượng trò phép cộng: hai quả táo và dấu cộng.
+const addingIcon = (
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <circle cx="22" cy="50" r="15" fill="#e53935" />
+    <circle cx="78" cy="50" r="15" fill="#e53935" />
+    <circle cx="50" cy="50" r="11" fill="#ffb300" />
+    <path d="M44 50 H56 M50 44 V56" stroke="#fff" strokeWidth="4" strokeLinecap="round" />
+    <text x="50" y="90" textAnchor="middle" fontSize="20" fontWeight="800" fill="#5d4037">1+1</text>
+  </svg>
+)
+
 export const GAMES: GameDef[] = [
   { id: 'forest', color: '#c5e8c0', icon: forestIcon, component: ForestGame },
   { id: 'memory', color: '#ffccbc', icon: memoryIcon, component: MemoryGame },
@@ -149,6 +161,7 @@ export const GAMES: GameDef[] = [
   { id: 'colors', color: '#fff9c4', icon: colorsIcon, component: ColorsGame },
   { id: 'shapes', color: '#c8e6c9', icon: shapesIcon, component: ShapesGame },
   { id: 'compare', color: '#bbdefb', icon: compareIcon, component: CompareGame },
+  { id: 'adding', color: '#dcedc8', icon: addingIcon, component: AddingGame },
   { id: 'tracing', color: '#ffecb3', icon: tracingIcon, component: TracingGame },
   { id: 'letters', color: '#f8bbd0', icon: lettersIcon, component: LettersGame },
   { id: 'numbers', color: '#b2ebf2', icon: numbersIcon, component: NumbersGame },

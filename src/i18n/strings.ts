@@ -29,6 +29,7 @@ export const strings = {
       tracing: 'Tô theo nét',
       forest: 'Vào rừng tìm chữ',
       memory: 'Lật thẻ tìm cặp',
+      adding: 'Phép cộng',
     },
     tabs: {
       stories: 'Truyện',
@@ -93,6 +94,10 @@ export const strings = {
       board: 'Bảng chữ',
       watchAgain: 'Xem lại cách viết',
       next: 'Chữ tiếp theo',
+    },
+    adding: {
+      intro: 'Bé chạm đếm hết táo nhé!',
+      ask: 'Tất cả có mấy quả táo?',
     },
     compare: {
       more: 'Giỏ nào có nhiều hơn?',
@@ -161,6 +166,7 @@ export const strings = {
       tracing: 'Trace the dots',
       forest: 'Forest letter hunt',
       memory: 'Memory match',
+      adding: 'Adding',
     },
     tabs: {
       stories: 'Stories',
@@ -225,6 +231,10 @@ export const strings = {
       board: 'Letter board',
       watchAgain: 'Watch again',
       next: 'Next one',
+    },
+    adding: {
+      intro: 'Tap to count all the apples!',
+      ask: 'How many apples are there in all?',
     },
     compare: {
       more: 'Which basket has more?',

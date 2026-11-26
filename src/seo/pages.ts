@@ -39,6 +39,10 @@ const GAME_DESCRIPTIONS: Record<GameId, Record<Lang, string>> = {
     vi: 'Bé kéo hình tròn, vuông, tam giác, ngôi sao vào đúng chỗ.',
     en: 'Drag circles, squares, triangles and stars to their places.',
   },
+  adding: {
+    vi: 'Bé đếm táo trên hai đĩa rồi chọn kết quả, làm quen phép cộng trong phạm vi 10.',
+    en: 'Count the apples on two plates and pick the answer to learn adding up to 10.',
+  },
   compare: {
     vi: 'Bé chọn giỏ có nhiều hơn hoặc ít hơn.',
     en: 'Pick the basket with more, or with fewer.',

@@ -32,6 +32,7 @@ src/
   games/writing/           Trò "Tập viết chữ" và "Tập viết số" (nét chữ trong glyphs.ts, khung tô trong Writer.tsx)
   games/tracing/           Trò "Tô theo nét" (các nét và mức chơi trong strokes.ts)
   games/memory/            Trò "Lật thẻ tìm cặp" (danh sách con vật trong animals.ts)
+  games/adding/            Trò "Phép cộng" (hai đĩa táo, phép tính trong phạm vi 10)
   games/flag-drive/        Trò "Lái xe tìm cờ" (100 nước và các vòng trong countries.ts, cảnh nền trong themes.ts + Scenery.tsx)
   i18n/strings.ts          Chữ giao diện VI/EN
   i18n/                   Ngôn ngữ hiện tại (LanguageProvider, useLanguage)
@@ -71,6 +72,7 @@ Mỗi lượt chơi gồm 5 câu; mỗi câu đúng thêm một ngôi sao trên 
 | Xếp hình / Shape match | Kéo hình vào ô cùng hình dạng | 2 hình (tròn, vuông, tam giác) | 3 hình | 4 hình (thêm ngôi sao) |
 | Tập viết chữ / Write letters | Chọn chữ trên bảng (tab chữ thường / chữ hoa), xem hoạt ảnh viết từng nét theo thứ tự, rồi tô theo bằng ngón tay (xem mục bên dưới) | Chữ mẫu nét đứt, cho lệch tới 0,8 li | (không có mức Vừa) | Chữ mẫu nét đứt, cho lệch 0,45 li |
 | Tập viết số / Write numbers | Như trên, với các số 0–9 | Như trên | (không có mức Vừa) | Như trên |
+| Phép cộng / Adding | Hai đĩa táo, giữa có dấu ➕, dưới là phép tính `2 + 1 = ?`. Bé chạm đếm nối tiếp từ đĩa trái sang đĩa phải (giọng đọc số theo từng lần chạm; chạm đĩa phải khi chưa đếm xong đĩa trái thì đĩa phải lắc nhẹ, không tính), rồi chọn đáp án trong 3 nút số. Đúng thì giọng đọc cả phép tính ("Hai cộng một bằng ba") rồi sang câu mới. Đĩa có 7–9 quả thì táo nhỏ lại cho vừa đĩa | Tổng ≤ 5, đếm hết mới hiện nút số | Tổng ≤ 7, đếm hết mới hiện nút số | Tổng ≤ 10, nút số hiện ngay (vẫn chạm đếm được) |
 | Nhiều hay ít / More or less | Chạm giỏ có nhiều hơn (hoặc ít hơn) | "Nhiều hơn", 1–5 quả, chênh ≥ 3 | "Nhiều hơn", 1–7 quả, chênh ≥ 2 | "Nhiều hơn" hoặc "ít hơn", 1–9 quả, chênh ≥ 1 |
 | Tô theo nét / Trace the dots | Đặt ngón tay lên chú ong, kéo theo đường chấm tới bông hoa | Nét thẳng: ngang, dọc, xiên, chữ V, mái nhà | Nét cong: cầu vồng, cái chén, sóng, cong hở phải/trái, vòng tròn | Nét kết hợp: móc (như n, u, m), răng cưa, vòng (như l), xoắn ốc; phải tô sát đường hơn |
 | Vào rừng tìm chữ / Forest letter hunt | Tab Chữ / Số. 10 màn, xe đi từ sáng sớm tới tối (trời tối có trăng, sao, đom đóm, đèn xe), mỗi màn qua một cổng rừng. Kéo xe (hoặc chạm phía trước); chạm bạn thú để viết chữ trên quả bóng; có màn ngẫu nhiên gặp bạn thú gặp nạn (mèo kẹt trên cây, thỏ rơi xuống hố, lửa trại, cây đổ, lạc trong đêm), viết đúng tên công cụ (thang, dây, xô, cưa, đèn) để cứu; tới cổng viết lại cả từ, từng chữ vào từng ô. Mọi thử thách đều là viết, không kéo thả chữ. Tiến độ màn lưu trên máy; qua màn 10 được cúp. Tiếng động cơ, tiếng chạm (tổng hợp bằng Web Audio, `audio/sfx.ts`). Cảnh làm bằng Phaser, chỉ tải khi mở trò | Từ 2–3 chữ / 3 số, viết cho lệch nhiều | (không có mức Vừa) | Từ 4–5 chữ / 5 số, viết phải sát nét |
@@ -123,6 +125,7 @@ File âm thanh của các trò khác:
 - Tìm màu: `colors-find-<red|blue|yellow|green|orange|purple>`
 - Xếp hình: `shapes-intro`, `shape-<circle|square|triangle|star>`
 - Nhiều hay ít: `compare-more`, `compare-less`
+- Phép cộng: `adding-intro`, `adding-ask`, `math-plus`, `math-equals` (cùng `number-1` … `number-10`)
 - Tập viết: `write-pick-letter`, `write-pick-number`, `write-watch`, `write-trace`
 - Tô theo nét: `trace-intro`, `trace-start`
 - Ghép quốc kỳ: `build-<MÃ NƯỚC>` cho cả 100 nước (tải khi mở trò)
