@@ -1,7 +1,6 @@
 // Nội dung của trò "Vào rừng tìm chữ": từ cần ghép (kèm hình minh hoạ) và dãy số cần xếp.
 //
-// Chữ trong từ phải là chữ có nét viết trong writing/glyphs.ts. Bộ nét chưa có dấu thanh
-// (sắc, huyền, hỏi, ngã, nặng) nên từ tiếng Việt ở đây đều là từ không có dấu thanh.
+// Chữ trong từ phải là chữ có nét viết trong writing/glyphs.ts (chữ thường, có cả dấu thanh).
 // Hình minh hoạ dùng emoji (hiện theo bộ emoji của máy).
 
 import type { Lang } from '../../i18n/strings'
@@ -21,6 +20,23 @@ export const WORDS: Record<Lang, { easy: Word[]; hard: Word[] }> = {
       { text: 'sao', picture: '⭐' },
       { text: 'xe', picture: '🚗' },
       { text: 'mưa', picture: '🌧️' },
+      { text: 'cá', picture: '🐟' },
+      { text: 'gà', picture: '🐔' },
+      { text: 'bò', picture: '🐄' },
+      { text: 'mèo', picture: '🐱' },
+      { text: 'thỏ', picture: '🐰' },
+      { text: 'gấu', picture: '🐻' },
+      { text: 'cáo', picture: '🦊' },
+      { text: 'vịt', picture: '🦆' },
+      { text: 'rùa', picture: '🐢' },
+      { text: 'cừu', picture: '🐑' },
+      { text: 'khỉ', picture: '🐒' },
+      { text: 'lá', picture: '🍃' },
+      { text: 'cây', picture: '🌳' },
+      { text: 'nấm', picture: '🍄' },
+      { text: 'táo', picture: '🍎' },
+      { text: 'nhà', picture: '🏠' },
+      { text: 'bút', picture: '✏️' },
     ],
     hard: [
       { text: 'chim', picture: '🐦' },
@@ -28,6 +44,13 @@ export const WORDS: Record<Lang, { easy: Word[]; hard: Word[] }> = {
       { text: 'hươu', picture: '🦌' },
       { text: 'trăng', picture: '🌙' },
       { text: 'khoai', picture: '🥔' },
+      { text: 'ngựa', picture: '🐴' },
+      { text: 'chuột', picture: '🐭' },
+      { text: 'bướm', picture: '🦋' },
+      { text: 'chuối', picture: '🍌' },
+      { text: 'sách', picture: '📖' },
+      { text: 'kẹo', picture: '🍬' },
+      { text: 'bánh', picture: '🍞' },
     ],
   },
   en: {

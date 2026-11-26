@@ -58,6 +58,7 @@ export function glyphBox(g: Glyph, kind: GlyphKind, minW = 0, tight = false) {
 }
 
 // Dấu phụ: mũ (â ê ô), dấu á (ă), râu (ơ ư). `top` là chân dấu.
+// Râu của ơ, ư (và Ơ, Ư) viết từ ngoài vào trong: đặt bút ở đầu râu phía trên bên phải, kéo về chạm thân chữ.
 const hat = (cx: number, top: number) => `M${cx - 5},${top} L${cx},${top - 6} L${cx + 5},${top}`
 const breve = (cx: number, top: number) => `M${cx - 5},${top - 5} C${cx - 4},${top} ${cx + 4},${top} ${cx + 5},${top - 5}`
 
@@ -134,7 +135,7 @@ const LOWER_VI: Glyph[] = [
   { id: 'n', char: 'n', w: 30, strokes: [`${HOOK_IN} L9,0 ${hump(9)}`] },
   { id: 'o', char: 'o', w: 14, strokes: [oval(7, -10, 7, 10)] },
   { id: 'ô', char: 'ô', w: 14, strokes: [oval(7, -10, 7, 10), hat(7, -24)] },
-  { id: 'ơ', char: 'ơ', w: 18, strokes: [oval(7, -10, 7, 10), 'M12,-17 C16,-17 18,-19 17,-23'] },
+  { id: 'ơ', char: 'ơ', w: 18, strokes: [oval(7, -10, 7, 10), 'M17,-23 C18,-19 16,-17 12,-17'] },
   { id: 'p', char: 'p', w: 27, strokes: ['M0,-12 L6,-20 L6,20 ' + hump(6)] },
   { id: 'q', char: 'q', w: 17, strokes: [A_BOWL, 'M16,-20 L16,20'] },
   // r: nét ngang ngắn rồi nét móc ngược; s: nét cong phải, cuối nét móc nhỏ hếch lên, không chạm nét hất.
@@ -142,7 +143,7 @@ const LOWER_VI: Glyph[] = [
   { id: 's', char: 's', w: 21, strokes: ['M0,0 L8,-21.5 C8.6,-24 7,-25.5 5.8,-24.5 C4.8,-23.5 6,-21.5 9,-21 C12.5,-18 17.5,-14 19.5,-10 C21.5,-5 18,0 13,0 C9,0 6,-2 5,-5'] },
   { id: 't', char: 't', w: 13, strokes: [`M6,-30 L6,-5 ${foot(6)}`, 'M1,-20 L12,-20'] },
   { id: 'u', char: 'u', w: 26, strokes: [`${U_BODY} L19,-5 ${foot(19)}`] },
-  { id: 'ư', char: 'ư', w: 26, strokes: [`${U_BODY} L19,-5 ${foot(19)}`, 'M19,-19 C23,-19 25,-21 24,-25'] },
+  { id: 'ư', char: 'ư', w: 26, strokes: [`${U_BODY} L19,-5 ${foot(19)}`, 'M24,-25 C25,-21 23,-19 19,-19'] },
   { id: 'v', char: 'v', w: 24, strokes: [`${HOOK_IN} L9,-7 C9,-2 12,0 14,0 C19,0 21,-6 21,-13 C21,-18 20,-20 19,-20 C17.5,-20 17.5,-17.5 20,-17 L24,-17.5`] },
   { id: 'x', char: 'x', w: 22, strokes: ['M1,-17 C3,-19.5 5.5,-20 7,-20 C9.5,-20 11,-16 11,-10 C11,-4 9,0 6,0 C3,0 1,-1.5 0,-3', 'M21,-17 C19,-19.5 16.5,-20 15,-20 C12.5,-20 11,-16 11,-10 C11,-4 13,0 16,0 C19,0 21,-1.5 22,-3'] },
   { id: 'y', char: 'y', w: 20, strokes: [`${U_BODY} L19,24 C19,28.5 16,30 13,30 C10,30 8,29 7,27`] },
@@ -190,7 +191,7 @@ const UPPER_VI: Glyph[] = [
   { id: 'N', char: 'N', w: 34, strokes: ['M5,0 L10,-50 L28,0 L32,-50'] },
   { id: 'O', char: 'O', w: 32, strokes: [U_O] },
   { id: 'Ô', char: 'Ô', w: 32, strokes: [U_O, U_HAT(17)] },
-  { id: 'Ơ', char: 'Ơ', w: 37, strokes: [U_O, 'M30,-38 C34,-38 37,-41 36,-46'] },
+  { id: 'Ơ', char: 'Ơ', w: 37, strokes: [U_O, 'M36,-46 C37,-41 34,-38 30,-38'] },
   { id: 'P', char: 'P', w: 28, strokes: ['M8,-50 L8,0', 'M8,-50 C22,-50 27,-44 27,-37 C27,-30 21,-25 8,-25'] },
   { id: 'Q', char: 'Q', w: 34, strokes: [U_O, 'M20,-9 C24,-5 28,0 34,2'] },
   {
@@ -202,7 +203,7 @@ const UPPER_VI: Glyph[] = [
   { id: 'S', char: 'S', w: 30, strokes: ['M28,-42 C25,-48.5 20,-50 16,-50 C9,-50 5,-45 5,-38 C5,-28 28,-25 28,-12 C28,-4 22,0 15,0 C9,0 5,-3 3,-8'] },
   { id: 'T', char: 'T', w: 32, strokes: [U_TOP_BAR(2, 32), 'M17,-50 L17,-5 C17,-1.5 15.5,0 13.5,0 C11.5,0 10,-1 9.5,-3'] },
   { id: 'U', char: 'U', w: 35, strokes: [U_U] },
-  { id: 'Ư', char: 'Ư', w: 35, strokes: [U_U, 'M28,-46 C33,-47 35,-50 34,-54'] },
+  { id: 'Ư', char: 'Ư', w: 35, strokes: [U_U, 'M34,-54 C35,-50 33,-47 28,-46'] },
   { id: 'V', char: 'V', w: 34, strokes: ['M3,-50 L17,0 L31,-50'] },
   { id: 'X', char: 'X', w: 32, strokes: ['M4,-50 L30,0', 'M30,-50 L4,0'] },
   { id: 'Y', char: 'Y', w: 30, strokes: ['M6,-50 L6,-16 C6,-5 11,0 17,0 C24,0 28,-6 28,-14 L28,-50 L28,24 C28,28.5 25,30 22,30 C19,30 17,29 16,27'] },
@@ -266,3 +267,73 @@ export const ALPHABET = {
     upper: byIds(UPPER_ALL, 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'),
   },
 } as const
+
+// ---------- Dấu thanh (chữ thường) ----------
+// Chữ có dấu thanh = nét của nguyên âm + một nét dấu, viết sau cùng (viết chữ trước, đánh dấu sau).
+// Dấu nằm trên nguyên âm (trên cả mũ của â, ê, ô và dấu á của ă); dấu nặng nằm dưới chân chữ.
+// Chữ i có dấu thì bỏ dấu chấm. Chiều viết từng dấu:
+//   sắc: nét xiên ngắn, từ trên bên phải xuống dưới bên trái;
+//   huyền: nét xiên ngắn, từ trên bên trái xuống dưới bên phải;
+//   hỏi: nét cong như nửa trên dấu hỏi, từ trái vòng sang phải rồi xuống;
+//   ngã: nét lượn sóng từ trái sang phải;
+//   nặng: một chấm (chạm).
+
+type Tone = 'sac' | 'huyen' | 'hoi' | 'nga' | 'nang'
+
+const TONE_MARKS: Record<string, Tone> = {
+  '́': 'sac',
+  '̀': 'huyen',
+  '̉': 'hoi',
+  '̃': 'nga',
+  '̣': 'nang',
+}
+
+/** Chỗ đặt dấu của từng nguyên âm: [x giữa, y chân dấu]. */
+const TONE_ANCHOR: Record<string, [number, number]> = {
+  a: [8, -24],
+  ă: [8, -32],
+  â: [8, -32],
+  e: [8, -24],
+  ê: [8, -32],
+  i: [6, -24],
+  o: [7, -24],
+  ô: [7, -32],
+  ơ: [7, -24],
+  u: [12.5, -24],
+  ư: [12.5, -24],
+  y: [12.5, -24],
+}
+
+function toneStroke(tone: Tone, cx: number, top: number): string {
+  switch (tone) {
+    case 'sac':
+      return `M${cx + 3},${top - 8} L${cx - 2},${top}`
+    case 'huyen':
+      return `M${cx - 3},${top - 8} L${cx + 2},${top}`
+    case 'hoi':
+      return `M${cx - 3},${top - 6} C${cx - 3},${top - 9} ${cx + 3},${top - 9.5} ${cx + 3},${top - 6.5} C${cx + 3},${top - 4.5} ${cx},${top - 4} ${cx},${top - 1}`
+    case 'nga':
+      return `M${cx - 5},${top - 3} C${cx - 3.5},${top - 7} ${cx - 1.5},${top - 7} ${cx},${top - 4.5} C${cx + 1.5},${top - 2} ${cx + 3.5},${top - 2} ${cx + 5},${top - 6}`
+    case 'nang':
+      return `M${cx},5 L${cx},5.5`
+  }
+}
+
+/**
+ * Nét viết của một chữ thường bất kỳ, kể cả chữ có dấu thanh (á, ầ, ở, ữ, ự…).
+ * Trả về undefined nếu chữ không có trong bộ nét.
+ */
+export function lowerGlyph(ch: string): Glyph | undefined {
+  const parts = [...ch.normalize('NFD')]
+  const tone = parts.map((c) => TONE_MARKS[c]).find(Boolean)
+  const base = parts.filter((c) => !TONE_MARKS[c]).join('').normalize('NFC')
+  const g = LOWER_ALL.find((x) => x.id === base)
+  if (!g || !tone) return tone ? undefined : g
+  const anchor = TONE_ANCHOR[base]
+  if (!anchor) return undefined
+  const strokes = base === 'i' ? [g.strokes[0]] : g.strokes
+  // y có nét kéo dài xuống dưới: dấu nặng đặt lệch sang trái, dưới nét hất đầu chữ.
+  const cx = tone === 'nang' && base === 'y' ? 3 : anchor[0]
+  const id = ch.normalize('NFC')
+  return { id, char: id, w: g.w, strokes: [...strokes, toneStroke(tone, cx, anchor[1])] }
+}

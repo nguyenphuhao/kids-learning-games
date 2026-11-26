@@ -1,7 +1,10 @@
 // Trang xem trước nét chữ (chỉ có ở bản dev): mở /#glyphs.
 // Mỗi nét một màu, số thứ tự ở điểm đặt bút, mũi tên nhỏ chỉ hướng viết.
 
-import { ALPHABET, glyphBox, NUMBERS, type Glyph, type GlyphKind } from './glyphs'
+import { ALPHABET, glyphBox, lowerGlyph, NUMBERS, type Glyph, type GlyphKind } from './glyphs'
+
+// Chữ có dấu thanh: mỗi nguyên âm với đủ 5 dấu.
+const TONED = [...'aăâeêioôơuưy'].flatMap((v) => ['\u0301', '\u0300', '\u0309', '\u0303', '\u0323'].map((t) => lowerGlyph(v + t)!))
 import { RuledLines } from './GlyphArt'
 
 const COLORS = ['#e53935', '#1e88e5', '#43a047', '#8e24aa']
@@ -42,6 +45,7 @@ export function GlyphPreview() {
   return (
     <div style={{ background: '#eee' }}>
       <div style={row}>{lower.map((g) => <Card key={g.id} g={g} kind="lower" />)}</div>
+      <div style={row}>{TONED.map((g) => <Card key={g.id} g={g} kind="lower" />)}</div>
       <div style={row}>{upper.map((g) => <Card key={g.id} g={g} kind="upper" />)}</div>
       <div style={row}>{NUMBERS.map((g) => <Card key={g.id} g={g} kind="number" />)}</div>
     </div>

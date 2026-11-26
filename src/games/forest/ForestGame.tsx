@@ -21,7 +21,7 @@ import { FinishScreen } from '../shared/Rewards'
 import { useSession, type GameProps } from '../shared/session'
 import { useLevel, type Level } from '../shared/useLevel'
 import { pick } from '../shared/util'
-import { ALPHABET, NUMBERS, type Glyph } from '../writing/glyphs'
+import { ALPHABET, lowerGlyph, NUMBERS, type Glyph } from '../writing/glyphs'
 import { glyphWidth, runFrame, type Frame } from './art'
 import { Writer, type Phase as WriterPhase } from '../writing/Writer'
 import '../writing/writing.css'
@@ -41,8 +41,9 @@ function makeRun(mode: Mode, level: Level, lang: Lang): Run {
     const items = numberRun(hard).map((c) => ({ char: c, kind: 'number' as const, glyph: NUMBERS.find((g) => g.id === c)! }))
     return { items, picture: null, hints: !hard, level, lang }
   }
-  const lower: readonly Glyph[] = ALPHABET[lang].lower
-  const find = (ch: string) => lower.find((g) => g.id === ch)
+  // Chữ thường của bảng chữ ngôn ngữ đang chọn; tiếng Việt có thêm chữ mang dấu thanh.
+  const plain: readonly Glyph[] = ALPHABET[lang].lower
+  const find = (ch: string) => (lang === 'vi' ? lowerGlyph(ch) : plain.find((g) => g.id === ch))
   // Chỉ lấy từ mà mọi chữ đều có nét viết.
   const words = WORDS[lang][hard ? 'hard' : 'easy'].filter((w) => [...w.text.normalize('NFC')].every((ch) => find(ch)))
   const word = pick(words)
