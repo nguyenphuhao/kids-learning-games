@@ -66,7 +66,7 @@ Trong trò ghép cờ, mảnh nhiễu cắt từ cờ nước khác (cùng nhóm
 
 ### Tập viết chữ, tập viết số
 
-- Kiểu chữ: dáng chữ viết tay đứng của mẫu chữ lớp 1 ở Việt Nam nhưng đơn giản hơn cho bé nhỏ: không có nét khuyết (b, h, k, l, g, y dùng nét thẳng), chữ hoa không có vòng xoắn, chỉ giữ móc nhỏ ở chân chữ (a, i, u…). Riêng r và s giữ vòng thắt nhỏ ở đầu chữ như mẫu. Hình nét do app tự vẽ, không lấy từ font.
+- Kiểu chữ: dáng chữ viết tay đứng của mẫu chữ lớp 1 ở Việt Nam nhưng đơn giản hơn cho bé nhỏ: không có nét khuyết (b, h, k, l, g, y dùng nét thẳng), chữ hoa không có vòng xoắn, chỉ giữ móc nhỏ ở chân chữ (a, i, u…). Riêng r và s giữ vòng thắt nhỏ bên trái đầu nét hất như mẫu; cuối nét s móc nhỏ hếch lên, không chạm nét hất. Hình nét do app tự vẽ, không lấy từ font.
 - Bảng chữ theo ngôn ngữ: tiếng Việt 29 chữ (có ă â đ ê ô ơ ư), tiếng Anh 26 chữ (f, j, w, z vẽ cùng kiểu). Chữ hoa và chữ thường ở hai tab.
 - Chữ nằm trên dòng kẻ như vở ô li (1 li = 10 đơn vị): chữ thường cao 2 li; b, g, h, k, l, y cao 5 li; d, đ, p, q 4 li; t 3 li; chữ hoa 5 li; chữ số 4 li.
 - Mở một chữ: hoạt ảnh vẽ từng nét theo thứ tự (chấm cam là đầu bút, số ở điểm đặt bút). Xong thì bé tô theo: đặt tay vào chấm có số, kéo theo hướng mũi tên; nét chỉ tiến lên khi ngón tay đi đúng đường và đúng chiều. Nhấc tay giữa chừng thì phần đã tô vẫn giữ. Đặt tay sai chỗ thì game nhắc "Thử lại nhé!".
