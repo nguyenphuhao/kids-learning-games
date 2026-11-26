@@ -44,6 +44,10 @@ const ANIMAL_STEP = 1000
 const STOP_GAP = 270 // xe dừng cách bạn thú chừng này
 const SPEED = 520 // đơn vị / giây
 const GLYPH_H = 120
+// Đèn trên mái cổng rừng (so với tâm cổng) và lúc bảng xếp chữ hiện ra.
+const GATE_LIGHTS = [-112, 0, 112]
+const GATE_LIGHT_Y = 373
+const BOARD_DELAY_MS = 1500
 const CAR_BODY_Y = -22 // chân thân xe (so với mặt đường dưới bánh)
 
 type Animal = {
@@ -533,6 +537,24 @@ export class ForestScene extends Phaser.Scene {
 
   private startBuild() {
     this.phase = 'build'
+    // Camera trượt cho cổng vào giữa màn, đèn trên cổng lấp lánh; một lúc sau mới hiện bảng xếp chữ
+    // để bé kịp thấy cả cổng.
+    const vw = this.viewW()
+    this.tweens.addCounter({
+      from: this.camX,
+      to: Phaser.Math.Clamp(this.gateX, vw / 2, this.worldW - vw / 2),
+      duration: 800,
+      ease: 'Sine.inOut',
+      onUpdate: (tw) => {
+        this.camX = tw.getValue() ?? this.camX
+        this.cameras.main.centerOn(this.camX, H / 2)
+      },
+    })
+    GATE_LIGHTS.forEach((dx, i) => this.time.delayedCall(250 + i * 250, () => this.sparks(this.gateX + dx, GATE_LIGHT_Y, 0xfff59d, 8)))
+    this.time.delayedCall(BOARD_DELAY_MS, () => this.showBoard())
+  }
+
+  private showBoard() {
     this.cfg.onEvent({ type: 'arrive' })
     this.board = this.add.container(0, 0).setDepth(6000)
     const bg = this.add.graphics()
