@@ -2,6 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
+// Sau App để bố cục máy tính đè lên CSS của từng trò.
+import './desktop.css'
 
 const root = createRoot(document.getElementById('root')!)
 const preview = import.meta.env.DEV ? /^#art=(\w+)/.exec(location.hash) : null

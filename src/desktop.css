@@ -1,0 +1,134 @@
+/* Máy tính (chuột, màn rộng). Nạp sau mọi file CSS khác (xem main.tsx) để đè lên bố cục iPad.
+   "hover: hover" và "pointer: fine" loại iPad / điện thoại cảm ứng, nên bố cục iPad giữ nguyên. */
+
+/* Rê chuột lên nút: nút nhích lên một chút để bé biết bấm được. */
+@media (hover: hover) and (pointer: fine) {
+  .game-tile,
+  .story-card {
+    transition: transform 0.12s, box-shadow 0.12s;
+  }
+
+  .game-tile:hover,
+  .story-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 0 rgb(0 0 0 / 12%);
+  }
+
+  .back-button,
+  .music-button,
+  .g-prompt,
+  .g-answer,
+  .w-tile,
+  .w-actions button,
+  .g-finish-buttons button {
+    transition: transform 0.12s, filter 0.12s;
+  }
+
+  .back-button:hover,
+  .music-button:hover,
+  .g-prompt:hover,
+  .g-answer:hover,
+  .w-tile:hover,
+  .w-actions button:hover:not(:disabled),
+  .g-finish-buttons button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.04);
+  }
+
+  .home-tab:not(.active):hover,
+  .lang-toggle button:not(.active):hover,
+  .g-levels button:not(.active):hover,
+  .w-tabs button:not(.active):hover {
+    background: rgb(255 179 0 / 25%);
+  }
+}
+
+/* Trang chủ: 3 hàng ô trò chơi vừa một màn hình máy tính (không phải cuộn). */
+@media (hover: hover) and (pointer: fine) and (min-width: 1000px) {
+  .game-icon svg {
+    width: clamp(90px, 13vh, 140px);
+    height: clamp(90px, 13vh, 140px);
+  }
+}
+
+/* Màn chơi trên máy tính: vẫn hai cột như iPad xoay ngang, nhưng
+   - thanh trên (←, tên trò, ♫) canh theo bề ngang của phần chơi, không dạt ra hai mép màn hình;
+   - cột trái (câu yêu cầu, mức chơi, sao, nút trả lời) to hơn cho màn lớn;
+   - bảng chữ / số của trò tập viết lấp đầy cột phải. */
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) and (min-aspect-ratio: 5/4) {
+  .game-screen:has(.g-game, .flag-drive) .game-header {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto 12px;
+  }
+
+  .game-screen:has(.g-game, .flag-drive) .game-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .game-body .g-game,
+  .game-body .flag-drive {
+    grid-template-columns: minmax(340px, 32%) 1fr;
+    column-gap: 32px;
+    row-gap: 20px;
+  }
+
+  .game-body .g-prompt {
+    min-height: 140px;
+    padding: 14px 24px;
+    font-size: clamp(1.6rem, 1.1rem + 0.6vw, 2.1rem);
+  }
+
+  .game-body .g-speaker {
+    font-size: 2.2rem;
+  }
+
+  .game-body .g-levels button {
+    min-height: 64px;
+    font-size: 1.25rem;
+  }
+
+  .game-body .g-stars {
+    font-size: 2.8rem;
+  }
+
+  .game-body .g-answers {
+    gap: 20px;
+  }
+
+  .game-body .g-answer {
+    width: 112px;
+    height: 112px;
+    font-size: 3.3rem;
+  }
+
+  /* Tập viết: ô chữ / ô số to, bảng canh giữa theo chiều dọc. */
+  .game-body .w-board {
+    /* Ô co theo chiều cao màn hình để cả 29 chữ vừa một màn, không phải cuộn. */
+    grid-template-columns: repeat(auto-fill, minmax(clamp(72px, 9vh, 130px), 1fr));
+    gap: 14px;
+    /* safe: nếu bảng cao hơn khung thì canh trên, không bị cắt mất hàng đầu. */
+    align-content: safe center;
+  }
+
+  .game-body .w-board.numbers {
+    grid-template-columns: repeat(5, minmax(0, min(180px, 24vh)));
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .game-body .w-tile {
+    border-radius: 18px;
+  }
+
+  .game-body .w-tabs button {
+    min-height: 64px;
+    font-size: 1.5rem;
+  }
+
+  .game-body .w-actions button {
+    width: 96px;
+    height: 76px;
+    font-size: 2.1rem;
+  }
+}
