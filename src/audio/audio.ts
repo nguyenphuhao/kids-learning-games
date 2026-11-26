@@ -68,6 +68,8 @@ function load(url: string): Promise<AudioBuffer | null> {
     p = !a
       ? Promise.resolve(null)
       : fetch(url)
+          // Lỗi (ví dụ 404 trình duyệt còn nhớ từ lúc file chưa được đưa lên): hỏi lại máy chủ, bỏ qua bộ nhớ đệm.
+          .then((r) => (r.ok ? r : fetch(url, { cache: 'reload' })))
           .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(String(r.status)))))
           .then((data) => a.ctx.decodeAudioData(data))
           .catch(() => {
