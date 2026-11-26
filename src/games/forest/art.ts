@@ -1,8 +1,8 @@
 // Hình của trò "Vào rừng tìm chữ".
-// - Bạn thú, xe, bánh xe, cây cối, mây, bóng bay, đồi nền: ảnh WebP trong public/assets/forest/
+// - Bạn thú, xe, bánh xe, cây cối, mây, bóng bay, cổng rừng, đồi nền: ảnh WebP trong public/assets/forest/
 //   (tạo bằng ChatGPT theo prompt của dự án, cắt sát viền và thu nhỏ). Ảnh vẽ gấp đôi kích thước
 //   trong thế giới game (RES = 2 trong ForestScene), riêng đồi nền thì co giãn theo cảnh.
-// - Cổng rừng, tia sáng, trái tim và chữ / số: vẽ bằng SVG ở đây rồi nạp làm texture.
+// - Tia sáng, trái tim và chữ / số: vẽ bằng SVG ở đây rồi nạp làm texture.
 // Kích thước trong viewBox của SVG = kích thước trong thế giới game (cảnh cao 900 đơn vị).
 
 import { glyphBox, type Glyph, type GlyphKind } from '../writing/glyphs'
@@ -29,6 +29,7 @@ export const IMAGE_KEYS = [
   'butterfly',
   'balloon',
   'hills',
+  'gate',
 ] as const
 
 export const imageUrl = (key: string) => `/assets/forest/${key}.webp`
@@ -48,19 +49,7 @@ export const SVG_ART: Art[] = [
     h: 30,
     svg: svg(34, 30, `<path d="M17 29 C-6 14 2 -4 17 7 C32 -4 40 14 17 29 Z" fill="#ff6b8b"/>`),
   },
-  {
-    key: 'gate',
-    w: 420,
-    h: 420,
-    svg: svg(
-      420,
-      420,
-      `<rect x="40" y="60" width="34" height="360" rx="10" fill="#a1887f"/>
-       <rect x="346" y="60" width="34" height="360" rx="10" fill="#a1887f"/>
-       <path d="M20 70 Q210 -10 400 70 L400 120 Q210 40 20 120 Z" fill="#8d6e63"/>
-       <circle cx="80" cy="96" r="10" fill="#ffd54f"/><circle cx="210" cy="56" r="10" fill="#ff8a80"/><circle cx="340" cy="96" r="10" fill="#81d4fa"/>`,
-    ),
-  },
+
 ]
 
 // ---------- Chữ / số (dùng nét viết của trò tập viết) ----------

@@ -266,7 +266,7 @@ export class ForestScene extends Phaser.Scene {
 
   private makeGate() {
     // Cổng nằm sau xe (xe chạy qua giữa hai cột).
-    this.img('gate', this.gateX, ROAD_BOTTOM + 10).setDepth(CAR_Y - 10)
+    this.img('gate', this.gateX, ROAD_BOTTOM - 30).setDepth(CAR_Y - 10)
   }
 
   // ---------- Hiệu ứng ----------
