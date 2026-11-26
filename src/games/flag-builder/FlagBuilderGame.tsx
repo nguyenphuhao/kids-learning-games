@@ -13,7 +13,7 @@ import { FinishScreen, StarBar } from '../shared/Rewards'
 import { useSession, type GameProps } from '../shared/session'
 import { useLevel, type Level } from '../shared/useLevel'
 import { CELEBRATE_MS, svgPoint } from '../shared/util'
-import { FH, FW, TRAY_SIZE, kindOf, makeBuildRound, showModel, type BuildRound } from './designs'
+import { FH, FW, kindOf, traySize, makeBuildRound, showModel, type BuildRound } from './designs'
 import { PieceArt } from './PieceArt'
 
 type Point = { x: number; y: number }
@@ -182,7 +182,7 @@ export function FlagBuilderGame({ id, onExit }: GameProps) {
         <rect x="8" y="250" width="284" height="142" rx="18" fill="#ffe0b2" />
         {round.pieces.map((piece, i) => {
           if (used[i]) return null
-          const size = TRAY_SIZE[kindOf(piece)]
+          const size = traySize(piece)
           const at = home(i)
           return (
             <g

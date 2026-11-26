@@ -20,6 +20,8 @@ export const PIECE_IDS = [
   'emblem:circle-blue',
   'emblem:leaf-red',
   'emblem:taegeuk',
+  'emblem:kr-bars',
+  'emblem:cn-small',
   'emblem:diamond',
   // Không có sọc vàng: quá giống sọc vàng nghệ của cờ Đức.
   ...COLORS.filter((c) => c !== 'yellow').flatMap((c) => [`stripe-v:${c}`, `stripe-h:${c}`]),
@@ -37,6 +39,9 @@ export const TRAY_SIZE: Record<PieceKind, { w: number; h: number }> = {
   'stripe-h': { w: 60, h: 15 },
 }
 
+/** Kích thước một mảnh trong khay (mảnh 4 quẻ của cờ Hàn Quốc là hình chữ nhật). */
+export const traySize = (id: string) => (id === 'emblem:kr-bars' ? { w: 60, h: 40 } : TRAY_SIZE[kindOf(id)])
+
 // Khung cờ rộng 240 x cao 160.
 export const FW = 240
 export const FH = 160
@@ -52,9 +57,25 @@ const hStripes = (a: string, b: string, c: string): Slot[] =>
 
 export const DESIGNS: Record<string, FlagDesign> = {
   VN: { code: 'VN', slots: [full('base:red'), { accepts: 'emblem:star-yellow', x: 82, y: 42, w: 76, h: 76 }] },
-  CN: { code: 'CN', slots: [full('base:red'), { accepts: 'emblem:star-yellow', x: 16, y: 12, w: 56, h: 56 }] },
+  // Sao lớn: hình STAR trong PieceArt có tâm (50, 50) và bán kính 44 → bán kính 24px, tâm (40, 40).
+  CN: {
+    code: 'CN',
+    slots: [
+      full('base:red'),
+      { accepts: 'emblem:star-yellow', x: 40 - 50 * (24 / 44), y: 40 - 50 * (24 / 44), w: 100 * (24 / 44), h: 100 * (24 / 44) },
+      { accepts: 'emblem:cn-small', x: 70, y: 6, w: 36, h: 76 },
+    ],
+  },
   JP: { code: 'JP', slots: [full('base:white'), { accepts: 'emblem:circle-red', x: 76, y: 36, w: 88, h: 88 }] },
-  KR: { code: 'KR', slots: [full('base:white'), { accepts: 'emblem:taegeuk', x: 76, y: 36, w: 88, h: 88 }] },
+  // Vòng Thái cực đường kính bằng nửa chiều cao cờ (80px), ở chính giữa; 4 quẻ ở 4 góc.
+  KR: {
+    code: 'KR',
+    slots: [
+      full('base:white'),
+      { accepts: 'emblem:kr-bars', x: 0, y: 0, w: FW, h: FH },
+      { accepts: 'emblem:taegeuk', x: 120 - 40 / 0.92, y: 80 - 40 / 0.92, w: 80 / 0.92, h: 80 / 0.92 },
+    ],
+  },
   CA: { code: 'CA', slots: [full('base:ca'), { accepts: 'emblem:leaf-red', x: 80, y: 40, w: 80, h: 80 }] },
   BR: { code: 'BR', slots: [full('base:green'), { accepts: 'emblem:diamond', x: 20, y: 14, w: 200, h: 132 }] },
   FR: { code: 'FR', slots: vStripes('blue', 'white', 'red') },
