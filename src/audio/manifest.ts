@@ -5,6 +5,7 @@
 
 const COLORS = ['red', 'blue', 'yellow', 'green', 'orange', 'purple']
 const SHAPES = ['circle', 'square', 'triangle', 'star']
+const ANIMALS = ['dog', 'pig', 'cow', 'duck', 'elephant', 'giraffe', 'monkey', 'panda', 'rabbit', 'frog', 'penguin', 'zebra']
 
 export const AUDIO_KEYS: string[] = [
   'common-great',
@@ -26,4 +27,6 @@ export const AUDIO_KEYS: string[] = [
   'write-trace',
   'trace-intro',
   'trace-start',
+  'memory-intro',
+  ...ANIMALS.map((a) => `animal-${a}`),
 ]

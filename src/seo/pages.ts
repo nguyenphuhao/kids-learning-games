@@ -59,6 +59,10 @@ const GAME_DESCRIPTIONS: Record<GameId, Record<Lang, string>> = {
     vi: 'Bé lái xe vào rừng, viết chữ để nhận chữ từ các bạn thú, rồi xếp chữ thành từ.',
     en: 'Drive into the forest, write letters for the animal friends, then build the word.',
   },
+  memory: {
+    vi: 'Bé lật thẻ tìm hai con vật giống nhau, nghe tên con vật bằng tiếng Việt và tiếng Anh.',
+    en: 'Flip the cards to find matching animal pairs and hear each animal name.',
+  },
 }
 
 /** Mọi trò chơi (Record<GameId> bắt buộc khai báo đủ mô tả cho trò mới). */

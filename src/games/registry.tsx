@@ -5,6 +5,7 @@ import { ColorsGame } from './colors/ColorsGame'
 import { CompareGame } from './compare/CompareGame'
 import { CountingGame } from './counting/CountingGame'
 import { FlagBuilderGame } from './flag-builder/FlagBuilderGame'
+import { MemoryGame } from './memory/MemoryGame'
 import { FlagDriveGame } from './flag-drive/FlagDriveGame'
 import { ForestGame } from './forest/ForestGame'
 import type { GameProps } from './shared/session'
@@ -12,7 +13,7 @@ import { ShapesGame } from './shapes/ShapesGame'
 import { TracingGame } from './tracing/TracingGame'
 import { LettersGame, NumbersGame } from './writing/WritingGame'
 
-export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags' | 'builder' | 'tracing' | 'letters' | 'numbers' | 'forest'
+export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags' | 'builder' | 'tracing' | 'letters' | 'numbers' | 'forest' | 'memory'
 
 export type GameDef = {
   id: GameId
@@ -127,8 +128,21 @@ const forestIcon = (
   </svg>
 )
 
+// Biểu tượng trò lật thẻ: một thẻ úp và hai thẻ ngửa cùng con heo (hình Kenney).
+const memoryIcon = (
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <rect x="6" y="30" width="28" height="40" rx="6" fill="#ff8a3d" stroke="#fff" strokeWidth="3" />
+    <text x="20" y="57" textAnchor="middle" fontSize="20" fontWeight="800" fill="#fff">?</text>
+    <rect x="36" y="22" width="28" height="40" rx="6" fill="#fff" stroke="#66bb6a" strokeWidth="3" />
+    <image href="/assets/kenney/animal-pack/pig.png" x="39" y="30" width="22" height="22" />
+    <rect x="66" y="38" width="28" height="40" rx="6" fill="#fff" stroke="#66bb6a" strokeWidth="3" />
+    <image href="/assets/kenney/animal-pack/pig.png" x="69" y="46" width="22" height="22" />
+  </svg>
+)
+
 export const GAMES: GameDef[] = [
   { id: 'forest', color: '#c5e8c0', icon: forestIcon, component: ForestGame },
+  { id: 'memory', color: '#ffccbc', icon: memoryIcon, component: MemoryGame },
   { id: 'flags', color: '#d1c4e9', icon: flagsIcon, component: FlagDriveGame },
   { id: 'builder', color: '#ffe0b2', icon: builderIcon, component: FlagBuilderGame },
   { id: 'counting', color: '#ffcdd2', icon: countingIcon, component: CountingGame },

@@ -1,0 +1,111 @@
+/* Trò lật thẻ tìm cặp. Thẻ vuông, to nhất có thể trong vùng chơi;
+   vùng chơi nằm dọc thì đổi số cột/hàng (--cols-port, --rows-port). */
+.memory-scene {
+  container-type: size;
+  background: #e8f5e9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.memory-grid {
+  --gap: 12px;
+  --cols: var(--cols-land);
+  --rows: var(--rows-land);
+  --size: min(
+    (100cqw - (var(--cols) + 1) * var(--gap)) / var(--cols),
+    (100cqh - (var(--rows) + 1) * var(--gap)) / var(--rows),
+    220px
+  );
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--size));
+  grid-auto-rows: var(--size);
+  gap: var(--gap);
+}
+
+@container (aspect-ratio < 1) {
+  .memory-grid {
+    --cols: var(--cols-port);
+    --rows: var(--rows-port);
+  }
+}
+
+.memory-card {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background: none;
+  border: none;
+  perspective: 800px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.memory-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease;
+}
+
+.memory-card.up .memory-inner {
+  transform: rotateY(180deg);
+}
+
+.memory-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 18%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: 0 4px 0 rgb(0 0 0 / 15%);
+}
+
+/* Mặt sau: nền cam có chấm bi và dấu hỏi. */
+.memory-back {
+  background:
+    radial-gradient(circle at 50% 50%, rgb(255 255 255 / 85%) 0 22%, transparent 23%),
+    radial-gradient(circle, rgb(255 255 255 / 25%) 0 12%, transparent 13%) 0 0 / 25% 25%,
+    #ff8a3d;
+  border: 4px solid #fff;
+}
+
+.memory-back::after {
+  content: '?';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: calc(var(--size) * 0.3);
+  font-weight: 800;
+  color: #ff8a3d;
+}
+
+.memory-front {
+  transform: rotateY(180deg);
+  background: #fff;
+  border: 4px solid #fff;
+  display: grid;
+  place-items: center;
+}
+
+.memory-front img {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.memory-card.matched .memory-front {
+  border-color: #66bb6a;
+  background: #f1f8e9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .memory-inner {
+    transition: none;
+  }
+}

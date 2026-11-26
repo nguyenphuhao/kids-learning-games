@@ -31,6 +31,7 @@ src/
   games/flag-builder/      Trò "Ghép quốc kỳ" (cắt mảnh và mức chơi trong puzzle.ts, vẽ mảnh trong FlagPiece.tsx)
   games/writing/           Trò "Tập viết chữ" và "Tập viết số" (nét chữ trong glyphs.ts, khung tô trong Writer.tsx)
   games/tracing/           Trò "Tô theo nét" (các nét và mức chơi trong strokes.ts)
+  games/memory/            Trò "Lật thẻ tìm cặp" (danh sách con vật trong animals.ts)
   games/flag-drive/        Trò "Lái xe tìm cờ" (100 nước và các vòng trong countries.ts, cảnh nền trong themes.ts + Scenery.tsx)
   i18n/strings.ts          Chữ giao diện VI/EN
   i18n/                   Ngôn ngữ hiện tại (LanguageProvider, useLanguage)
@@ -44,6 +45,7 @@ public/
   assets/flags             100 lá cờ cho trò lái xe, từ bộ flag-icons (MIT, kèm LICENSE.txt)
   assets/forest            Hình trò Vào rừng tìm chữ (WebP), tạo bằng ChatGPT theo prompt của dự án
     racing-pack/           Xe ô tô
+    animal-pack/           12 con vật trên thẻ của trò Lật thẻ tìm cặp (Animal Pack Redux)
 ```
 
 ## Chia sẻ và SEO
@@ -61,6 +63,7 @@ Mỗi lượt chơi gồm 5 câu; mỗi câu đúng thêm một ngôi sao trên 
 
 | Trò | Cách chơi | Dễ | Vừa | Khó |
 |---|---|---|---|---|
+| Lật thẻ tìm cặp / Memory match | Các thẻ úp; bé chạm lật hai thẻ, giọng đọc tên con vật trên thẻ (VI/EN). Hai thẻ cùng con vật thì giữ ngửa (viền xanh, tiếng chuông); khác nhau thì để ngửa 1,2 giây rồi úp lại, không nhắc "Thử lại nhé!" vì lật sai là một phần của trò. Tìm hết các cặp được một sao, sang bàn mới với con vật khác. Thẻ tự xếp lại số cột khi màn hình dọc/ngang | 3 cặp (6 thẻ) | 4 cặp (8 thẻ) | 6 cặp (12 thẻ) |
 | Lái xe tìm cờ / Flag drive | Kéo xe theo đường tới lá cờ đúng, hoặc chạm thẳng vào lá cờ | Bắt đầu từ vòng 1 | Bắt đầu từ vòng 3 | Bắt đầu từ vòng 5 (xem mục bên dưới) |
 | Ghép quốc kỳ / Build a flag | Hình cờ thật được cắt thành các mảnh như tranh xếp hình; kéo từng mảnh từ khay vào đúng ô trong khung | Có cờ mẫu; 2 mảnh (trái/phải) + 1 mảnh nhiễu; 20 nước quen thuộc | Có cờ mẫu; 4 mảnh (2×2) + 2 mảnh nhiễu; 50 nước | Không có mẫu; 6 mảnh (3×2) + 2 mảnh nhiễu; cả 100 nước |
 | Đếm đồ vật / Counting | Chạm từng quả táo (giọng đọc đếm theo), rồi chọn đúng số | 1–3 quả | 1–6 quả | 1–10 quả |
@@ -123,6 +126,7 @@ File âm thanh của các trò khác:
 - Tập viết: `write-pick-letter`, `write-pick-number`, `write-watch`, `write-trace`
 - Tô theo nét: `trace-intro`, `trace-start`
 - Ghép quốc kỳ: `build-<MÃ NƯỚC>` cho cả 100 nước (tải khi mở trò)
+- Lật thẻ tìm cặp: `memory-intro`, `animal-<dog|pig|cow|duck|elephant|giraffe|monkey|panda|rabbit|frog|penguin|zebra>`
 
 ## Màn hình iPad
 

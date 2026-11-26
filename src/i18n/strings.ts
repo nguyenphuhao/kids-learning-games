@@ -28,6 +28,7 @@ export const strings = {
       numbers: 'Tập viết số',
       tracing: 'Tô theo nét',
       forest: 'Vào rừng tìm chữ',
+      memory: 'Lật thẻ tìm cặp',
     },
     tabs: {
       stories: 'Truyện',
@@ -101,6 +102,24 @@ export const strings = {
       intro: 'Bé đặt ngón tay lên chú ong, rồi đi theo đường chấm tới bông hoa nhé!',
       start: 'Bé bắt đầu từ chú ong nhé!',
     },
+    memory: {
+      intro: 'Bé lật thẻ, tìm hai bạn giống nhau nhé!',
+      card: 'Thẻ úp',
+      names: {
+        dog: 'Con chó',
+        pig: 'Con heo',
+        cow: 'Con bò',
+        duck: 'Con vịt',
+        elephant: 'Con voi',
+        giraffe: 'Hươu cao cổ',
+        monkey: 'Con khỉ',
+        panda: 'Gấu trúc',
+        rabbit: 'Con thỏ',
+        frog: 'Con ếch',
+        penguin: 'Chim cánh cụt',
+        zebra: 'Ngựa vằn',
+      },
+    },
     forest: {
       letters: 'Chữ',
       numbers: 'Số',
@@ -141,6 +160,7 @@ export const strings = {
       numbers: 'Write numbers',
       tracing: 'Trace the dots',
       forest: 'Forest letter hunt',
+      memory: 'Memory match',
     },
     tabs: {
       stories: 'Stories',
@@ -213,6 +233,24 @@ export const strings = {
     tracing: {
       intro: 'Put your finger on the bee and follow the dots to the flower!',
       start: 'Start from the bee!',
+    },
+    memory: {
+      intro: 'Flip the cards and find two that match!',
+      card: 'Face-down card',
+      names: {
+        dog: 'Dog',
+        pig: 'Pig',
+        cow: 'Cow',
+        duck: 'Duck',
+        elephant: 'Elephant',
+        giraffe: 'Giraffe',
+        monkey: 'Monkey',
+        panda: 'Panda',
+        rabbit: 'Rabbit',
+        frog: 'Frog',
+        penguin: 'Penguin',
+        zebra: 'Zebra',
+      },
     },
     forest: {
       letters: 'Letters',
