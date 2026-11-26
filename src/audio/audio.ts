@@ -51,14 +51,33 @@ function getAudio(): Ctx | null {
 
 /** Mở khoá âm thanh. Gọi trong sự kiện chạm/bấm (trình duyệt chỉ cho phép lúc đó). */
 export function unlockAudio(): void {
+  if (document.hidden) return
   const a = getAudio()
   if (a && a.ctx.state !== 'running') a.ctx.resume().catch(() => {})
+}
+
+// Ẩn app (chuyển ứng dụng, khoá màn hình, đóng tab): tạm dừng mọi âm thanh.
+// Mở lại app: phát tiếp nhạc nền/câu thoại đang dở.
+let fallbackPaused: HTMLAudioElement[] = []
+function onHide() {
+  audio?.ctx.suspend().catch(() => {})
+  fallbackPaused = [fallbackVoice, fallbackMusic].filter((el): el is HTMLAudioElement => !!el && !el.paused)
+  fallbackPaused.forEach((el) => el.pause())
+}
+function onShow() {
+  if (document.hidden) return
+  audio?.ctx.resume().catch(() => {})
+  fallbackPaused.forEach((el) => el.play().catch(() => {}))
+  fallbackPaused = []
 }
 
 // Mỗi lần chạm đều thử mở khoá (iOS có thể tạm dừng âm thanh khi chuyển ứng dụng).
 if (typeof document !== 'undefined') {
   document.addEventListener('pointerdown', unlockAudio, { capture: true })
   document.addEventListener('keydown', unlockAudio, { capture: true })
+  document.addEventListener('visibilitychange', () => (document.hidden ? onHide() : onShow()))
+  window.addEventListener('pagehide', onHide)
+  window.addEventListener('pageshow', onShow)
 }
 
 function load(url: string): Promise<AudioBuffer | null> {
@@ -138,7 +157,7 @@ export function playLine(lang: Lang, key: string, onEnd?: () => void): void {
       if (onEnd) window.setTimeout(onEnd, 1500)
       return
     }
-    if (a.ctx.state !== 'running') a.ctx.resume().catch(() => {})
+    if (a.ctx.state !== 'running' && !document.hidden) a.ctx.resume().catch(() => {})
     const src = a.ctx.createBufferSource()
     src.buffer = buffer
     src.connect(a.voiceGain)
