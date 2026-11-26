@@ -2,8 +2,7 @@
 //
 // Chữ trong từ phải là chữ có nét viết trong writing/glyphs.ts. Bộ nét chưa có dấu thanh
 // (sắc, huyền, hỏi, ngã, nặng) nên từ tiếng Việt ở đây đều là từ không có dấu thanh.
-// Hình minh hoạ tạm dùng emoji (hiện theo bộ emoji của máy).
-// DANH SÁCH TẠM: chờ phụ huynh / người làm game duyệt lại.
+// Hình minh hoạ dùng emoji (hiện theo bộ emoji của máy).
 
 import type { Lang } from '../../i18n/strings'
 

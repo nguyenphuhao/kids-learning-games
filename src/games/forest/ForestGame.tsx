@@ -30,7 +30,7 @@ import { numberRun, WORDS } from './words'
 import './forest.css'
 
 type Mode = 'letters' | 'numbers'
-type Stage = 'drive' | 'meet' | 'gate' | 'build' | 'done'
+type Stage = 'drive' | 'meet' | 'gate' | 'atGate' | 'build' | 'done'
 type Run = { items: ForestItem[]; picture: string | null; hints: boolean; level: Level; lang: Lang }
 
 const LEVELS: Level[] = ['easy', 'hard']
@@ -99,7 +99,8 @@ export function ForestGame({ id, onExit }: GameProps) {
       const next = [...collected, e.index]
       setCollected(next)
       setStage(next.length >= run.items.length ? 'gate' : 'drive')
-    } else if (e.type === 'arrive') setStage('build')
+    } else if (e.type === 'atGate') setStage('atGate')
+    else if (e.type === 'arrive') setStage('build')
     else if (e.type === 'wrong') sayRetry()
     else if (e.type === 'complete') {
       setStage('done')
@@ -210,19 +211,14 @@ export function ForestGame({ id, onExit }: GameProps) {
           : retry
             ? `${t.common.retry} ${t.writing.trace}`
             : t.writing.trace
-      : stage === 'meet'
-        ? t.forest.meet
-        : stage === 'gate'
-          ? t.forest.gate
-          : stage === 'build'
-            ? numbers
-              ? t.forest.buildNumbers
-              : t.forest.build
-            : stage === 'done'
-              ? t.common.great
-              : numbers
-                ? t.forest.driveNumbers
-                : t.forest.drive
+      : {
+          drive: numbers ? t.forest.driveNumbers : t.forest.drive,
+          meet: t.forest.meet,
+          gate: t.forest.gate,
+          atGate: t.forest.atGate,
+          build: numbers ? t.forest.buildNumbers : t.forest.build,
+          done: t.common.great,
+        }[stage]
 
   const replay = () => {
     if (item === null) return

@@ -18,6 +18,7 @@ export type ForestEvent =
   | { type: 'meet' }
   | { type: 'challenge'; index: number }
   | { type: 'collected'; index: number }
+  | { type: 'atGate' }
   | { type: 'arrive' }
   | { type: 'wrong' }
   | { type: 'complete' }
@@ -552,6 +553,7 @@ export class ForestScene extends Phaser.Scene {
 
   private startBuild() {
     this.phase = 'build'
+    this.cfg.onEvent({ type: 'atGate' })
     // Camera trượt cho cổng vào giữa màn, đèn trên cổng lấp lánh; một lúc sau mới hiện bảng xếp chữ
     // để bé kịp thấy cả cổng.
     const vw = this.viewW()
