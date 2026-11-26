@@ -118,3 +118,113 @@
     animation: none;
   }
 }
+
+/* Khung chung: nội dung chiếm phần còn lại của màn hình. */
+.w-game {
+  max-width: 760px;
+}
+
+.w-main {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.w-canvas,
+.w-tile {
+  -webkit-touch-callout: none;
+}
+
+/* Màn hình lớn (iPad): ô chữ to hơn. */
+@media (min-width: 700px) and (min-height: 700px) {
+  .w-board {
+    grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+    gap: 12px;
+  }
+  .w-board.numbers {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  }
+  .w-actions button {
+    width: 84px;
+    height: 72px;
+    font-size: 2rem;
+  }
+}
+
+/* Điện thoại xoay ngang (màn hình thấp): khung viết / bảng chữ bên trái,
+   sao, tab và các nút xếp dọc bên phải để khung viết đủ cao. */
+@media (orientation: landscape) and (max-height: 560px) {
+  /* Thanh tên trò và câu yêu cầu gọn lại cho khung viết cao hơn. */
+  .game-screen:has(.w-game) {
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+  .game-screen:has(.w-game) .game-header h2 {
+    font-size: 1.1rem;
+  }
+  .game-screen:has(.w-game) .back-button,
+  .game-screen:has(.w-game) .music-button {
+    width: 44px;
+    height: 44px;
+    font-size: 1.4rem;
+  }
+  .w-game {
+    gap: 8px;
+  }
+  .w-game .g-prompt {
+    min-height: 44px;
+    padding: 4px 12px;
+    font-size: 1rem;
+  }
+  .w-game .g-speaker {
+    font-size: 1.2rem;
+  }
+  .w-game .g-levels {
+    flex-direction: row;
+  }
+  .w-game .g-levels button {
+    min-height: 36px;
+  }
+  .w-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr);
+    column-gap: 12px;
+    row-gap: 8px;
+  }
+  .w-starbar {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .w-starbar .g-stars {
+    font-size: 1.2rem;
+  }
+  .w-canvas,
+  .w-board {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    height: 100%;
+  }
+  .w-tabs,
+  .w-actions {
+    grid-column: 2;
+    grid-row: 2;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-self: start;
+    padding-bottom: 0;
+  }
+  .w-actions {
+    gap: 8px;
+  }
+  .w-actions button {
+    width: 64px;
+    height: 52px;
+    font-size: 1.5rem;
+  }
+  .w-board {
+    grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+  }
+}

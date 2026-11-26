@@ -138,60 +138,65 @@ export function WritingGame({ id, onExit, mode }: GameProps & { mode: Mode }) {
   }
 
   return (
-    <div className="g-game">
+    <div className="g-game w-game">
       <GameTop text={text} onReplay={replay} level={level} onLevel={changeLevel} />
-      <StarBar stars={session.stars} />
+      {/* Điện thoại xoay ngang: nội dung bên trái, sao và nút xếp dọc bên phải (xem writing.css). */}
+      <div className="w-main">
+        <div className="w-starbar">
+          <StarBar stars={session.stars} />
+        </div>
 
-      {glyph === null ? (
-        <>
-          {mode === 'letters' && (
-            <div className="w-tabs" role="tablist">
-              {(['lower', 'upper'] as const).map((k) => (
-                <button key={k} type="button" role="tab" aria-selected={tab === k} className={tab === k ? 'active' : ''} onClick={() => changeTab(k)}>
-                  {k === 'lower' ? 'a b c' : 'A B C'} <small>{t.writing[k]}</small>
+        {glyph === null ? (
+          <>
+            {mode === 'letters' && (
+              <div className="w-tabs" role="tablist">
+                {(['lower', 'upper'] as const).map((k) => (
+                  <button key={k} type="button" role="tab" aria-selected={tab === k} className={tab === k ? 'active' : ''} onClick={() => changeTab(k)}>
+                    {k === 'lower' ? 'a b c' : 'A B C'} <small>{t.writing[k]}</small>
+                  </button>
+                ))}
+              </div>
+            )}
+            <div className={`w-board${mode === 'numbers' ? ' numbers' : ''}`}>
+              {list.map((g, i) => (
+                <button key={g.id} type="button" className="w-tile" onClick={() => open(i)} aria-label={g.char}>
+                  <Mini g={g} kind={kind} />
+                  {done.has(`${kind}:${g.id}`) && <span className="w-star" aria-hidden="true">★</span>}
                 </button>
               ))}
             </div>
-          )}
-          <div className={`w-board${mode === 'numbers' ? ' numbers' : ''}`}>
-            {list.map((g, i) => (
-              <button key={g.id} type="button" className="w-tile" onClick={() => open(i)} aria-label={g.char}>
-                <Mini g={g} kind={kind} />
-                {done.has(`${kind}:${g.id}`) && <span className="w-star" aria-hidden="true">★</span>}
+          </>
+        ) : (
+          <>
+            <Writer
+              key={`${kind}:${glyph.id}:${watchKey}`}
+              glyph={glyph}
+              kind={kind}
+              level={level}
+              phase={phase}
+              onWatched={onWatched}
+              onDone={onDone}
+              onMiss={onMiss}
+            />
+            <div className="w-actions">
+              <button type="button" onClick={() => setIndex(null)} aria-label={t.writing.board}>
+                <span aria-hidden="true">▦</span>
               </button>
-            ))}
-          </div>
-        </>
-      ) : (
-        <>
-          <Writer
-            key={`${kind}:${glyph.id}:${watchKey}`}
-            glyph={glyph}
-            kind={kind}
-            level={level}
-            phase={phase}
-            onWatched={onWatched}
-            onDone={onDone}
-            onMiss={onMiss}
-          />
-          <div className="w-actions">
-            <button type="button" onClick={() => setIndex(null)} aria-label={t.writing.board}>
-              <span aria-hidden="true">▦</span>
-            </button>
-            <button type="button" onClick={watchAgain} aria-label={t.writing.watchAgain} disabled={phase === 'watch'}>
-              <span aria-hidden="true">👀</span>
-            </button>
-            <button
-              type="button"
-              className={phase === 'done' ? 'w-next' : ''}
-              onClick={() => open((index! + 1) % list.length)}
-              aria-label={t.writing.next}
-            >
-              <span aria-hidden="true">▶</span>
-            </button>
-          </div>
-        </>
-      )}
+              <button type="button" onClick={watchAgain} aria-label={t.writing.watchAgain} disabled={phase === 'watch'}>
+                <span aria-hidden="true">👀</span>
+              </button>
+              <button
+                type="button"
+                className={phase === 'done' ? 'w-next' : ''}
+                onClick={() => open((index! + 1) % list.length)}
+                aria-label={t.writing.next}
+              >
+                <span aria-hidden="true">▶</span>
+              </button>
+            </div>
+          </>
+        )}
+      </div>
 
       {session.finished && (
         <FinishScreen

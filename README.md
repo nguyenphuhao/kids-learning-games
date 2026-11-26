@@ -66,11 +66,12 @@ Trong trò ghép cờ, mảnh nhiễu cắt từ cờ nước khác (cùng nhóm
 
 ### Tập viết chữ, tập viết số
 
-- Kiểu chữ: chữ viết tay đứng theo mẫu chữ lớp 1 ở Việt Nam (chữ thường có nét khuyết, nét móc; chữ hoa có vòng xoắn). Hình nét do app tự vẽ theo mô tả mẫu chữ, không lấy từ font; nên đối chiếu với vở tập viết của bé.
+- Kiểu chữ: dáng chữ viết tay đứng của mẫu chữ lớp 1 ở Việt Nam nhưng đơn giản hơn cho bé nhỏ: không có nét khuyết (b, h, k, l, g, y dùng nét thẳng), chữ hoa không có vòng xoắn, chỉ giữ móc nhỏ ở chân chữ (a, i, u…). Hình nét do app tự vẽ, không lấy từ font.
 - Bảng chữ theo ngôn ngữ: tiếng Việt 29 chữ (có ă â đ ê ô ơ ư), tiếng Anh 26 chữ (f, j, w, z vẽ cùng kiểu). Chữ hoa và chữ thường ở hai tab.
 - Chữ nằm trên dòng kẻ như vở ô li (1 li = 10 đơn vị): chữ thường cao 2 li; b, g, h, k, l, y cao 5 li; d, đ, p, q 4 li; t 3 li; chữ hoa 5 li; chữ số 4 li.
 - Mở một chữ: hoạt ảnh vẽ từng nét theo thứ tự (chấm cam là đầu bút, số ở điểm đặt bút). Xong thì bé tô theo: đặt tay vào chấm có số, kéo theo hướng mũi tên; nét chỉ tiến lên khi ngón tay đi đúng đường và đúng chiều. Nhấc tay giữa chừng thì phần đã tô vẫn giữ. Đặt tay sai chỗ thì game nhắc "Thử lại nhé!".
 - Nút dưới khung viết: ▦ về bảng chữ, 👀 xem lại cách viết, ▶ sang chữ tiếp theo.
+- Dùng được trên điện thoại và iPad, dọc hoặc ngang. Điện thoại xoay ngang: khung viết bên trái, sao và các nút xếp dọc bên phải; iPad: ô chữ và nút to hơn.
 - Chữ đã viết xong có dấu ★ trên bảng (lưu trên máy). Mỗi chữ viết xong được một sao, đủ 5 sao được một cúp.
 - Bản dev có trang xem trước nét của mọi chữ và số: mở `/#glyphs` (mỗi nét một màu, số thứ tự ở điểm đặt bút).
 

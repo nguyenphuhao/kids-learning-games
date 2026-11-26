@@ -189,7 +189,9 @@ button {
 /* Màn hình trò chơi */
 .game-screen {
   height: 100dvh;
-  padding: 16px;
+  /* Chừa chỗ tai thỏ / thanh home của iPhone (viewport-fit=cover). */
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
   display: flex;
   flex-direction: column;
 }
