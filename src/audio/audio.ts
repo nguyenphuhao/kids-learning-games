@@ -49,6 +49,22 @@ function getAudio(): Ctx | null {
   return audio
 }
 
+/**
+ * Ngõ ra cho tiếng hiệu ứng tổng hợp (xem sfx.ts), dùng chung AudioContext để cùng được mở khoá
+ * và cùng tạm dừng khi ẩn app. Trả về null nếu trình duyệt không có Web Audio.
+ */
+let sfxGain: GainNode | null = null
+export function sfxOutput(): { ctx: AudioContext; out: GainNode } | null {
+  const a = getAudio()
+  if (!a) return null
+  if (!sfxGain) {
+    sfxGain = a.ctx.createGain()
+    sfxGain.gain.value = 0.6
+    sfxGain.connect(a.ctx.destination)
+  }
+  return { ctx: a.ctx, out: sfxGain }
+}
+
 /** Mở khoá âm thanh. Gọi trong sự kiện chạm/bấm (trình duyệt chỉ cho phép lúc đó). */
 export function unlockAudio(): void {
   if (document.hidden) return

@@ -15,11 +15,26 @@
   display: block;
 }
 
-/* Thanh chữ đã tìm được, góc trên bên trái cảnh. */
-.fr-found {
+/* Góc trên bên trái cảnh: màn đang chơi và thanh chữ đã tìm được. */
+.fr-hud {
   position: absolute;
   top: 10px;
   left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.fr-stage {
+  padding: 6px 12px;
+  border-radius: 16px;
+  background: rgb(255 255 255 / 85%);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.fr-found {
   display: flex;
   gap: 6px;
   padding: 6px;
@@ -46,6 +61,44 @@
 .fr-slot svg {
   width: 80%;
   height: 80%;
+}
+
+/* Hàng ô của từ đang viết (cứu bạn, cổng rừng): ô đã viết, ô đang viết (viền cam nhấp nháy), ô chưa viết. */
+.fr-word {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.fr-picture {
+  font-size: 2.6rem;
+  line-height: 1;
+  margin-right: 4px;
+}
+
+.fr-slot.big {
+  width: 56px;
+  height: 56px;
+}
+
+.fr-slot.now {
+  border: 3px solid #fb8c00;
+  animation: fr-now 1s ease-in-out infinite;
+}
+
+@keyframes fr-now {
+  50% {
+    box-shadow: 0 0 0 5px rgb(251 140 0 / 30%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fr-slot.now,
+  .fr-slot.on {
+    animation: none;
+  }
 }
 
 /* Thử thách viết chữ nổi trên cảnh. */
@@ -129,5 +182,12 @@
   .fr-slot {
     width: 34px;
     height: 34px;
+  }
+  .fr-slot.big {
+    width: 44px;
+    height: 44px;
+  }
+  .fr-picture {
+    font-size: 2rem;
   }
 }
