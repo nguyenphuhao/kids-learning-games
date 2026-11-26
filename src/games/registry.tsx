@@ -6,12 +6,13 @@ import { CompareGame } from './compare/CompareGame'
 import { CountingGame } from './counting/CountingGame'
 import { FlagBuilderGame } from './flag-builder/FlagBuilderGame'
 import { FlagDriveGame } from './flag-drive/FlagDriveGame'
+import { ForestGame } from './forest/ForestGame'
 import type { GameProps } from './shared/session'
 import { ShapesGame } from './shapes/ShapesGame'
 import { TracingGame } from './tracing/TracingGame'
 import { LettersGame, NumbersGame } from './writing/WritingGame'
 
-export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags' | 'builder' | 'tracing' | 'letters' | 'numbers'
+export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags' | 'builder' | 'tracing' | 'letters' | 'numbers' | 'forest'
 
 export type GameDef = {
   id: GameId
@@ -109,7 +110,25 @@ const tracingIcon = (
   </svg>
 )
 
+// Biểu tượng trò vào rừng tìm chữ: cây, bạn thỏ cầm bóng có chữ a.
+const forestIcon = (
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <rect x="22" y="50" width="6" height="34" fill="#8d6e63" />
+    <circle cx="25" cy="42" r="18" fill="#3fae5a" />
+    <ellipse cx="56" cy="40" rx="5" ry="13" fill="#a9c1f0" />
+    <ellipse cx="68" cy="40" rx="5" ry="13" fill="#a9c1f0" />
+    <circle cx="62" cy="58" r="14" fill="#a9c1f0" />
+    <ellipse cx="62" cy="80" rx="12" ry="10" fill="#a9c1f0" />
+    <circle cx="57" cy="57" r="2.5" fill="#2b2d42" />
+    <circle cx="67" cy="57" r="2.5" fill="#2b2d42" />
+    <path d="M80 50 Q78 66 82 86" stroke="#90a4ae" strokeWidth="1.5" fill="none" />
+    <ellipse cx="80" cy="34" rx="13" ry="16" fill="#ff8a80" />
+    <path d="M85,30 C79,26 73,30 73,35 C73,40 77,42 80,42 C83,42 85,38 85,34 M85,28 L85,40 C85,43 87,43 89,40" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+  </svg>
+)
+
 export const GAMES: GameDef[] = [
+  { id: 'forest', color: '#c5e8c0', icon: forestIcon, component: ForestGame },
   { id: 'flags', color: '#d1c4e9', icon: flagsIcon, component: FlagDriveGame },
   { id: 'builder', color: '#ffe0b2', icon: builderIcon, component: FlagBuilderGame },
   { id: 'counting', color: '#ffcdd2', icon: countingIcon, component: CountingGame },

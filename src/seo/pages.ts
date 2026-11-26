@@ -55,6 +55,10 @@ const GAME_DESCRIPTIONS: Record<GameId, Record<Lang, string>> = {
     vi: 'Bé xem cách viết từng nét rồi tô theo các số từ 0 đến 9.',
     en: 'Watch each stroke, then trace the numbers 0 to 9.',
   },
+  forest: {
+    vi: 'Bé lái xe vào rừng, viết chữ để nhận chữ từ các bạn thú, rồi xếp chữ thành từ.',
+    en: 'Drive into the forest, write letters for the animal friends, then build the word.',
+  },
 }
 
 /** Mọi trò chơi (Record<GameId> bắt buộc khai báo đủ mô tả cho trò mới). */

@@ -27,6 +27,7 @@ export const strings = {
       letters: 'Tập viết chữ',
       numbers: 'Tập viết số',
       tracing: 'Tô theo nét',
+      forest: 'Vào rừng tìm chữ',
     },
     tabs: {
       stories: 'Truyện',
@@ -100,6 +101,18 @@ export const strings = {
       intro: 'Bé đặt ngón tay lên chú ong, rồi đi theo đường chấm tới bông hoa nhé!',
       start: 'Bé bắt đầu từ chú ong nhé!',
     },
+    forest: {
+      letters: 'Chữ',
+      numbers: 'Số',
+      drive: 'Bé kéo xe vào rừng tìm chữ nhé!',
+      driveNumbers: 'Bé kéo xe vào rừng tìm số nhé!',
+      meet: 'Chạm vào bạn thú để nhận thử thách!',
+      gate: 'Tìm đủ rồi! Bé lái xe tới cổng rừng nhé!',
+      build: 'Bé kéo chữ vào đúng ô nhé!',
+      buildNumbers: 'Bé xếp các số theo thứ tự nhé!',
+      close: 'Đóng',
+      found: 'Đã tìm được',
+    },
   },
   en: {
     appTitle: 'Little Learners',
@@ -123,6 +136,7 @@ export const strings = {
       letters: 'Write letters',
       numbers: 'Write numbers',
       tracing: 'Trace the dots',
+      forest: 'Forest letter hunt',
     },
     tabs: {
       stories: 'Stories',
@@ -195,6 +209,18 @@ export const strings = {
     tracing: {
       intro: 'Put your finger on the bee and follow the dots to the flower!',
       start: 'Start from the bee!',
+    },
+    forest: {
+      letters: 'Letters',
+      numbers: 'Numbers',
+      drive: 'Drag the car into the forest to find letters!',
+      driveNumbers: 'Drag the car into the forest to find numbers!',
+      meet: 'Tap the animal friend for a challenge!',
+      gate: 'All found! Drive to the forest gate!',
+      build: 'Drag the letters into the right boxes!',
+      buildNumbers: 'Put the numbers in order!',
+      close: 'Close',
+      found: 'Found',
     },
   },
 } as const

@@ -1,0 +1,72 @@
+/* Trò "Vào rừng tìm chữ" */
+.fr-scene {
+  position: relative;
+  overflow: hidden;
+  background: #bfe9fb;
+  min-height: 260px;
+}
+
+.fr-canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.fr-canvas canvas {
+  display: block;
+}
+
+/* Thanh chữ đã tìm được, góc trên bên trái cảnh. */
+.fr-found {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 16px;
+  background: rgb(255 255 255 / 75%);
+  pointer-events: none;
+}
+
+.fr-slot {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 3px dashed #90caf9;
+  background: #fff;
+  display: grid;
+  place-items: center;
+}
+
+.fr-slot.on {
+  border: 3px solid #ffb74d;
+  animation: g-bounce 0.6s ease;
+}
+
+.fr-slot svg {
+  width: 80%;
+  height: 80%;
+}
+
+/* Thử thách viết chữ nổi trên cảnh. */
+.fr-challenge {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  background: rgb(30 60 40 / 35%);
+}
+
+.fr-card {
+  width: min(100%, 560px);
+  height: 100%;
+  max-height: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 24px;
+  background: #fff8e1;
+  box-shadow: 0 6px 0 rgb(0 0 0 / 15%);
+}
