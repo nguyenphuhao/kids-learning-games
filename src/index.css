@@ -262,17 +262,35 @@ button {
   right: 0;
   z-index: 20;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 8px;
-  padding: 8px;
+  width: min(360px, calc(100vw - 32px));
+  padding: 10px;
   border-radius: 16px;
   background: #fff;
   box-shadow: 0 6px 20px rgb(0 0 0 / 18%);
-  white-space: nowrap;
 }
 
-.share-menu a,
-.share-menu button {
+.share-url {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 2px solid #ffe0b2;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 0.9rem;
+  color: #5d4037;
+  background: #fffaf2;
+}
+
+.share-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.share-actions a,
+.share-actions button {
   padding: 10px 14px;
   border-radius: 12px;
   background: #fff3e0;
@@ -282,9 +300,10 @@ button {
   text-decoration: none;
 }
 
-.share-menu .share-close {
-  background: none;
-  padding: 10px;
+.share-actions .share-copy {
+  flex: 1;
+  background: #fb8c00;
+  color: #fff;
 }
 
 .share-toast {
