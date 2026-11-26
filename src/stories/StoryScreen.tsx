@@ -16,7 +16,7 @@ export function StoryScreen({ id, onBack }: { id: string; onBack: () => void }) 
   }, [lang, story])
 
   return (
-    <PlayScreen title={story.title[lang]} color={story.color} onBack={onBack}>
+    <PlayScreen title={story.title[lang]} color={story.color} page={{ kind: 'story', id: story.id }} onBack={onBack}>
       <StoryPlayer key={story.id} story={story} onExit={onBack} />
     </PlayScreen>
   )

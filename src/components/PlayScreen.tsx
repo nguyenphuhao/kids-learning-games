@@ -1,9 +1,24 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { isMusicOn, setMusicOn, startMusic, stopAudio } from '../audio/audio'
 import { useLanguage } from '../i18n/useLanguage'
+import type { Page } from '../seo/pages'
+import { ShareButton } from './ShareButton'
 
-/** Khung màn chơi / màn đọc truyện: nút quay lại, tên, nút nhạc nền. */
-export function PlayScreen({ title, color, onBack, children }: { title: string; color: string; onBack: () => void; children: ReactNode }) {
+/** Khung màn chơi / màn đọc truyện: nút quay lại, tên, nút chia sẻ, nút nhạc nền. */
+export function PlayScreen({
+  title,
+  color,
+  page,
+  onBack,
+  children,
+}: {
+  title: string
+  color: string
+  /** Trang đang mở, để nút chia sẻ gửi đúng link. */
+  page: Page
+  onBack: () => void
+  children: ReactNode
+}) {
   const { t } = useLanguage()
   const [music, setMusic] = useState(isMusicOn)
 
@@ -25,6 +40,7 @@ export function PlayScreen({ title, color, onBack, children }: { title: string; 
           ←
         </button>
         <h2>{title}</h2>
+        <ShareButton page={page} name={title} />
         <button
           type="button"
           className={`music-button${music ? '' : ' off'}`}
