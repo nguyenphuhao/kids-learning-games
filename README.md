@@ -81,11 +81,11 @@ Trong trò ghép cờ, mảnh nhiễu cắt từ cờ nước khác (cùng nhóm
 - Kiểu chữ: dáng chữ viết tay đứng của mẫu chữ lớp 1 ở Việt Nam nhưng đơn giản hơn cho bé nhỏ: không có nét khuyết (b, h, k, l, g, y dùng nét thẳng), chữ hoa không có vòng xoắn, chỉ giữ móc nhỏ ở chân chữ (a, i, u…). Các nét còn lại (độ rộng, nét móc, vòng thắt nhỏ của b, k, r, s, v) đã đối chiếu với bảng mẫu chữ viết thường và chữ số lớp 1. Hình nét do app tự vẽ, không lấy từ font.
 - Bảng chữ theo ngôn ngữ: tiếng Việt 29 chữ (có ă â đ ê ô ơ ư), tiếng Anh 26 chữ (f, j, w, z vẽ cùng kiểu). Chữ hoa và chữ thường ở hai tab.
 - Chữ nằm trên dòng kẻ như vở ô li (1 li = 10 đơn vị): chữ thường cao 2 li; b, g, h, k, l, y cao 5 li; d, đ, p, q 4 li; t 3 li; chữ hoa 5 li; chữ số 4 li.
-- Mở một chữ: hoạt ảnh vẽ từng nét theo thứ tự (chấm cam là đầu bút, số ở điểm đặt bút). Xong thì bé tự viết theo chữ mẫu nét đứt (như vở tô chữ), bằng ngón tay hoặc bút: mực hiện đúng đường tay bé đi, không tự bám vào nét mẫu. Nhấc tay xong một nét thì game chấm nét đó: đặt bút đúng chỗ (chấm có số), đi đúng chiều (theo mũi tên), viết hết nét và không lệch khỏi nét mẫu quá mức cho phép. Đạt thì giữ nguyên nét bé viết và sang nét sau; không đạt thì nét đó chuyển đỏ nhạt, mờ đi, game nhắc "Thử lại nhé!" và bé viết lại nét đó.
+- Mở một chữ: hoạt ảnh vẽ từng nét theo thứ tự (chấm cam là đầu bút; mũi tên nhỏ ở đầu nét đang vẽ chỉ chỗ đặt bút và hướng viết). Xong thì bé tự viết theo chữ mẫu nét đứt (như vở tô chữ), bằng ngón tay hoặc bút: mực hiện đúng đường tay bé đi, không tự bám vào nét mẫu. Nhấc tay xong một nét thì game chấm nét đó: đặt bút đúng chỗ và đi đúng chiều (theo mũi tên nhỏ ở đầu nét; mũi tên ẩn khi bé đang đặt tay), viết hết nét và không lệch khỏi nét mẫu quá mức cho phép. Đạt thì giữ nguyên nét bé viết và sang nét sau; không đạt thì nét đó chuyển đỏ nhạt, mờ đi, game nhắc "Thử lại nhé!" và bé viết lại nét đó.
 - Nút dưới khung viết: ▦ về bảng chữ, 👀 xem lại cách viết, ▶ sang chữ tiếp theo.
 - Dùng được trên điện thoại và iPad, dọc hoặc ngang. Điện thoại xoay ngang: khung viết bên trái, sao và các nút xếp dọc bên phải; iPad: ô chữ và nút to hơn.
 - Chữ đã viết xong có dấu ★ trên bảng (lưu trên máy). Mỗi chữ viết xong được một sao, đủ 5 sao được một cúp.
-- Bản dev có trang xem trước nét của mọi chữ và số: mở `/#glyphs` (mỗi nét một màu, số thứ tự ở điểm đặt bút).
+- Bản dev có trang xem trước nét của mọi chữ và số: mở `/#glyphs` (mỗi nét một màu, số thứ tự ở điểm đặt bút; số chỉ có ở trang này, không hiện cho bé).
 
 ### Lái xe tìm cờ
 

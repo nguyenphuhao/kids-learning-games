@@ -199,7 +199,6 @@ export function Writer({ glyph, kind, level, phase, onWatched, onDone, onMiss }:
     }
   }
 
-  const startPt = current >= 0 && samples[current] ? samples[current][0] : null
 
   return (
     <svg
@@ -274,17 +273,10 @@ export function Writer({ glyph, kind, level, phase, onWatched, onDone, onMiss }:
           )
         })()
       )}
-      {/* Số thứ tự nét ở điểm đặt bút (lúc xem: mọi nét; lúc tô: nét đang tô). */}
-      {phase === 'watch' &&
-        samples.map((s, i) => (
-          <StartDot key={`s${i}`} p={s[0]} n={i + 1} dim={!!anim && i > anim.stroke} />
-        ))}
-      {phase === 'trace' && startPt && current >= 0 && (
-        <>
-          <StartDot p={startPt} n={current + 1} pulse={!live} />
-          {!live && <Arrow pts={samples[current]} />}
-        </>
-      )}
+      {/* Mũi tên nhỏ ở đầu nét: chỗ đặt bút và hướng viết (lúc xem: nét đang vẽ; lúc viết: nét đang viết,
+          ẩn khi bé đang đặt tay để không che chỗ viết). */}
+      {phase === 'watch' && anim && samples[anim.stroke] && <StartArrow pts={samples[anim.stroke]} />}
+      {phase === 'trace' && current >= 0 && samples[current] && !live && <StartArrow pts={samples[current]} hint />}
     </svg>
   )
 }
@@ -308,27 +300,35 @@ function Ink({ pts, className }: { pts: Pt[]; className?: string }) {
   )
 }
 
-function StartDot({ p, n, pulse, dim }: { p: Pt; n: number; pulse?: boolean; dim?: boolean }) {
+/**
+ * Mũi tên nhỏ chạy dọc theo đoạn đầu của nét: chấm nhỏ ở điểm đặt bút, thân đi theo nét chừng 7 đơn vị
+ * (0,7 li), đầu mũi tên chỉ hướng viết. Dấu chấm (i, j) thì chỉ là vòng tròn nhỏ quanh chỗ cần chạm.
+ */
+function StartArrow({ pts, hint }: { pts: Pt[]; hint?: boolean }) {
+  const cls = hint ? 'w-hint' : undefined
+  if ((pts.length - 1) * STEP < DOT_LEN)
+    return <circle className={cls} cx={pts[0].x} cy={pts[0].y} r="3" fill="none" stroke={PEN} strokeWidth="1" pointerEvents="none" />
+  const k = Math.min(pts.length - 1, Math.round(7 / STEP))
+  const tip = pts[k]
+  const back = pts[Math.max(0, k - 3)]
+  const ang = (Math.atan2(tip.y - back.y, tip.x - back.x) * 180) / Math.PI
+  const shaft = pts
+    .slice(0, k + 1)
+    .map((p, i) => `${i ? 'L' : 'M'}${p.x.toFixed(2)},${p.y.toFixed(2)}`)
+    .join(' ')
   return (
-    <g transform={`translate(${p.x} ${p.y})`} pointerEvents="none" opacity={dim ? 0.5 : 1}>
-      {pulse && <circle className="w-pulse" r="6" fill={PEN} opacity="0.35" />}
-      <circle r="3.6" fill={PEN} stroke="#fff" strokeWidth="0.8" />
-      <text y="1.5" fontSize="4.4" fontWeight="700" textAnchor="middle" fill="#fff" fontFamily="sans-serif">
-        {n}
-      </text>
-    </g>
-  )
-}
-
-/** Mũi tên nhỏ chỉ hướng viết ở đầu nét. */
-function Arrow({ pts }: { pts: Pt[] }) {
-  if (pts.length < 8) return null
-  const a = pts[Math.min(pts.length - 1, 7)]
-  const b = pts[Math.min(pts.length - 1, 4)]
-  const ang = (Math.atan2(a.y - b.y, a.x - b.x) * 180) / Math.PI
-  return (
-    <g transform={`translate(${a.x} ${a.y}) rotate(${ang})`} pointerEvents="none">
-      <path d="M-3,-2.6 L1.6,0 L-3,2.6" fill="none" stroke={PEN} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    <g className={cls} pointerEvents="none">
+      <circle cx={pts[0].x} cy={pts[0].y} r="1.1" fill={PEN} />
+      <path d={shaft} fill="none" stroke={PEN} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M-2.4,-2 L0.6,0 L-2.4,2"
+        transform={`translate(${tip.x} ${tip.y}) rotate(${ang})`}
+        fill="none"
+        stroke={PEN}
+        strokeWidth="1.1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </g>
   )
 }

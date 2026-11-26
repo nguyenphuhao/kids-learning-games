@@ -99,21 +99,19 @@
   animation: g-bounce 0.8s ease infinite;
 }
 
-.w-pulse {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: w-pulse 1.2s ease-in-out infinite;
+/* Mũi tên hướng dẫn đầu nét: nhấp nháy nhẹ cho bé chú ý, không phóng to để không che chỗ viết. */
+.w-hint {
+  animation: w-hint 1.2s ease-in-out infinite;
 }
 
-@keyframes w-pulse {
+@keyframes w-hint {
   50% {
-    transform: scale(1.6);
-    opacity: 0.1;
+    opacity: 0.35;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .w-pulse,
+  .w-hint,
   .w-actions button.w-next {
     animation: none;
   }
