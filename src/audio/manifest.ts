@@ -24,4 +24,6 @@ export const AUDIO_KEYS: string[] = [
   'write-pick-number',
   'write-watch',
   'write-trace',
+  'trace-intro',
+  'trace-start',
 ]

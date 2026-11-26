@@ -2,7 +2,7 @@
 .g-game {
   align-self: stretch;
   width: 100%;
-  max-width: 560px;
+  max-width: 960px; /* iPad dọc dùng gần hết bề ngang; màn rộng hơn thì canh giữa */
   margin: 0 auto;
   height: 100%;
   display: flex;
@@ -237,5 +237,117 @@
   }
   .g-confetti {
     display: none;
+  }
+}
+
+/* Đặt cuối file để đè lên các kích thước mặc định ở trên. */
+/* Máy tính bảng (iPad…): chữ, nút và sao to hơn; nút mức chơi xếp ngang, đủ lớn cho ngón tay. */
+@media (min-width: 700px) {
+  .g-game {
+    gap: 16px;
+  }
+
+  .g-prompt {
+    min-height: 76px;
+    padding: 10px 22px;
+    font-size: 1.7rem;
+  }
+
+  .g-speaker {
+    font-size: 2rem;
+  }
+
+  .g-levels {
+    flex-direction: row;
+    align-items: stretch;
+    padding: 6px;
+    border-radius: 20px;
+  }
+
+  .g-levels button {
+    min-width: 76px;
+    min-height: 56px;
+    border-radius: 14px;
+    font-size: 1.1rem;
+  }
+
+  .g-stars {
+    font-size: 2.3rem;
+  }
+
+  .g-answers {
+    gap: 20px;
+    min-height: 112px;
+  }
+
+  .g-answer {
+    width: 112px;
+    height: 112px;
+    border-radius: 28px;
+    font-size: 3.3rem;
+  }
+
+  .g-finish-buttons button {
+    min-height: 76px;
+    padding: 0 28px;
+    font-size: 1.5rem;
+  }
+}
+
+/* Nút mức chơi trên điện thoại: xếp dọc nhưng vẫn đủ cao để chạm. */
+@media (max-width: 699px) {
+  .g-levels button {
+    min-height: 32px;
+  }
+}
+
+/* iPad xoay ngang (và màn rộng): hai cột. Cột trái là câu yêu cầu, mức chơi, sao, nút trả lời;
+   cột phải là vùng chơi, cao hết màn hình. Dùng chung cho .g-game và .flag-drive. */
+@media (min-width: 900px) and (min-aspect-ratio: 5/4) {
+  /* Thêm .game-body để thắng các file CSS riêng của từng trò (ví dụ flagDrive.css nạp sau). */
+  .game-body .g-game,
+  .game-body .flag-drive {
+    max-width: 1400px;
+    display: grid;
+    grid-template-columns: minmax(300px, 30%) 1fr;
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: 24px;
+    row-gap: 16px;
+    align-content: stretch;
+  }
+
+  .game-body .g-game > *,
+  .game-body .flag-drive > * {
+    grid-column: 1;
+  }
+
+  .game-body .g-game > .g-scene,
+  .game-body .flag-drive > .fd-scene {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .g-top {
+    flex-direction: column;
+  }
+
+  .g-prompt {
+    min-height: 120px;
+  }
+
+  .g-levels button {
+    flex: 1;
+  }
+
+  .g-answers {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .g-answer {
+    width: 96px;
+    height: 96px;
   }
 }

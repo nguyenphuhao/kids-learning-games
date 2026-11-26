@@ -8,9 +8,10 @@ import { FlagBuilderGame } from './flag-builder/FlagBuilderGame'
 import { FlagDriveGame } from './flag-drive/FlagDriveGame'
 import type { GameProps } from './shared/session'
 import { ShapesGame } from './shapes/ShapesGame'
+import { TracingGame } from './tracing/TracingGame'
 import { LettersGame, NumbersGame } from './writing/WritingGame'
 
-export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags' | 'builder' | 'letters' | 'numbers'
+export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags' | 'builder' | 'tracing' | 'letters' | 'numbers'
 
 export type GameDef = {
   id: GameId
@@ -95,6 +96,19 @@ const numbersIcon = (
   </svg>
 )
 
+// Biểu tượng trò tô nét: đường chấm, nét đã tô và chú ong.
+const tracingIcon = (
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <path d="M14 70 Q32 20 50 50 T86 34" fill="none" stroke="#a1887f" strokeWidth="5" strokeLinecap="round" strokeDasharray="0.1 9" />
+    <path d="M14 70 Q24 42 36 38" fill="none" stroke="#ff7043" strokeWidth="7" strokeLinecap="round" />
+    <ellipse cx="40" cy="30" rx="9" ry="7" fill="#e3f2fd" />
+    <ellipse cx="38" cy="40" rx="11" ry="8" fill="#fdd835" stroke="#5d4037" strokeWidth="2" />
+    <path d="M35 33 Q33 40 35 47 M41 32 Q39 40 41 48" stroke="#5d4037" strokeWidth="3" fill="none" />
+    <circle cx="86" cy="34" r="8" fill="#ec407a" />
+    <circle cx="86" cy="34" r="4" fill="#ffeb3b" />
+  </svg>
+)
+
 export const GAMES: GameDef[] = [
   { id: 'flags', color: '#d1c4e9', icon: flagsIcon, component: FlagDriveGame },
   { id: 'builder', color: '#ffe0b2', icon: builderIcon, component: FlagBuilderGame },
@@ -102,6 +116,7 @@ export const GAMES: GameDef[] = [
   { id: 'colors', color: '#fff9c4', icon: colorsIcon, component: ColorsGame },
   { id: 'shapes', color: '#c8e6c9', icon: shapesIcon, component: ShapesGame },
   { id: 'compare', color: '#bbdefb', icon: compareIcon, component: CompareGame },
+  { id: 'tracing', color: '#ffecb3', icon: tracingIcon, component: TracingGame },
   { id: 'letters', color: '#f8bbd0', icon: lettersIcon, component: LettersGame },
   { id: 'numbers', color: '#b2ebf2', icon: numbersIcon, component: NumbersGame },
 ]

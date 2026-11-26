@@ -120,10 +120,6 @@
 }
 
 /* Khung chung: nội dung chiếm phần còn lại của màn hình. */
-.w-game {
-  max-width: 760px;
-}
-
 .w-main {
   flex: 1;
   min-height: 0;
@@ -226,5 +222,15 @@
   }
   .w-board {
     grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+  }
+}
+
+/* iPad xoay ngang / màn rộng: game.css chia màn chơi làm hai cột (câu yêu cầu bên trái, vùng chơi
+   bên phải). Ở trò tập viết, vùng chơi là bảng chữ hoặc khung viết (cùng sao và các nút). */
+@media (min-width: 900px) and (min-aspect-ratio: 5/4) {
+  .game-body .g-game.w-game > .w-main {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    min-height: 0;
   }
 }

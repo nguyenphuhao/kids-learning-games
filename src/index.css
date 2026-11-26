@@ -26,9 +26,10 @@ button {
 
 /* Màn hình chính */
 .home {
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 16px;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
 }
 
 .home-header {
@@ -79,6 +80,19 @@ button {
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   margin-top: 20px;
+}
+
+/* iPad ngang và màn rộng: 3 ô mỗi hàng. */
+@media (min-width: 1000px) {
+  .game-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .game-icon svg {
+    width: 140px;
+    height: 140px;
+  }
 }
 
 .game-tile {
@@ -189,7 +203,7 @@ button {
 /* Màn hình trò chơi */
 .game-screen {
   height: 100dvh;
-  /* Chừa chỗ tai thỏ / thanh home của iPhone (viewport-fit=cover). */
+  /* Chừa vùng an toàn (thanh vuốt Home của iPad, tai thỏ). */
   padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom))
     max(16px, env(safe-area-inset-left));
   display: flex;
