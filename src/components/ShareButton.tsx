@@ -4,7 +4,7 @@ import { pageUrl, type Page } from '../seo/pages'
 
 /**
  * Nút chia sẻ cho phụ huynh. Điện thoại / máy tính bảng: mở bảng chia sẻ của máy
- * (Zalo, Messenger, Facebook…). Trình duyệt không có bảng đó: hiện Facebook và Chép link.
+ * (Zalo, Messenger, Facebook…). Máy tính, hoặc máy không có bảng đó: hiện link kèm nút Chép link, Facebook.
  */
 export function ShareButton({ page, name }: { page: Page; name: string }) {
   const { t } = useLanguage()
@@ -19,8 +19,10 @@ export function ShareButton({ page, name }: { page: Page; name: string }) {
     return () => clearTimeout(timer)
   }, [copied])
 
+  // Máy tính (chuột): mở bảng có Chép link. Điện thoại / máy tính bảng: bảng chia sẻ của máy.
   const share = async () => {
-    if (navigator.share) {
+    const desktop = matchMedia('(hover: hover) and (pointer: fine)').matches
+    if (!desktop && navigator.share) {
       try {
         await navigator.share({ title: name, text, url })
         return
@@ -29,8 +31,34 @@ export function ShareButton({ page, name }: { page: Page; name: string }) {
         if (err instanceof DOMException && err.name === 'AbortError') return
       }
     }
-    setMenu(true)
+    setMenu((m) => !m)
   }
+
+  const shareMore = async () => {
+    setMenu(false)
+    try {
+      await navigator.share({ title: name, text, url })
+    } catch {
+      // Đóng bảng hoặc máy không hỗ trợ: không làm gì.
+    }
+  }
+
+  // Bấm ra ngoài hoặc phím Esc thì đóng bảng.
+  useEffect(() => {
+    if (!menu) return
+    const onDown = (e: PointerEvent) => {
+      if (!(e.target as Element).closest('.share')) setMenu(false)
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenu(false)
+    }
+    addEventListener('pointerdown', onDown)
+    addEventListener('keydown', onKey)
+    return () => {
+      removeEventListener('pointerdown', onDown)
+      removeEventListener('keydown', onKey)
+    }
+  }, [menu])
 
   const copy = async () => {
     try {
@@ -57,15 +85,20 @@ export function ShareButton({ page, name }: { page: Page; name: string }) {
       </button>
       {menu && (
         <div className="share-menu" role="dialog" aria-label={t.share.button}>
-          <a href={facebook} target="_blank" rel="noopener noreferrer" onClick={() => setMenu(false)}>
-            {t.share.facebook}
-          </a>
-          <button type="button" onClick={copy}>
-            {t.share.copy}
-          </button>
-          <button type="button" className="share-close" onClick={() => setMenu(false)} aria-label={t.share.close}>
-            ✕
-          </button>
+          <input className="share-url" readOnly value={url} onFocus={(e) => e.currentTarget.select()} aria-label="URL" />
+          <div className="share-actions">
+            <button type="button" className="share-copy" onClick={copy}>
+              {t.share.copy}
+            </button>
+            <a href={facebook} target="_blank" rel="noopener noreferrer" onClick={() => setMenu(false)}>
+              {t.share.facebook}
+            </a>
+            {'share' in navigator && (
+              <button type="button" onClick={shareMore}>
+                {t.share.more}
+              </button>
+            )}
+          </div>
         </div>
       )}
       {copied && (

@@ -15,7 +15,7 @@ export const strings = {
       facebook: 'Facebook',
       copy: 'Chép link',
       copied: 'Đã chép link!',
-      close: 'Đóng',
+      more: 'Cách khác…',
     },
     games: {
       counting: 'Đếm đồ vật',
@@ -111,7 +111,7 @@ export const strings = {
       facebook: 'Facebook',
       copy: 'Copy link',
       copied: 'Link copied!',
-      close: 'Close',
+      more: 'More…',
     },
     games: {
       counting: 'Counting',

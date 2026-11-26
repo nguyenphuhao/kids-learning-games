@@ -48,7 +48,7 @@ public/
 ## Chia sẻ và SEO
 
 - Mỗi trò chơi và truyện có link riêng: `/games/<id>` (ví dụ `/games/counting`) và `/stories/<id>` (ví dụ `/stories/park`). Mở link là vào thẳng trò/truyện đó; nút quay lại của trình duyệt cũng dùng được.
-- Nút chia sẻ (cạnh nút nhạc) ở màn chơi và màn đọc truyện. Trên điện thoại/máy tính bảng nút mở bảng chia sẻ của máy (Zalo, Messenger, Facebook…); trình duyệt không có bảng đó thì hiện nút Facebook và Chép link.
+- Nút chia sẻ (cạnh nút nhạc) ở màn chơi và màn đọc truyện. Trên điện thoại/máy tính bảng nút mở bảng chia sẻ của máy (Zalo, Messenger, Facebook…); trên máy tính (dùng chuột) nút mở bảng có link, nút Chép link, Facebook và "Cách khác…" (bảng chia sẻ của máy, nếu có).
 - Lúc `npm run build`, `vite.config.ts` tạo sẵn file HTML cho từng trang (tiêu đề, mô tả, link chuẩn, thẻ Open Graph) để Google, Facebook, Zalo đọc được khi không chạy JavaScript, cùng `sitemap.xml` và `robots.txt`. Ảnh xem trước khi dán link: `public/og-image.png` (1200×630).
 - Tên miền đặt ở `SITE_URL` trong `src/seo/pages.ts`. Thêm trò mới thì khai báo mô tả trong `GAME_DESCRIPTIONS` ở file này (TypeScript báo lỗi nếu thiếu).
 
