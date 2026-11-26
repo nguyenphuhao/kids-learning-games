@@ -21,7 +21,8 @@ import { FinishScreen } from '../shared/Rewards'
 import { useSession, type GameProps } from '../shared/session'
 import { useLevel, type Level } from '../shared/useLevel'
 import { pick } from '../shared/util'
-import { ALPHABET, glyphBox, NUMBERS, type Glyph } from '../writing/glyphs'
+import { ALPHABET, NUMBERS, type Glyph } from '../writing/glyphs'
+import { glyphWidth, runFrame, type Frame } from './art'
 import { Writer, type Phase as WriterPhase } from '../writing/Writer'
 import '../writing/writing.css'
 import type { ForestConfig, ForestEvent, ForestGameHandle, ForestItem } from './ForestScene'
@@ -49,11 +50,10 @@ function makeRun(mode: Mode, level: Level, lang: Lang): Run {
   return { items, picture: word.picture, hints: !hard, level, lang }
 }
 
-/** Chữ nhỏ trên thanh "đã tìm được". */
-function MiniGlyph({ item }: { item: ForestItem }) {
-  const b = glyphBox(item.glyph, item.kind, 0, true)
+/** Chữ nhỏ trên thanh "đã tìm được": cùng khung chung với các chữ khác của lượt (cùng tỉ lệ, cùng chân chữ). */
+function MiniGlyph({ item, frame }: { item: ForestItem; frame: Frame }) {
   return (
-    <svg viewBox={`${b.x} ${b.y} ${b.w} ${b.h}`} aria-label={item.char}>
+    <svg viewBox={`-6 ${frame.top} ${glyphWidth(item.glyph)} ${frame.bottom - frame.top}`} aria-label={item.char}>
       {item.glyph.strokes.map((d, i) => (
         <path key={i} d={d} fill="none" stroke="#1e63c6" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
       ))}
@@ -164,6 +164,7 @@ export function ForestGame({ id, onExit }: GameProps) {
   // ---------- Thử thách viết chữ ----------
 
   const item = challenge === null ? null : run.items[challenge]
+  const frame = runFrame(run.items)
 
   const onWatched = () => {
     setWPhase('trace')
@@ -245,7 +246,7 @@ export function ForestGame({ id, onExit }: GameProps) {
         <div className="fr-found" aria-label={t.forest.found}>
           {run.items.map((_, i) => {
             const got = collected[i]
-            return <span key={i} className={got === undefined ? 'fr-slot' : 'fr-slot on'}>{got !== undefined && <MiniGlyph item={run.items[got]} />}</span>
+            return <span key={i} className={got === undefined ? 'fr-slot' : 'fr-slot on'}>{got !== undefined && <MiniGlyph item={run.items[got]} frame={frame} />}</span>
           })}
         </div>
 

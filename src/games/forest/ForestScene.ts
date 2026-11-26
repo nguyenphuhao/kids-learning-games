@@ -10,7 +10,7 @@
 
 import * as Phaser from 'phaser'
 import type { Glyph, GlyphKind } from '../writing/glyphs'
-import { ANIMAL_KEYS, dataUrl, glyphArt, IMAGE_KEYS, imageUrl, SVG_ART, type Art } from './art'
+import { ANIMAL_KEYS, dataUrl, glyphArt, glyphWidth, IMAGE_KEYS, imageUrl, runFrame, SVG_ART, type Art, type Frame } from './art'
 
 export type ForestItem = { char: string; kind: GlyphKind; glyph: Glyph }
 
@@ -62,7 +62,7 @@ type Animal = {
 type Slot = { char: string; x: number; y: number; filled: boolean; g: Phaser.GameObjects.Graphics; hint?: Phaser.GameObjects.Image }
 type Tile = { char: string; c: Phaser.GameObjects.Container; homeX: number; homeY: number; placed: boolean; slot?: Slot }
 
-const glyphKey = (it: ForestItem) => `glyph-${it.kind}-${it.glyph.id}`
+const glyphKey = (it: ForestItem, f: Frame, style = 'solid') => `glyph-${style}-${it.kind}-${it.glyph.id}-${f.top}_${f.bottom}`
 
 export class ForestScene extends Phaser.Scene {
   private cfg!: ForestConfig
@@ -81,6 +81,7 @@ export class ForestScene extends Phaser.Scene {
   private tiles: Tile[] = []
   private board?: Phaser.GameObjects.Container
   private elapsed = 0
+  private frame: Frame = { top: 0, bottom: 0 }
 
   constructor() {
     super('forest')
@@ -101,7 +102,11 @@ export class ForestScene extends Phaser.Scene {
   preload() {
     for (const key of IMAGE_KEYS) if (!this.textures.exists(key)) this.load.image(key, imageUrl(key))
     const arts: Art[] = [...SVG_ART]
-    for (const it of this.cfg.items) arts.push(glyphArt(glyphKey(it), it.glyph, it.kind, GLYPH_H))
+    this.frame = runFrame(this.cfg.items)
+    for (const it of this.cfg.items) {
+      arts.push(glyphArt(glyphKey(it, this.frame), it.glyph, this.frame, GLYPH_H, 'solid'))
+      if (this.cfg.hints) arts.push(glyphArt(glyphKey(it, this.frame, 'dashed'), it.glyph, this.frame, GLYPH_H, 'dashed'))
+    }
     for (const a of arts) {
       if (!this.textures.exists(a.key)) this.load.svg(a.key, dataUrl(a), { width: a.w * RES, height: a.h * RES })
     }
@@ -109,6 +114,17 @@ export class ForestScene extends Phaser.Scene {
 
   private img(key: string, x: number, y: number, ox = 0.5, oy = 1) {
     return this.add.image(x, y, key).setScale(1 / RES).setOrigin(ox, oy)
+  }
+
+  /**
+   * Đặt cỡ cho hình chữ để mọi chữ của lượt cùng tỉ lệ: cả khung chung và chữ rộng nhất đều vừa
+   * ô vuông cạnh `size`. Gốc hình ở giữa khung, nên các chữ cùng đường chân chữ.
+   */
+  private fitGlyph(img: Phaser.GameObjects.Image, size: number) {
+    const fh = this.frame.bottom - this.frame.top
+    const widest = Math.max(...this.cfg.items.map((it) => glyphWidth(it.glyph)))
+    const unit = Math.min(size / fh, size / widest) // đơn vị thế giới cho mỗi đơn vị nét chữ
+    img.setScale((unit * fh) / (GLYPH_H * RES))
   }
 
   create() {
@@ -348,12 +364,11 @@ export class ForestScene extends Phaser.Scene {
       const x = FIRST_ANIMAL_X + k * ANIMAL_STEP
       const kind = kinds[k % kinds.length]
       const body = this.img(kind, x, ANIMAL_Y).setDepth(ANIMAL_Y)
-      const letter = this.img(glyphKey(this.cfg.items[index]), 0, 0, 0.5, 0.5)
-      const fit = (size: number) => letter.setScale(letter.scale * Math.min(1, size / Math.max(letter.displayWidth, letter.displayHeight)))
+      const letter = this.img(glyphKey(this.cfg.items[index], this.frame), 0, 0, 0.5, 0.5)
       let balloon: Phaser.GameObjects.Container
       if (kind === 'rabbit') {
         // Thỏ tự cầm bóng đỏ trong ảnh: đặt chữ lên quả bóng đó.
-        fit(52)
+        this.fitGlyph(letter, 70)
         balloon = this.add.container(x + 61, ANIMAL_Y - 207, [letter]).setDepth(ANIMAL_Y + 1)
       } else {
         // Bóng bay có chữ, dây buộc ở bàn tay đang vẫy (bên phải). Dây nối dài thêm để bóng
@@ -363,7 +378,7 @@ export class ForestScene extends Phaser.Scene {
         const balloonImg = this.img('balloon', 0, -lift).setTint(colors[k % colors.length])
         balloonImg.setScale(balloonImg.scale * 0.8)
         letter.setY(-lift - 142)
-        fit(84)
+        this.fitGlyph(letter, 115)
         balloon = this.add.container(x + 63, ANIMAL_Y - 148, [string, balloonImg, letter]).setDepth(ANIMAL_Y + 1)
         this.tweens.add({ targets: balloon, angle: { from: -4, to: 4 }, duration: 1400, yoyo: true, repeat: -1, ease: 'Sine.inOut' })
         balloonImg.setInteractive({ useHandCursor: true })
@@ -568,14 +583,15 @@ export class ForestScene extends Phaser.Scene {
     this.slots = this.cfg.items.map((it) => {
       const g = this.add.graphics().setDepth(6001)
       const slot: Slot = { char: it.char, x: 0, y: 0, filled: false, g }
-      if (this.cfg.hints) slot.hint = this.img(glyphKey(it), 0, 0, 0.5, 0.5).setAlpha(0.25).setDepth(6002)
+      // Mức Dễ: chữ mẫu nét đứt mờ trong ô để bé đặt chữ theo.
+      if (this.cfg.hints) slot.hint = this.img(glyphKey(it, this.frame, 'dashed'), 0, 0, 0.5, 0.5).setAlpha(0.7).setDepth(6002)
       return slot
     })
     const order = Phaser.Utils.Array.Shuffle(this.cfg.items.map((_, i) => i))
     this.tiles = order.map((i) => {
       const it = this.cfg.items[i]
       const bgT = this.add.graphics()
-      const letter = this.img(glyphKey(it), 0, 0, 0.5, 0.5)
+      const letter = this.img(glyphKey(it, this.frame), 0, 0, 0.5, 0.5)
       const c = this.add.container(0, 0, [bgT, letter]).setDepth(7000)
       const tile: Tile = { char: it.char, c, homeX: 0, homeY: 0, placed: false }
       this.input.setDraggable(c.setInteractive({ hitArea: new Phaser.Geom.Rectangle(0, 0, 1, 1), hitAreaCallback: Phaser.Geom.Rectangle.Contains, draggable: true, useHandCursor: true }))
@@ -623,10 +639,7 @@ export class ForestScene extends Phaser.Scene {
     const pic = this.board.getByName('picture') as Phaser.GameObjects.Text | null
     pic?.setPosition(cx, 175)
 
-    const glyphFit = (img: Phaser.GameObjects.Image) => {
-      const k = (s * 0.72) / Math.max(img.width, img.height)
-      img.setScale(k)
-    }
+    const glyphFit = (img: Phaser.GameObjects.Image) => this.fitGlyph(img, s * 0.9)
 
     this.slots.forEach((slot, i) => {
       slot.x = cx + (i - (n - 1) / 2) * gap
