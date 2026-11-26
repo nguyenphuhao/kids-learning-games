@@ -120,9 +120,9 @@ export const COUNTRIES: Country[] = [
 ]
 
 // Nhóm A: cờ quen thuộc, khác nhau rõ ràng (vòng đầu).
-const GROUP_A = ['VN', 'US', 'JP', 'KR', 'FR', 'BR', 'CA', 'GB', 'DE', 'IN', 'TH', 'CH', 'SE', 'GR', 'MX', 'AR', 'EG', 'ZA', 'KE', 'JM']
+export const GROUP_A = ['VN', 'US', 'JP', 'KR', 'FR', 'BR', 'CA', 'GB', 'DE', 'IN', 'TH', 'CH', 'SE', 'GR', 'MX', 'AR', 'EG', 'ZA', 'KE', 'JM']
 // Nhóm B: thêm các nước gần gũi và cờ dễ nhận ra.
-const GROUP_B = [
+export const GROUP_B = [
   ...GROUP_A,
   'CN', 'IT', 'AU', 'ID', 'MY', 'SG', 'PH', 'LA', 'KH', 'NO', 'FI', 'DK', 'ES', 'PT', 'NL', 'TR', 'IL', 'NP', 'BT', 'LB',
   'CU', 'CL', 'CO', 'PE', 'NG', 'GH', 'MA', 'NZ', 'UA', 'PL',

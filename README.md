@@ -27,7 +27,7 @@ src/
   stories/                 Truyện tương tác: data.ts (nội dung), StoryPlayer, art/ (hình vẽ)
   games/shared/            Thanh câu hỏi, mức Dễ/Khó, hàm dùng chung
   games/counting, colors, shapes, compare   4 trò học số, màu, hình
-  games/flag-builder/      Trò "Ghép quốc kỳ" (thiết kế cờ trong designs.ts, hình mảnh trong PieceArt.tsx)
+  games/flag-builder/      Trò "Ghép quốc kỳ" (cắt mảnh và mức chơi trong puzzle.ts, vẽ mảnh trong FlagPiece.tsx)
   games/flag-drive/        Trò "Lái xe tìm cờ" (100 nước và các vòng trong countries.ts, cảnh nền trong themes.ts + Scenery.tsx)
   i18n/strings.ts          Chữ giao diện VI/EN
   i18n/                   Ngôn ngữ hiện tại (LanguageProvider, useLanguage)
@@ -51,13 +51,15 @@ Mỗi lượt chơi gồm 5 câu; mỗi câu đúng thêm một ngôi sao trên 
 | Trò | Cách chơi | Dễ | Vừa | Khó |
 |---|---|---|---|---|
 | Lái xe tìm cờ / Flag drive | Kéo xe theo đường tới lá cờ đúng, hoặc chạm thẳng vào lá cờ | Bắt đầu từ vòng 1 | Bắt đầu từ vòng 3 | Bắt đầu từ vòng 5 (xem mục bên dưới) |
-| Ghép quốc kỳ / Build a flag | Kéo mảnh (nền, sọc, ngôi sao, vòng tròn…) từ khay lộn xộn vào khung để ghép đúng cờ | Có cờ mẫu, 2 mảnh nhiễu; Việt Nam, Nhật, Pháp, Đức | Có cờ mẫu, 4 mảnh nhiễu; thêm Ý, Hàn, Canada | Không có mẫu, 5 mảnh nhiễu; thêm Trung Quốc, Brazil |
+| Ghép quốc kỳ / Build a flag | Hình cờ thật được cắt thành các mảnh như tranh xếp hình; kéo từng mảnh từ khay vào đúng ô trong khung | Có cờ mẫu; 2 mảnh (trái/phải) + 1 mảnh nhiễu; 20 nước quen thuộc | Có cờ mẫu; 4 mảnh (2×2) + 2 mảnh nhiễu; 50 nước | Không có mẫu; 6 mảnh (3×2) + 2 mảnh nhiễu; cả 100 nước |
 | Đếm đồ vật / Counting | Chạm từng quả táo (giọng đọc đếm theo), rồi chọn đúng số | 1–3 quả | 1–6 quả | 1–10 quả |
 | Tìm màu / Find the color | Chạm quả bóng đúng màu, bóng bay lên | 2 bóng, đỏ/xanh dương/vàng | 3 bóng, 6 màu | 5 bóng, 6 màu |
 | Xếp hình / Shape match | Kéo hình vào ô cùng hình dạng | 2 hình (tròn, vuông, tam giác) | 3 hình | 4 hình (thêm ngôi sao) |
 | Nhiều hay ít / More or less | Chạm giỏ có nhiều hơn (hoặc ít hơn) | "Nhiều hơn", 1–5 quả, chênh ≥ 3 | "Nhiều hơn", 1–7 quả, chênh ≥ 2 | "Nhiều hơn" hoặc "ít hơn", 1–9 quả, chênh ≥ 1 |
 
-Đồ hoạ của các trò học số, màu, hình và trò ghép cờ vẽ bằng SVG (cờ trong trò ghép được vẽ theo lớp, đơn giản hoá). Trò lái xe dùng hình cờ của flag-icons và xe của Kenney.
+Đồ hoạ của các trò học số, màu, hình vẽ bằng SVG. Trò lái xe và trò ghép cờ dùng chung 100 hình cờ của flag-icons; trò lái xe dùng xe của Kenney.
+
+Trong trò ghép cờ, mảnh nhiễu cắt từ cờ nước khác (cùng nhóm nước của mức chơi). Đặt sai ô hoặc đặt mảnh nhiễu thì mảnh quay về khay và game nhắc "Thử lại nhé!". Mảnh nào trông giống hệt một ô khác (ví dụ hai mảnh đỏ trơn của cờ Madagascar, hay mảnh trắng của cờ khác) thì đặt vào ô đó cũng được tính đúng; game so sánh điểm ảnh của mảnh lúc bắt đầu mỗi cờ.
 
 ### Lái xe tìm cờ
 
@@ -89,7 +91,7 @@ File âm thanh của các trò khác:
 - Tìm màu: `colors-find-<red|blue|yellow|green|orange|purple>`
 - Xếp hình: `shapes-intro`, `shape-<circle|square|triangle|star>`
 - Nhiều hay ít: `compare-more`, `compare-less`
-- Ghép quốc kỳ: `build-<VN|CN|JP|KR|CA|BR|FR|IT|DE>`
+- Ghép quốc kỳ: `build-<MÃ NƯỚC>` cho cả 100 nước (tải khi mở trò)
 
 ## Truyện tương tác
 

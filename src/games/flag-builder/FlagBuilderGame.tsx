@@ -1,11 +1,11 @@
-// Trò "Ghép quốc kỳ": game đọc "Bé ghép cờ Việt Nam nhé!". Khay bên dưới có các mảnh lộn xộn
-// (nền, sọc, ngôi sao, vòng tròn…) của nhiều nước. Bé kéo đúng mảnh vào khung cờ.
-// Dễ/Vừa có cờ mẫu nhỏ để nhìn; Khó không có mẫu. Xem designs.tsx cho từng mức.
+// Trò "Ghép quốc kỳ": game đọc "Bé ghép cờ Na Uy nhé!". Hình cờ thật được cắt thành các mảnh
+// như tranh xếp hình, trộn lẫn với vài mảnh của cờ nước khác trong khay. Bé kéo từng mảnh vào
+// đúng ô trong khung. Dễ/Vừa có cờ mẫu nhỏ để nhìn; Khó không có mẫu. Xem puzzle.ts cho từng mức.
 //
-// Âm thanh: build-<CODE>, common-great, common-retry, common-finish.
+// Âm thanh: build-<CODE> (100 nước), common-great, common-retry, common-finish.
 
 import { useEffect, useRef, useState, type PointerEvent } from 'react'
-import { playLine } from '../../audio/audio'
+import { playLine, preloadLines } from '../../audio/audio'
 import { useLanguage } from '../../i18n/useLanguage'
 import { COUNTRIES } from '../flag-drive/countries'
 import { GameTop } from '../shared/GameTop'
@@ -13,34 +13,73 @@ import { FinishScreen, StarBar } from '../shared/Rewards'
 import { useSession, type GameProps } from '../shared/session'
 import { useLevel, type Level } from '../shared/useLevel'
 import { CELEBRATE_MS, svgPoint } from '../shared/util'
-import { FH, FW, kindOf, traySize, makeBuildRound, showModel, type BuildRound } from './designs'
-import { PieceArt } from './PieceArt'
+import { FlagPiece, WholeFlag } from './FlagPiece'
+import { FH, FW, lookalikeCells, makeBuildRound, pieceKey, showModel, type BuildRound } from './puzzle'
 
 type Point = { x: number; y: number }
+type Box = Point & { w: number; h: number }
 
 const FX = 30 // vị trí khung cờ trong khung cảnh 300x400
-const FY = 58
-const MODEL = { x: 236, y: 6, w: 54, h: 36 }
-const CELL_X = [45, 115, 185, 255]
-const CELL_Y = [290, 358]
+const FY = 52
+const MODEL = { x: 244, y: 2, w: 48, h: 36 }
+const TRAY = { x: 8, y: 246, w: 284, h: 148 }
 
-const home = (i: number): Point => ({ x: CELL_X[i % 4], y: CELL_Y[Math.floor(i / 4)] })
+/** Ô của mảnh thứ i trong khay: tối đa 4 mảnh thì xếp một hàng, nhiều hơn thì hai hàng 4 ô. */
+function trayCell(i: number, n: number): Box {
+  const perRow = n <= 4 ? n : 4
+  const rowsN = n <= 4 ? 1 : 2
+  const w = TRAY.w / perRow
+  const h = TRAY.h / rowsN
+  return { x: TRAY.x + w * (i % perRow), y: TRAY.y + h * Math.floor(i / perRow), w, h }
+}
+
+/** Kích thước mảnh khi nằm trong khay: giữ đúng tỉ lệ mảnh, vừa trong ô. */
+function traySize(cell: Box, cols: number, rows: number) {
+  const pw = FW / cols
+  const ph = FH / rows
+  const k = Math.min((cell.w - 14) / pw, (cell.h - 14) / ph, 0.75)
+  return { w: pw * k, h: ph * k }
+}
+
+const centre = (b: Box): Point => ({ x: b.x + b.w / 2, y: b.y + b.h / 2 })
 
 export function FlagBuilderGame({ id, onExit }: GameProps) {
   const { lang, t } = useLanguage()
   const session = useSession(id)
   const [level, setLevel] = useLevel('builder')
   const [round, setRound] = useState<BuildRound>(() => makeBuildRound(level))
-  const [filled, setFilled] = useState<boolean[]>(() => round.design.slots.map(() => false))
+  const cellsOf = (r: BuildRound) => r.cols * r.rows
+  const homes = (r: BuildRound) => r.pieces.map((_, i) => centre(trayCell(i, r.pieces.length)))
+  const [filled, setFilled] = useState<boolean[]>(() => Array(cellsOf(round)).fill(false))
   const [used, setUsed] = useState<boolean[]>(() => round.pieces.map(() => false))
-  const [pos, setPos] = useState<Point[]>(() => round.pieces.map((_, i) => home(i)))
+  const [pos, setPos] = useState<Point[]>(() => homes(round))
   const [dragging, setDragging] = useState<number | null>(null)
   const [message, setMessage] = useState<'build' | 'retry' | 'great'>('build')
+  // Các ô mà mỗi mảnh trông giống hệt (tính sau khi tải hình cờ; trước đó chỉ nhận đúng ô gốc).
+  const [alike, setAlike] = useState<{ round: BuildRound; cells: Record<string, number[]> } | null>(null)
   const svgRef = useRef<SVGSVGElement>(null)
   const grab = useRef<Point>({ x: 0, y: 0 })
   const pointer = useRef<Point>({ x: 0, y: 0 })
 
-  const code = round.design.code
+  const code = round.target.code
+  const cw = FW / round.cols
+  const ch = FH / round.rows
+
+  useEffect(() => {
+    preloadLines(
+      lang,
+      COUNTRIES.map((c) => `build-${c.code}`),
+    )
+  }, [lang])
+
+  useEffect(() => {
+    let live = true
+    lookalikeCells(round).then((cells) => live && setAlike({ round, cells }))
+    return () => {
+      live = false
+    }
+  }, [round])
+
   useEffect(() => {
     playLine(lang, `build-${code}`)
   }, [round, code, lang])
@@ -48,11 +87,11 @@ export function FlagBuilderGame({ id, onExit }: GameProps) {
   const done = filled.every(Boolean)
 
   const newRound = (lv: Level) => {
-    const next = makeBuildRound(lv, round.design.code)
+    const next = makeBuildRound(lv, round.target.code)
     setRound(next)
-    setFilled(next.design.slots.map(() => false))
+    setFilled(Array(cellsOf(next)).fill(false))
     setUsed(next.pieces.map(() => false))
-    setPos(next.pieces.map((_, i) => home(i)))
+    setPos(homes(next))
     setDragging(null)
     setMessage('build')
   }
@@ -73,32 +112,32 @@ export function FlagBuilderGame({ id, onExit }: GameProps) {
     setPos((list) => list.map((q, k) => (k === i ? { x: p.x - grab.current.x, y: p.y - grab.current.y } : q)))
   }
 
-  const backHome = (i: number) => setPos((list) => list.map((q, k) => (k === i ? home(i) : q)))
+  const backHome = (i: number) =>
+    setPos((list) => list.map((q, k) => (k === i ? centre(trayCell(i, round.pieces.length)) : q)))
 
   const up = (i: number) => {
     if (dragging !== i) return
     setDragging(null)
     const p = { x: pointer.current.x - FX, y: pointer.current.y - FY }
-    const inFrame = p.x >= 0 && p.x <= FW && p.y >= 0 && p.y <= FH
+    const inFrame = p.x >= 0 && p.x < FW && p.y >= 0 && p.y < FH
     if (!inFrame) {
       backHome(i)
       return
     }
     const piece = round.pieces[i]
-    const striped = kindOf(piece).startsWith('stripe')
-    const slot = round.design.slots.findIndex(
-      (s, k) =>
-        !filled[k] &&
-        s.accepts === piece &&
-        (!striped || (p.x >= s.x && p.x <= s.x + s.w && p.y >= s.y && p.y <= s.y + s.h)),
-    )
-    if (slot < 0) {
+    const col = Math.floor(p.x / cw)
+    const row = Math.floor(p.y / ch)
+    const cell = row * round.cols + col
+    const own = piece.code === code && piece.col === col && piece.row === row
+    const looksSame = alike?.round === round && (alike.cells[pieceKey(piece)] ?? []).includes(cell)
+    const right = (own || looksSame) && !filled[cell]
+    if (!right) {
       setMessage('retry')
       playLine(lang, 'common-retry')
       backHome(i)
       return
     }
-    const nextFilled = filled.map((v, k) => (k === slot ? true : v))
+    const nextFilled = filled.map((v, k) => (k === cell ? true : v))
     setFilled(nextFilled)
     setUsed((list) => list.map((v, k) => (k === i ? true : v)))
     if (nextFilled.every(Boolean)) {
@@ -116,10 +155,11 @@ export function FlagBuilderGame({ id, onExit }: GameProps) {
     newRound(lv)
   }
 
-  const name = COUNTRIES.find((c) => c.code === code)!.name[lang]
+  const name = round.target.name[lang]
   const build = t.flagBuilder.build.replace('{name}', name)
   const text = message === 'build' ? build : message === 'retry' ? `${t.common.retry} ${build}` : t.common.great
   const model = showModel(level)
+  const cells = Array.from({ length: cellsOf(round) }, (_, k) => ({ col: k % round.cols, row: Math.floor(k / round.cols) }))
 
   return (
     <div className="g-game">
@@ -139,15 +179,11 @@ export function FlagBuilderGame({ id, onExit }: GameProps) {
         {/* Cờ mẫu (mức Dễ, Vừa) */}
         {model && (
           <g aria-label={t.flagBuilder.model}>
-            <text x={MODEL.x - 6} y={MODEL.y + 24} textAnchor="end" fontSize="13" fontWeight="700" fill="#6d4c41">
+            <text x={MODEL.x - 6} y={MODEL.y + 25} textAnchor="end" fontSize="13" fontWeight="700" fill="#6d4c41">
               {t.flagBuilder.model}
             </text>
             <rect x={MODEL.x - 2} y={MODEL.y - 2} width={MODEL.w + 4} height={MODEL.h + 4} rx="4" fill="#fff" />
-            <svg x={MODEL.x} y={MODEL.y} width={MODEL.w} height={MODEL.h} viewBox={`0 0 ${FW} ${FH}`}>
-              {round.design.slots.map((s, k) => (
-                <PieceArt key={k} id={s.accepts} x={s.x} y={s.y} w={s.w} h={s.h} />
-              ))}
-            </svg>
+            <WholeFlag code={code} {...MODEL} />
           </g>
         )}
 
@@ -155,38 +191,46 @@ export function FlagBuilderGame({ id, onExit }: GameProps) {
         <g className={done ? 'g-bounce' : ''}>
           <rect x={FX - 6} y={FY - 6} width={FW + 12} height={FH + 12} rx="10" fill="#fff" />
           <rect x={FX} y={FY} width={FW} height={FH} fill="#eceff1" />
-          <svg x={FX} y={FY} width={FW} height={FH} viewBox={`0 0 ${FW} ${FH}`} overflow="visible">
-            {round.design.slots.map((s, k) =>
-              filled[k] ? (
-                <PieceArt key={k} id={s.accepts} x={s.x} y={s.y} w={s.w} h={s.h} />
-              ) : kindOf(s.accepts).startsWith('stripe') || (model && kindOf(s.accepts) === 'emblem') ? (
-                <rect
-                  key={k}
-                  x={s.x + 3}
-                  y={s.y + 3}
-                  width={s.w - 6}
-                  height={s.h - 6}
-                  rx="6"
-                  fill="none"
-                  stroke="#90a4ae"
-                  strokeWidth="2"
-                  strokeDasharray="7 6"
-                />
-              ) : null,
-            )}
-          </svg>
-          <rect x={FX} y={FY} width={FW} height={FH} fill="none" stroke="#90a4ae" strokeWidth="2" strokeDasharray="8 6" />
+          {cells.map(({ col, row }, k) =>
+            filled[k] ? (
+              <FlagPiece
+                key={k}
+                piece={{ code, col, row }}
+                cols={round.cols}
+                rows={round.rows}
+                x={FX + col * cw}
+                y={FY + row * ch}
+                w={cw}
+                h={ch}
+              />
+            ) : (
+              <rect
+                key={k}
+                x={FX + col * cw + 3}
+                y={FY + row * ch + 3}
+                width={cw - 6}
+                height={ch - 6}
+                rx="6"
+                fill="none"
+                stroke="#90a4ae"
+                strokeWidth="2"
+                strokeDasharray="7 6"
+              />
+            ),
+          )}
+          {done && <rect x={FX} y={FY} width={FW} height={FH} fill="none" stroke="#cfd8dc" strokeWidth="1" />}
         </g>
 
         {/* Khay mảnh ghép */}
-        <rect x="8" y="250" width="284" height="142" rx="18" fill="#ffe0b2" />
+        <rect {...TRAY} rx="18" fill="#ffe0b2" />
         {round.pieces.map((piece, i) => {
           if (used[i]) return null
-          const size = traySize(piece)
-          const at = home(i)
+          const cell = trayCell(i, round.pieces.length)
+          const at = centre(cell)
+          const size = traySize(cell, round.cols, round.rows)
           return (
             <g
-              key={`${piece}-${i}`}
+              key={`${round.target.code}-${i}`}
               className="g-tap"
               style={{
                 transition: dragging === i ? 'none' : 'transform 0.25s ease',
@@ -197,10 +241,29 @@ export function FlagBuilderGame({ id, onExit }: GameProps) {
               onPointerUp={() => up(i)}
               onPointerCancel={() => up(i)}
               role="button"
-              aria-label={piece}
+              aria-label={`${piece.code} ${piece.col},${piece.row}`}
             >
-              <rect x={at.x - 32} y={at.y - 30} width="64" height="60" fill="transparent" />
-              <PieceArt id={piece} x={at.x - size.w / 2} y={at.y - size.h / 2} w={size.w} h={size.h} />
+              <rect x={cell.x + 2} y={cell.y + 2} width={cell.w - 4} height={cell.h - 4} fill="transparent" />
+              <rect
+                x={at.x - size.w / 2 - 1.5}
+                y={at.y - size.h / 2 - 1.5}
+                width={size.w + 3}
+                height={size.h + 3}
+                rx="2"
+                fill="#fff"
+                stroke="#b0bec5"
+                strokeWidth="1"
+                pointerEvents="none"
+              />
+              <FlagPiece
+                piece={piece}
+                cols={round.cols}
+                rows={round.rows}
+                x={at.x - size.w / 2}
+                y={at.y - size.h / 2}
+                w={size.w}
+                h={size.h}
+              />
             </g>
           )
         })}
