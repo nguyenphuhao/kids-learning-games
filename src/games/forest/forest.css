@@ -70,3 +70,64 @@
   background: #fff8e1;
   box-shadow: 0 6px 0 rgb(0 0 0 / 15%);
 }
+
+/* Điện thoại xoay ngang: hai cột (câu nhắc, mức chơi, chữ/số bên trái; cảnh rừng bên phải, cao hết màn). */
+@media (orientation: landscape) and (max-height: 560px) {
+  .game-screen:has(.fr-game) {
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+  .game-screen:has(.fr-game) .game-header h2 {
+    font-size: 1.1rem;
+  }
+  .game-screen:has(.fr-game) .back-button,
+  .game-screen:has(.fr-game) .music-button {
+    width: 44px;
+    height: 44px;
+    font-size: 1.4rem;
+  }
+  .fr-game {
+    display: grid;
+    grid-template-columns: minmax(180px, 28%) 1fr;
+    grid-template-rows: auto auto 1fr;
+    gap: 8px 12px;
+    max-width: none;
+  }
+  .fr-game > * {
+    grid-column: 1;
+  }
+  .fr-game > .fr-scene {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    height: 100%;
+    min-height: 0;
+  }
+  .fr-game .g-top {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .fr-game .g-prompt {
+    min-height: 44px;
+    padding: 6px 10px;
+    font-size: 0.95rem;
+  }
+  .fr-game .g-levels {
+    flex-direction: row;
+  }
+  .fr-game .g-levels button {
+    flex: 1;
+    min-height: 36px;
+  }
+  .fr-game .w-tabs {
+    flex-direction: row;
+    align-self: start;
+  }
+  .fr-game .w-tabs button {
+    min-height: 44px;
+    font-size: 1.05rem;
+  }
+  .fr-slot {
+    width: 34px;
+    height: 34px;
+  }
+}

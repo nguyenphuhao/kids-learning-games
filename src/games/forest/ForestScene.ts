@@ -10,7 +10,7 @@
 
 import * as Phaser from 'phaser'
 import type { Glyph, GlyphKind } from '../writing/glyphs'
-import { ANIMALS, CAR, dataUrl, glyphArt, SCENERY, WHEEL, type Art } from './art'
+import { ANIMAL_KEYS, dataUrl, glyphArt, IMAGE_KEYS, imageUrl, SVG_ART, type Art } from './art'
 
 export type ForestItem = { char: string; kind: GlyphKind; glyph: Glyph }
 
@@ -44,6 +44,7 @@ const ANIMAL_STEP = 1000
 const STOP_GAP = 270 // xe dừng cách bạn thú chừng này
 const SPEED = 520 // đơn vị / giây
 const GLYPH_H = 120
+const CAR_BODY_Y = -22 // chân thân xe (so với mặt đường dưới bánh)
 
 type Animal = {
   index: number
@@ -94,7 +95,8 @@ export class ForestScene extends Phaser.Scene {
   }
 
   preload() {
-    const arts: Art[] = [...ANIMALS, CAR, WHEEL, ...SCENERY]
+    for (const key of IMAGE_KEYS) if (!this.textures.exists(key)) this.load.image(key, imageUrl(key))
+    const arts: Art[] = [...SVG_ART]
     for (const it of this.cfg.items) arts.push(glyphArt(glyphKey(it), it.glyph, it.kind, GLYPH_H))
     for (const a of arts) {
       if (!this.textures.exists(a.key)) this.load.svg(a.key, dataUrl(a), { width: a.w * RES, height: a.h * RES })
@@ -150,21 +152,18 @@ export class ForestScene extends Phaser.Scene {
     sky.fillGradientStyle(0xbfe9fb, 0xbfe9fb, 0xe6fbff, 0xe6fbff, 1)
     sky.fillRect(-4000, -2000, 12000, 4000)
 
-    // Đồi xa và rặng cây xa trôi chậm hơn (cảm giác chiều sâu).
-    const far = this.add.graphics().setScrollFactor(0.35, 1).setDepth(-900)
-    far.fillStyle(0x9edbb0, 1)
-    for (let x = -400; x < this.worldW * 0.35 + 3000; x += 420) far.fillEllipse(x, GROUND_Y, 620, 300 + ((x / 420) % 3) * 40)
-    const mid = this.add.graphics().setScrollFactor(0.6, 1).setDepth(-800)
-    mid.fillStyle(0x4fb768, 1)
-    for (let x = -300; x < this.worldW * 0.6 + 3000; x += 170) {
-      const r = 70 + ((x * 7) % 40)
-      mid.fillCircle(x, GROUND_Y - 40, r)
-      mid.fillCircle(x + 80, GROUND_Y - 10, r * 0.8)
+    // Tranh đồi xa (ảnh nối liền hai đầu) lặp lại, trôi chậm hơn xe cho cảm giác chiều sâu.
+    const hillsH = GROUND_Y + 70
+    const src = this.textures.get('hills').getSourceImage()
+    const hillsW = (src.width / src.height) * hillsH
+    for (let x = -hillsW; x < this.worldW * 0.35 + 4000; x += hillsW - 2) {
+      this.add.image(x, GROUND_Y + 70, 'hills').setOrigin(0, 1).setDisplaySize(hillsW, hillsH).setScrollFactor(0.35, 1).setDepth(-900)
     }
 
     const ground = this.add.graphics().setDepth(-700)
-    ground.fillStyle(0x5cbf6c, 1)
-    ground.fillRect(-200, GROUND_Y, this.worldW + 400, H - GROUND_Y + 200)
+    // Cỏ cùng màu chân tranh đồi.
+    ground.fillStyle(0x5db010, 1)
+    ground.fillRect(-200, GROUND_Y + 60, this.worldW + 400, H - GROUND_Y + 200)
     ground.fillStyle(0xe9cf94, 1)
     ground.fillRect(-200, ROAD_TOP, this.worldW + 400, ROAD_BOTTOM - ROAD_TOP)
     ground.fillStyle(0xd8b978, 1)
@@ -218,9 +217,10 @@ export class ForestScene extends Phaser.Scene {
   private makeTree(x: number, y: number) {
     const tree = this.img('tree', x, y).setDepth(y - 400)
     const apples = [
-      [-60, -230],
-      [40, -290],
-      [70, -200],
+      [-100, -255],
+      [-40, -330],
+      [60, -275],
+      [105, -210],
     ].map(([dx, dy]) => this.img('apple', x + dx, y + dy, 0.5, 0.5).setDepth(y - 399))
     let busy = false
     this.tappable(tree, () => {
@@ -265,7 +265,8 @@ export class ForestScene extends Phaser.Scene {
   }
 
   private makeGate() {
-    this.img('gate', this.gateX, ROAD_BOTTOM + 10).setDepth(ROAD_BOTTOM + 10)
+    // Cổng nằm sau xe (xe chạy qua giữa hai cột).
+    this.img('gate', this.gateX, ROAD_BOTTOM + 10).setDepth(CAR_Y - 10)
   }
 
   // ---------- Hiệu ứng ----------
@@ -337,30 +338,52 @@ export class ForestScene extends Phaser.Scene {
 
   private makeAnimals() {
     const order = Phaser.Utils.Array.Shuffle(this.cfg.items.map((_, i) => i))
-    const kinds = Phaser.Utils.Array.Shuffle(ANIMALS.map((a) => a.key))
+    const kinds = Phaser.Utils.Array.Shuffle([...ANIMAL_KEYS])
     const colors = [0xff8a80, 0xffd54f, 0x81d4fa, 0xce93d8, 0xa5d6a7, 0xffab91]
     order.forEach((index, k) => {
       const x = FIRST_ANIMAL_X + k * ANIMAL_STEP
-      const body = this.img(kinds[k % kinds.length], x, ANIMAL_Y).setDepth(ANIMAL_Y)
-      // Bóng bay có chữ, bạn thú cầm bên tay phải.
-      const balloonImg = this.img('balloon', 0, 0).setTint(colors[k % colors.length])
-      const letter = this.img(glyphKey(this.cfg.items[index]), 0, -164, 0.5, 0.5)
-      letter.setScale(letter.scale * Math.min(1, 90 / Math.max(letter.displayWidth, letter.displayHeight)))
-      const balloon = this.add.container(x + 80, ANIMAL_Y - 120, [balloonImg, letter]).setDepth(ANIMAL_Y + 1)
-      this.tweens.add({ targets: balloon, angle: { from: -4, to: 4 }, duration: 1400, yoyo: true, repeat: -1, ease: 'Sine.inOut' })
+      const kind = kinds[k % kinds.length]
+      const body = this.img(kind, x, ANIMAL_Y).setDepth(ANIMAL_Y)
+      const letter = this.img(glyphKey(this.cfg.items[index]), 0, 0, 0.5, 0.5)
+      const fit = (size: number) => letter.setScale(letter.scale * Math.min(1, size / Math.max(letter.displayWidth, letter.displayHeight)))
+      let balloon: Phaser.GameObjects.Container
+      if (kind === 'rabbit') {
+        // Thỏ tự cầm bóng đỏ trong ảnh: đặt chữ lên quả bóng đó.
+        fit(52)
+        balloon = this.add.container(x + 61, ANIMAL_Y - 207, [letter]).setDepth(ANIMAL_Y + 1)
+      } else {
+        // Bóng bay có chữ, dây buộc ở bàn tay đang vẫy (bên phải). Dây nối dài thêm để bóng
+        // nằm trên đầu bạn thú, không che mặt.
+        const lift = 70
+        const string = this.add.graphics().lineStyle(3, 0x90a4ae, 1).lineBetween(0, 0, 0, -lift - 4)
+        const balloonImg = this.img('balloon', 0, -lift).setTint(colors[k % colors.length])
+        balloonImg.setScale(balloonImg.scale * 0.8)
+        letter.setY(-lift - 142)
+        fit(84)
+        balloon = this.add.container(x + 63, ANIMAL_Y - 148, [string, balloonImg, letter]).setDepth(ANIMAL_Y + 1)
+        this.tweens.add({ targets: balloon, angle: { from: -4, to: 4 }, duration: 1400, yoyo: true, repeat: -1, ease: 'Sine.inOut' })
+        balloonImg.setInteractive({ useHandCursor: true })
+        balloonImg.on('pointerdown', () => this.tapAnimal(a))
+      }
       const a: Animal = { index, x, body, balloon, solved: false, met: false }
-      body.setInteractive({ useHandCursor: true })
+      body.setInteractive({ useHandCursor: true, pixelPerfect: true, alphaTolerance: 1 })
       body.on('pointerdown', () => this.tapAnimal(a))
-      balloonImg.setInteractive({ useHandCursor: true })
-      balloonImg.on('pointerdown', () => this.tapAnimal(a))
       this.animals.push(a)
     })
   }
 
-  private hop(target: Phaser.GameObjects.GameObject & { y: number }, height = 40) {
+  private hop(target: Phaser.GameObjects.GameObject & { y: number }, height = 40, carry?: { y: number }) {
     if (this.tweens.isTweening(target)) return
-    const y = target.y
-    this.tweens.add({ targets: target, y: y - height, duration: 180, yoyo: true, ease: 'Quad.out', onComplete: () => (target.y = y) })
+    const targets = carry ? [target, carry] : [target]
+    const ys = targets.map((t) => t.y)
+    this.tweens.add({
+      targets,
+      y: `-=${height}`,
+      duration: 180,
+      yoyo: true,
+      ease: 'Quad.out',
+      onComplete: () => targets.forEach((t, i) => (t.y = ys[i])),
+    })
   }
 
   private tapAnimal(a: Animal) {
@@ -375,7 +398,7 @@ export class ForestScene extends Phaser.Scene {
       this.meetRing = undefined
       this.cfg.onEvent({ type: 'challenge', index: a.index })
     } else {
-      this.hop(a.body)
+      this.hop(a.body, 40, a.balloon)
     }
   }
 
@@ -426,11 +449,12 @@ export class ForestScene extends Phaser.Scene {
   // ---------- Xe ----------
 
   private makeCar() {
-    this.carBody = this.img(CAR.key, 0, -36)
-    this.wheels = [-82, 86].map((dx) => this.img(WHEEL.key, dx, -40, 0.5, 0.5))
+    // Xe trong ảnh không có bánh (hốc bánh trống); bánh là ảnh riêng để quay khi chạy.
+    this.carBody = this.img('car', 0, CAR_BODY_Y)
+    this.wheels = [-84, 75].map((dx) => this.img('wheel', dx, -37, 0.5, 0.5).setScale(0.5 * 0.98))
     this.car = this.add.container(240, CAR_Y, [this.carBody, ...this.wheels]).setDepth(CAR_Y)
     // Container không đặt kích thước nên vùng chạm tính theo toạ độ quanh gốc xe (giữa, sát đất).
-    this.car.setInteractive({ hitArea: new Phaser.Geom.Rectangle(-150, -215, 300, 220), hitAreaCallback: Phaser.Geom.Rectangle.Contains, draggable: true, useHandCursor: true })
+    this.car.setInteractive({ hitArea: new Phaser.Geom.Rectangle(-160, -215, 320, 215), hitAreaCallback: Phaser.Geom.Rectangle.Contains, draggable: true, useHandCursor: true })
     this.targetX = this.car.x
     let moved = false
     this.car.on('dragstart', () => (moved = false))
@@ -479,9 +503,9 @@ export class ForestScene extends Phaser.Scene {
       if (step > 0.5) {
         this.car.x += Math.sign(dx) * step
         this.wheels.forEach((w) => (w.rotation += (Math.sign(dx) * step) / 30))
-        this.carBody.y = -36 + Math.sin(this.elapsed * 30) * 1.5
+        this.carBody.y = CAR_BODY_Y + Math.sin(this.elapsed * 30) * 1.5
       } else {
-        this.carBody.y = -36
+        this.carBody.y = CAR_BODY_Y
       }
       if (this.phase === 'drive' && Math.abs(this.car.x - limit) < 2) this.arrive()
 

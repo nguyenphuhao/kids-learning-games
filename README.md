@@ -42,6 +42,7 @@ public/
   assets/kenney            Hình tải từ Kenney, mỗi bộ kèm License.txt (CC0)
     flag-pack/             Cờ Việt Nam trên ô trò chơi (SVG)
   assets/flags             100 lá cờ cho trò lái xe, từ bộ flag-icons (MIT, kèm LICENSE.txt)
+  assets/forest            Hình trò Vào rừng tìm chữ (WebP), tạo bằng ChatGPT theo prompt của dự án
     racing-pack/           Xe ô tô
 ```
 
@@ -69,6 +70,7 @@ Mỗi lượt chơi gồm 5 câu; mỗi câu đúng thêm một ngôi sao trên 
 | Tập viết số / Write numbers | Như trên, với các số 0–9 | Như trên | (không có mức Vừa) | Như trên |
 | Nhiều hay ít / More or less | Chạm giỏ có nhiều hơn (hoặc ít hơn) | "Nhiều hơn", 1–5 quả, chênh ≥ 3 | "Nhiều hơn", 1–7 quả, chênh ≥ 2 | "Nhiều hơn" hoặc "ít hơn", 1–9 quả, chênh ≥ 1 |
 | Tô theo nét / Trace the dots | Đặt ngón tay lên chú ong, kéo theo đường chấm tới bông hoa | Nét thẳng: ngang, dọc, xiên, chữ V, mái nhà | Nét cong: cầu vồng, cái chén, sóng, cong hở phải/trái, vòng tròn | Nét kết hợp: móc (như n, u, m), răng cưa, vòng (như l), xoắn ốc; phải tô sát đường hơn |
+| Vào rừng tìm chữ / Forest letter hunt | Tab Chữ / Số. Kéo xe (hoặc chạm phía trước) chạy vào rừng; chạm bạn thú để nhận thử thách viết chữ / số trên quả bóng (dùng khung viết của trò tập viết); đủ chữ thì qua cổng rừng, kéo chữ vào đúng ô để ghép thành từ có hình (hoặc xếp số theo thứ tự). Cây, bụi, hoa, nấm, mây chạm vào đều có hiệu ứng. Cảnh làm bằng Phaser, chỉ tải khi mở trò | Từ 2–3 chữ / 3 số, ô có chữ mờ gợi ý, viết cho lệch nhiều | (không có mức Vừa) | Từ 4–5 chữ / 5 số, ô không gợi ý, viết phải sát nét |
 
 Trò tô theo nét: nét đã tô hiện màu cam theo ngón tay; ong chỉ đi tiếp khi ngón tay còn ở gần đường chấm (vùng vàng nhạt dọc theo đường là vùng được phép), và chỉ xét đoạn ngay phía trước ong nên không đi tắt được. Nhấc tay giữa chừng thì ong đứng chờ; chạm xa ong thì game nhắc "Bé bắt đầu từ chú ong nhé!". Đây là bài làm quen cầm bút và đi theo nét, không dạy viết chữ.
 
