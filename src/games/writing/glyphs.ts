@@ -89,18 +89,20 @@ const A_BOWL = oval(8, -10, 7.5, 10)
 // Móc nhỏ ở chân chữ (nét móc ngược phải): từ thân chữ x đi xuống, cong sang phải, dừng ở đường kẻ 2.
 const foot = (x: number) => `C${x},0 ${x + 4},0 ${x + 7},-8`
 // Nét móc hai đầu (phần sau của n, h, p): từ thân chữ rê lên, vòng qua đỉnh, móc ở chân.
-const hump = (x: number) => `L${x},-12 C${x + 2},-18 ${x + 6},-20 ${x + 8},-20 C${x + 10},-20 ${x + 11},-18 ${x + 11},-15 L${x + 11},-5 ${foot(x + 11)}`
+const hump = (x: number) => `L${x},-12 C${x + 2},-18 ${x + 7},-20 ${x + 10},-20 C${x + 13},-20 ${x + 14},-18 ${x + 14},-15 L${x + 14},-5 ${foot(x + 14)}`
+// Nét móc xuôi trái ở đầu chữ m, n, v: từ đường kẻ 2 cong lên đầu chữ rồi xuống thân chữ x = 9.
+const HOOK_IN = 'M0,-13 C1,-18 4,-20 6,-20 C8,-20 9,-18 9,-15'
 // Thân chữ của u, ư, y: nét hất, móc ngược, rê lên đường kẻ 3.
 // Đầu chữ r, s theo mẫu: nét hất từ đường kẻ 1 lên quá đường kẻ 3 một chút, vòng thắt nhỏ bên trái đầu nét.
 const RS_TOP = 'M0,0 L7,-21.5 C7.6,-24 6,-25.5 4.8,-24.5 C3.8,-23.5 5,-21.5 8,-21'
-const U_BODY = 'M0,-10 L6,-20 L6,-6 C6,1 15,1 17,-6 L17,-20'
+const U_BODY = 'M0,-10 L6,-20 L6,-6 C6,1 17,1 19,-6 L19,-20'
 
 const LOWER_VI: Glyph[] = [
   { id: 'a', char: 'a', w: 23, strokes: [A_BOWL, `M16,-20 L16,-5 ${foot(16)}`] },
   { id: 'ă', char: 'ă', w: 23, strokes: [A_BOWL, `M16,-20 L16,-5 ${foot(16)}`, breve(8, -24)] },
   { id: 'â', char: 'â', w: 23, strokes: [A_BOWL, `M16,-20 L16,-5 ${foot(16)}`, hat(8, -24)] },
   // Không có nét khuyết: thân chữ là nét thẳng từ đường kẻ 6 xuống.
-  { id: 'b', char: 'b', w: 20, strokes: ['M4,-50 L4,-5 C4,0 8,0 11,0 C16,0 19,-5 19,-10 C19,-16 16,-20 12,-20 C8,-20 5,-17 4,-14'] },
+  { id: 'b', char: 'b', w: 21, strokes: ['M4,-50 L4,-6 C4,-1 7,0 11,0 C17,0 20,-5 19.5,-11 C19,-17 17,-20 15,-20 C13,-20 13,-17 15.5,-16.5 L20,-17'] },
   { id: 'c', char: 'c', w: 16, strokes: ['M14,-16 C12,-19 10,-20 8,-20 C3,-20 0,-15 0,-10 C0,-4 3,0 8,0 C11,0 14,-2 16,-5'] },
   { id: 'd', char: 'd', w: 23, strokes: [A_BOWL, `M16,-40 L16,-5 ${foot(16)}`] },
   { id: 'đ', char: 'đ', w: 23, strokes: [A_BOWL, `M16,-40 L16,-5 ${foot(16)}`, 'M10,-30 L22,-30'] },
@@ -113,26 +115,26 @@ const LOWER_VI: Glyph[] = [
   },
   // g, y: nét thẳng xuống dưới, cuối nét cong sang trái (không vòng khuyết).
   { id: 'g', char: 'g', w: 17, strokes: [A_BOWL, 'M16,-20 L16,22 C16,29 9,30 5,25'] },
-  { id: 'h', char: 'h', w: 22, strokes: [`M4,-50 L4,0 ${hump(4)}`] },
+  { id: 'h', char: 'h', w: 25, strokes: [`M4,-50 L4,0 ${hump(4)}`] },
   { id: 'i', char: 'i', w: 13, strokes: [`M0,-10 L6,-20 L6,-5 ${foot(6)}`, 'M6,-28 L6,-27'] },
-  { id: 'k', char: 'k', w: 20, strokes: ['M4,-50 L4,0', 'M15,-20 C12,-16 8,-12 5,-11 C9,-10 12,-6 13,-3 C14,0 17,0 20,-4'] },
+  { id: 'k', char: 'k', w: 22, strokes: [`M4,-50 L4,0 L4,-11 C6,-17 11,-21 15,-18 C17,-15 13,-11 9,-11 C7.5,-11 7.5,-9.5 9.5,-10 C13,-10 15,-7 15,-5 ${foot(15)}`] },
   { id: 'l', char: 'l', w: 11, strokes: [`M4,-50 L4,-5 ${foot(4)}`] },
-  { id: 'm', char: 'm', w: 33, strokes: ['M0,-14 C1,-19 3,-20 5,-20 C6,-20 6,-18 6,-15 L6,0 L6,-12 C8,-18 11,-20 13,-20 C15,-20 16,-18 16,-15 L16,0 ' + hump(16)] },
-  { id: 'n', char: 'n', w: 24, strokes: ['M0,-14 C1,-19 3,-20 5,-20 C6,-20 6,-18 6,-15 L6,0 ' + hump(6)] },
-  { id: 'o', char: 'o', w: 16, strokes: [oval(8, -10, 8, 10)] },
-  { id: 'ô', char: 'ô', w: 16, strokes: [oval(8, -10, 8, 10), hat(8, -24)] },
-  { id: 'ơ', char: 'ơ', w: 20, strokes: [oval(8, -10, 8, 10), 'M14,-17 C18,-17 20,-19 19,-23'] },
-  { id: 'p', char: 'p', w: 24, strokes: ['M0,-12 L6,-20 L6,20 ' + hump(6)] },
+  { id: 'm', char: 'm', w: 44, strokes: [`${HOOK_IN} L9,0 L9,-12 C11,-18 16,-20 19,-20 C22,-20 23,-18 23,-15 L23,0 ${hump(23)}`] },
+  { id: 'n', char: 'n', w: 30, strokes: [`${HOOK_IN} L9,0 ${hump(9)}`] },
+  { id: 'o', char: 'o', w: 14, strokes: [oval(7, -10, 7, 10)] },
+  { id: 'ô', char: 'ô', w: 14, strokes: [oval(7, -10, 7, 10), hat(7, -24)] },
+  { id: 'ơ', char: 'ơ', w: 18, strokes: [oval(7, -10, 7, 10), 'M12,-17 C16,-17 18,-19 17,-23'] },
+  { id: 'p', char: 'p', w: 27, strokes: ['M0,-12 L6,-20 L6,20 ' + hump(6)] },
   { id: 'q', char: 'q', w: 17, strokes: [A_BOWL, 'M16,-20 L16,20'] },
   // r: nét ngang ngắn rồi nét móc ngược; s: nét cong phải, cuối nét móc nhỏ hếch lên, không chạm nét hất.
   { id: 'r', char: 'r', w: 22, strokes: [`${RS_TOP} C11,-22 14,-22 15.5,-20 C17,-18 16.5,-14 16,-10 L16,-5 ${foot(16)}`] },
   { id: 's', char: 's', w: 21, strokes: ['M0,0 L8,-21.5 C8.6,-24 7,-25.5 5.8,-24.5 C4.8,-23.5 6,-21.5 9,-21 C12.5,-18 17.5,-14 19.5,-10 C21.5,-5 18,-0.5 13,-0.5 C9,-0.5 6,-2 5,-5'] },
-  { id: 't', char: 't', w: 14, strokes: [`M0,-12 L6,-20 L6,-30 L6,-5 ${foot(6)}`, 'M0,-20 L12,-20'] },
-  { id: 'u', char: 'u', w: 24, strokes: [`${U_BODY} L17,-5 ${foot(17)}`] },
-  { id: 'ư', char: 'ư', w: 24, strokes: [`${U_BODY} L17,-5 ${foot(17)}`, 'M17,-19 C21,-19 23,-21 22,-25'] },
-  { id: 'v', char: 'v', w: 18, strokes: ['M0,-14 C1,-19 3,-20 5,-20 C7,-20 7,-17 7,-14 L7,-7 C7,-2 10,0 12,0 C16,0 18,-6 18,-20'] },
-  { id: 'x', char: 'x', w: 18, strokes: ['M1,-18 C4,-21 9,-18 9,-10 C9,-2 4,1 0,-2', 'M17,-18 C14,-21 9,-18 9,-10 C9,-2 14,1 18,-2'] },
-  { id: 'y', char: 'y', w: 18, strokes: [`${U_BODY} L17,22 C17,29 10,30 6,25`] },
+  { id: 't', char: 't', w: 13, strokes: [`M6,-30 L6,-5 ${foot(6)}`, 'M1,-20 L12,-20'] },
+  { id: 'u', char: 'u', w: 26, strokes: [`${U_BODY} L19,-5 ${foot(19)}`] },
+  { id: 'ư', char: 'ư', w: 26, strokes: [`${U_BODY} L19,-5 ${foot(19)}`, 'M19,-19 C23,-19 25,-21 24,-25'] },
+  { id: 'v', char: 'v', w: 24, strokes: [`${HOOK_IN} L9,-7 C9,-2 12,0 14,0 C19,0 21,-6 21,-13 C21,-18 20,-20 19,-20 C17.5,-20 17.5,-17.5 20,-17 L24,-17.5`] },
+  { id: 'x', char: 'x', w: 22, strokes: ['M1,-18 C5,-21 11,-18 11,-10 C11,-2 5,1 0,-2', 'M21,-18 C17,-21 11,-18 11,-10 C11,-2 17,1 22,-2'] },
+  { id: 'y', char: 'y', w: 20, strokes: [`${U_BODY} L19,22 C19,29 12,30 8,25`] },
 ]
 
 // Bốn chữ chỉ có trong bảng chữ tiếng Anh, vẽ cùng kiểu.
