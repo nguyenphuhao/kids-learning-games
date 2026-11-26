@@ -26,10 +26,16 @@ function makeRound(level: Level, previous?: number): Round {
   let count = randInt(1, max)
   if (count === previous) count = (count % max) + 1
   const cells = shuffle(Array.from({ length: COLS * ROWS }, (_, i) => i)).slice(0, count)
-  const apples = cells.map((c) => ({
+  const placed = cells.map((c) => ({
     x: 45 + (c % COLS) * CELL_W + randInt(-3, 3),
     y: 50 + Math.floor(c / COLS) * CELL_H + randInt(-3, 3),
   }))
+  // Dời cả nhóm táo vào giữa khung (ít táo thì không bị dồn về một góc).
+  const xs = placed.map((a) => a.x)
+  const ys = placed.map((a) => a.y)
+  const dx = 150 - (Math.min(...xs) + Math.max(...xs)) / 2
+  const dy = 130 - (Math.min(...ys) + Math.max(...ys)) / 2
+  const apples = placed.map((a) => ({ x: a.x + dx, y: a.y + dy }))
   const others = shuffle(Array.from({ length: max }, (_, i) => i + 1).filter((n) => n !== count))
   const choices = shuffle([count, ...others.slice(0, 2)])
   return { apples, choices }

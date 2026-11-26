@@ -100,7 +100,7 @@ File âm thanh của các trò khác:
 
 ## Màn hình iPad
 
-Mọi trò dùng chung khung `.g-game` (`src/games/shared/game.css`), rộng tối đa 960px nên iPad dọc dùng gần hết bề ngang. Từ 700px trở lên (iPad), câu yêu cầu, sao, nút trả lời và nút hoàn thành to hơn; nút Dễ / Vừa / Khó xếp ngang, cao 56px cho dễ chạm. Trang chủ hiện 3 ô mỗi hàng từ 1000px (iPad ngang). Màn chơi và trang chủ chừa vùng an toàn (thanh vuốt Home, tai thỏ). Khi thêm trò mới, dùng `.g-game` và `.g-scene` để có sẵn bố cục này.
+Mọi trò dùng chung khung `.g-game` (`src/games/shared/game.css`), rộng tối đa 960px nên iPad dọc dùng gần hết bề ngang. Từ 700px trở lên (iPad), câu yêu cầu, sao, nút trả lời và nút hoàn thành to hơn; nút Dễ / Vừa / Khó xếp ngang, cao 56px cho dễ chạm. Khi xoay ngang (rộng từ 900px và rộng hơn cao), màn chơi chia hai cột: bên trái là câu yêu cầu, mức chơi, sao và nút trả lời; bên phải là vùng chơi cao hết màn hình. Trang chủ hiện 3 ô mỗi hàng từ 1000px (iPad ngang). Màn chơi và trang chủ chừa vùng an toàn (thanh vuốt Home, tai thỏ). Khi thêm trò mới, dùng `.g-game` và `.g-scene` để có sẵn bố cục này.
 
 ## Truyện tương tác
 

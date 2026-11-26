@@ -300,3 +300,54 @@
     min-height: 32px;
   }
 }
+
+/* iPad xoay ngang (và màn rộng): hai cột. Cột trái là câu yêu cầu, mức chơi, sao, nút trả lời;
+   cột phải là vùng chơi, cao hết màn hình. Dùng chung cho .g-game và .flag-drive. */
+@media (min-width: 900px) and (min-aspect-ratio: 5/4) {
+  /* Thêm .game-body để thắng các file CSS riêng của từng trò (ví dụ flagDrive.css nạp sau). */
+  .game-body .g-game,
+  .game-body .flag-drive {
+    max-width: 1400px;
+    display: grid;
+    grid-template-columns: minmax(300px, 30%) 1fr;
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: 24px;
+    row-gap: 16px;
+    align-content: stretch;
+  }
+
+  .game-body .g-game > *,
+  .game-body .flag-drive > * {
+    grid-column: 1;
+  }
+
+  .game-body .g-game > .g-scene,
+  .game-body .flag-drive > .fd-scene {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .g-top {
+    flex-direction: column;
+  }
+
+  .g-prompt {
+    min-height: 120px;
+  }
+
+  .g-levels button {
+    flex: 1;
+  }
+
+  .g-answers {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .g-answer {
+    width: 96px;
+    height: 96px;
+  }
+}

@@ -166,7 +166,7 @@ export function ShapesGame({ id, onExit }: GameProps) {
       <StarBar stars={session.stars} />
       <svg ref={svgRef} className="g-scene" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet">
         <rect x="-200" y="-100" width="700" height="500" fill="#f3e5f5" />
-        <rect x="10" y="30" width="280" height="100" rx="20" fill="#fff" opacity="0.6" />
+        <rect x="0" y="30" width="300" height="100" rx="20" fill="#fff" opacity="0.6" />
         {round.shapes.map((s, i) => (
           <Shape key={`h-${s}`} name={s} x={round.holes[i].x} y={round.holes[i].y} hole />
         ))}
