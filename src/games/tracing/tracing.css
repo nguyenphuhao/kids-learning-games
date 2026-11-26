@@ -1,0 +1,27 @@
+/* Vòng sáng quanh chú ong: gợi ý bé đặt ngón tay vào đây. */
+.tr-hint {
+  fill: rgb(255 255 255 / 55%);
+  stroke: #ffb300;
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tr-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes tr-pulse {
+  0%,
+  100% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tr-hint {
+    animation: none;
+  }
+}

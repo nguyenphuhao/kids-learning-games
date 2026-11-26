@@ -16,6 +16,7 @@ export const strings = {
       compare: 'Nhiều hay ít',
       flags: 'Lái xe tìm cờ',
       builder: 'Ghép quốc kỳ',
+      tracing: 'Tô theo nét',
     },
     tabs: {
       stories: 'Truyện',
@@ -74,6 +75,10 @@ export const strings = {
       more: 'Giỏ nào có nhiều hơn?',
       less: 'Giỏ nào có ít hơn?',
     },
+    tracing: {
+      intro: 'Bé đặt ngón tay lên chú ong, rồi đi theo đường chấm tới bông hoa nhé!',
+      start: 'Bé bắt đầu từ chú ong nhé!',
+    },
   },
   en: {
     appTitle: 'Little Learners',
@@ -86,6 +91,7 @@ export const strings = {
       compare: 'More or less',
       flags: 'Flag drive',
       builder: 'Build a flag',
+      tracing: 'Trace the dots',
     },
     tabs: {
       stories: 'Stories',
@@ -143,6 +149,10 @@ export const strings = {
     compare: {
       more: 'Which basket has more?',
       less: 'Which basket has fewer?',
+    },
+    tracing: {
+      intro: 'Put your finger on the bee and follow the dots to the flower!',
+      start: 'Start from the bee!',
     },
   },
 } as const

@@ -20,4 +20,6 @@ export const AUDIO_KEYS: string[] = [
   ...SHAPES.map((s) => `shape-${s}`),
   'compare-more',
   'compare-less',
+  'trace-intro',
+  'trace-start',
 ]

@@ -28,6 +28,7 @@ src/
   games/shared/            Thanh câu hỏi, mức Dễ/Khó, hàm dùng chung
   games/counting, colors, shapes, compare   4 trò học số, màu, hình
   games/flag-builder/      Trò "Ghép quốc kỳ" (cắt mảnh và mức chơi trong puzzle.ts, vẽ mảnh trong FlagPiece.tsx)
+  games/tracing/           Trò "Tô theo nét" (các nét và mức chơi trong strokes.ts)
   games/flag-drive/        Trò "Lái xe tìm cờ" (100 nước và các vòng trong countries.ts, cảnh nền trong themes.ts + Scenery.tsx)
   i18n/strings.ts          Chữ giao diện VI/EN
   i18n/                   Ngôn ngữ hiện tại (LanguageProvider, useLanguage)
@@ -56,8 +57,11 @@ Mỗi lượt chơi gồm 5 câu; mỗi câu đúng thêm một ngôi sao trên 
 | Tìm màu / Find the color | Chạm quả bóng đúng màu, bóng bay lên | 2 bóng, đỏ/xanh dương/vàng | 3 bóng, 6 màu | 5 bóng, 6 màu |
 | Xếp hình / Shape match | Kéo hình vào ô cùng hình dạng | 2 hình (tròn, vuông, tam giác) | 3 hình | 4 hình (thêm ngôi sao) |
 | Nhiều hay ít / More or less | Chạm giỏ có nhiều hơn (hoặc ít hơn) | "Nhiều hơn", 1–5 quả, chênh ≥ 3 | "Nhiều hơn", 1–7 quả, chênh ≥ 2 | "Nhiều hơn" hoặc "ít hơn", 1–9 quả, chênh ≥ 1 |
+| Tô theo nét / Trace the dots | Đặt ngón tay lên chú ong, kéo theo đường chấm tới bông hoa | Nét thẳng: ngang, dọc, xiên, chữ V, mái nhà | Nét cong: cầu vồng, cái chén, sóng, cong hở phải/trái, vòng tròn | Nét kết hợp: móc (như n, u, m), răng cưa, vòng (như l), xoắn ốc; phải tô sát đường hơn |
 
-Đồ hoạ của các trò học số, màu, hình vẽ bằng SVG. Trò lái xe và trò ghép cờ dùng chung 100 hình cờ của flag-icons; trò lái xe dùng xe của Kenney.
+Trò tô theo nét: nét đã tô hiện màu cam theo ngón tay; ong chỉ đi tiếp khi ngón tay còn ở gần đường chấm (vùng vàng nhạt dọc theo đường là vùng được phép), và chỉ xét đoạn ngay phía trước ong nên không đi tắt được. Nhấc tay giữa chừng thì ong đứng chờ; chạm xa ong thì game nhắc "Bé bắt đầu từ chú ong nhé!". Đây là bài làm quen cầm bút và đi theo nét, không dạy viết chữ.
+
+Đồ hoạ của các trò học số, màu, hình, tô nét vẽ bằng SVG. Trò lái xe và trò ghép cờ dùng chung 100 hình cờ của flag-icons; trò lái xe dùng xe của Kenney.
 
 Trong trò ghép cờ, mảnh nhiễu cắt từ cờ nước khác (cùng nhóm nước của mức chơi). Đặt sai ô hoặc đặt mảnh nhiễu thì mảnh quay về khay và game nhắc "Thử lại nhé!". Mảnh nào trông giống hệt một ô khác (ví dụ hai mảnh đỏ trơn của cờ Madagascar, hay mảnh trắng của cờ khác) thì đặt vào ô đó cũng được tính đúng; game so sánh điểm ảnh của mảnh lúc bắt đầu mỗi cờ.
 
@@ -91,7 +95,12 @@ File âm thanh của các trò khác:
 - Tìm màu: `colors-find-<red|blue|yellow|green|orange|purple>`
 - Xếp hình: `shapes-intro`, `shape-<circle|square|triangle|star>`
 - Nhiều hay ít: `compare-more`, `compare-less`
+- Tô theo nét: `trace-intro`, `trace-start`
 - Ghép quốc kỳ: `build-<MÃ NƯỚC>` cho cả 100 nước (tải khi mở trò)
+
+## Màn hình iPad
+
+Mọi trò dùng chung khung `.g-game` (`src/games/shared/game.css`), rộng tối đa 960px nên iPad dọc dùng gần hết bề ngang. Từ 700px trở lên (iPad), câu yêu cầu, sao, nút trả lời và nút hoàn thành to hơn; nút Dễ / Vừa / Khó xếp ngang, cao 56px cho dễ chạm. Trang chủ hiện 3 ô mỗi hàng từ 1000px (iPad ngang). Màn chơi và trang chủ chừa vùng an toàn (thanh vuốt Home, tai thỏ). Khi thêm trò mới, dùng `.g-game` và `.g-scene` để có sẵn bố cục này.
 
 ## Truyện tương tác
 

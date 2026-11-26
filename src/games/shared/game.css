@@ -2,7 +2,7 @@
 .g-game {
   align-self: stretch;
   width: 100%;
-  max-width: 560px;
+  max-width: 960px; /* iPad dọc dùng gần hết bề ngang; màn rộng hơn thì canh giữa */
   margin: 0 auto;
   height: 100%;
   display: flex;
@@ -237,5 +237,66 @@
   }
   .g-confetti {
     display: none;
+  }
+}
+
+/* Đặt cuối file để đè lên các kích thước mặc định ở trên. */
+/* Máy tính bảng (iPad…): chữ, nút và sao to hơn; nút mức chơi xếp ngang, đủ lớn cho ngón tay. */
+@media (min-width: 700px) {
+  .g-game {
+    gap: 16px;
+  }
+
+  .g-prompt {
+    min-height: 76px;
+    padding: 10px 22px;
+    font-size: 1.7rem;
+  }
+
+  .g-speaker {
+    font-size: 2rem;
+  }
+
+  .g-levels {
+    flex-direction: row;
+    align-items: stretch;
+    padding: 6px;
+    border-radius: 20px;
+  }
+
+  .g-levels button {
+    min-width: 76px;
+    min-height: 56px;
+    border-radius: 14px;
+    font-size: 1.1rem;
+  }
+
+  .g-stars {
+    font-size: 2.3rem;
+  }
+
+  .g-answers {
+    gap: 20px;
+    min-height: 112px;
+  }
+
+  .g-answer {
+    width: 112px;
+    height: 112px;
+    border-radius: 28px;
+    font-size: 3.3rem;
+  }
+
+  .g-finish-buttons button {
+    min-height: 76px;
+    padding: 0 28px;
+    font-size: 1.5rem;
+  }
+}
+
+/* Nút mức chơi trên điện thoại: xếp dọc nhưng vẫn đủ cao để chạm. */
+@media (max-width: 699px) {
+  .g-levels button {
+    min-height: 32px;
   }
 }
