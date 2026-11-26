@@ -21,8 +21,9 @@ npm run dev
 
 ```
 src/
-  App.tsx                  Chuyển giữa màn hình chính, màn chơi và màn đọc truyện
-  components/              HomeScreen (2 tab), PlayScreen, GameScreen, LanguageToggle
+  App.tsx                  Chuyển giữa màn hình chính, màn chơi và màn đọc truyện (mỗi trang có link riêng)
+  components/              HomeScreen (2 tab), PlayScreen, GameScreen, LanguageToggle, ShareButton
+  seo/pages.ts             Link, tiêu đề, mô tả từng trang (dùng cho nút chia sẻ và SEO)
   games/registry.tsx       Danh sách trò chơi (thêm trò mới ở đây)
   stories/                 Truyện tương tác: data.ts (nội dung), StoryPlayer, art/ (hình vẽ)
   games/shared/            Thanh câu hỏi, mức Dễ/Khó, hàm dùng chung
@@ -43,6 +44,13 @@ public/
   assets/flags             100 lá cờ cho trò lái xe, từ bộ flag-icons (MIT, kèm LICENSE.txt)
     racing-pack/           Xe ô tô
 ```
+
+## Chia sẻ và SEO
+
+- Mỗi trò chơi và truyện có link riêng: `/games/<id>` (ví dụ `/games/counting`) và `/stories/<id>` (ví dụ `/stories/park`). Mở link là vào thẳng trò/truyện đó; nút quay lại của trình duyệt cũng dùng được.
+- Nút chia sẻ (cạnh nút nhạc) ở màn chơi và màn đọc truyện. Trên điện thoại/máy tính bảng nút mở bảng chia sẻ của máy (Zalo, Messenger, Facebook…); trình duyệt không có bảng đó thì hiện nút Facebook và Chép link.
+- Lúc `npm run build`, `vite.config.ts` tạo sẵn file HTML cho từng trang (tiêu đề, mô tả, link chuẩn, thẻ Open Graph) để Google, Facebook, Zalo đọc được khi không chạy JavaScript, cùng `sitemap.xml` và `robots.txt`. Ảnh xem trước khi dán link: `public/og-image.png` (1200×630).
+- Tên miền đặt ở `SITE_URL` trong `src/seo/pages.ts`. Thêm trò mới thì khai báo mô tả trong `GAME_DESCRIPTIONS` ở file này (TypeScript báo lỗi nếu thiếu).
 
 ## Trò chơi
 

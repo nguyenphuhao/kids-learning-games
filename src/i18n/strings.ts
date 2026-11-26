@@ -9,6 +9,14 @@ export const strings = {
     appTitle: 'Bé học vui',
     back: 'Quay lại',
     music: 'Nhạc nền',
+    share: {
+      button: 'Chia sẻ',
+      text: 'Cho bé chơi thử "{name}" nhé! Miễn phí cho bé 2–5 tuổi, có tiếng Việt và tiếng Anh.',
+      facebook: 'Facebook',
+      copy: 'Chép link',
+      copied: 'Đã chép link!',
+      close: 'Đóng',
+    },
     games: {
       counting: 'Đếm đồ vật',
       colors: 'Tìm màu',
@@ -97,6 +105,14 @@ export const strings = {
     appTitle: 'Little Learners',
     back: 'Back',
     music: 'Background music',
+    share: {
+      button: 'Share',
+      text: 'Try "{name}" with your kids! Free for ages 2–5, in English and Vietnamese.',
+      facebook: 'Facebook',
+      copy: 'Copy link',
+      copied: 'Link copied!',
+      close: 'Close',
+    },
     games: {
       counting: 'Counting',
       colors: 'Find the color',

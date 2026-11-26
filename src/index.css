@@ -235,6 +235,71 @@ button {
   text-decoration: line-through;
 }
 
+.share {
+  position: relative;
+}
+
+.share-button {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 4px 0 rgb(0 0 0 / 12%);
+  display: grid;
+  place-items: center;
+}
+
+.share-button svg {
+  width: 28px;
+  height: 28px;
+  fill: #fb8c00;
+  stroke: #fb8c00;
+}
+
+.share-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 18%);
+  white-space: nowrap;
+}
+
+.share-menu a,
+.share-menu button {
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #fff3e0;
+  color: #5d4037;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.share-menu .share-close {
+  background: none;
+  padding: 10px;
+}
+
+.share-toast {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #2e7d32;
+  color: #fff;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
 .back-button {
   width: 64px;
   height: 64px;
