@@ -1,9 +1,13 @@
-// Khung viết một chữ: hoạt ảnh hướng dẫn từng nét theo thứ tự, rồi bé tô theo bằng ngón tay.
+// Khung viết một chữ: hoạt ảnh hướng dẫn từng nét theo thứ tự, rồi bé tự viết theo.
 //
-// Tô theo: mỗi nét được lấy mẫu thành các điểm cách nhau 1 đơn vị. Bé phải đặt tay gần điểm đang
-// tô dở (lúc đầu là chấm đặt bút có số thứ tự), rồi kéo theo hướng viết; nét chỉ tiến lên khi ngón
-// tay ở gần đường nét, và chỉ tiến tới trong một khoảng ngắn phía trước (nên đi ngược hay nhảy cóc
-// không được tính). Nhấc tay giữa chừng thì phần đã tô vẫn giữ, bé tô tiếp từ đó.
+// Bé viết: mực hiện đúng đường ngón tay / bút của bé (không tự bám vào nét mẫu). Nhấc tay xong một
+// nét thì chấm nét đó so với nét mẫu (lấy mẫu mỗi 1 đơn vị):
+//   - đặt bút gần điểm đầu nét và kết thúc gần điểm cuối nét;
+//   - đi đúng chiều và đi hết nét: dò dọc nét mẫu, mỗi điểm bé viết chỉ được tiến tới tối đa
+//     LOOKAHEAD đơn vị (nên đi ngược, nhảy cóc hay bỏ đoạn đều không qua);
+//   - không lệch: hầu hết điểm bé viết nằm trong khoảng cho phép quanh nét mẫu, không điểm nào quá xa.
+// Đạt thì giữ nguyên nét bé viết và sang nét sau; không đạt thì nét đó mờ đi rồi biến mất, bé viết lại.
+// Khoảng lệch cho phép tuỳ mức chơi (Dễ rộng, Khó hẹp).
 
 import { useEffect, useLayoutEffect, useRef, useState, type PointerEvent } from 'react'
 import { svgPoint } from '../shared/util'
@@ -17,10 +21,13 @@ export type Phase = 'watch' | 'trace' | 'done'
 const STEP = 1 // khoảng cách giữa các điểm mẫu (đơn vị)
 const SPEED = 40 // tốc độ hoạt ảnh (đơn vị / giây)
 const PAUSE_MS = 450 // nghỉ giữa hai nét
-const LOOKAHEAD = 10 // mỗi lần di tay chỉ tiến tối đa chừng này đơn vị
-const DOT_LEN = 3 // nét ngắn hơn thì là dấu chấm: chỉ cần chạm
+const LOOKAHEAD = 10 // mỗi điểm bé viết chỉ được tiến dọc nét mẫu tối đa chừng này đơn vị
+const DOT_LEN = 3 // nét ngắn hơn thì là dấu chấm: chỉ cần chạm đúng chỗ
+const OFF_RATIO = 0.08 // tối đa 8% điểm bé viết được lệch quá khoảng cho phép
+const FAIL_MS = 700 // nét sai mờ đi trong chừng này rồi biến mất
 
-const TOLERANCE: Record<Level, number> = { easy: 9, medium: 7, hard: 5.5 }
+// Khoảng lệch cho phép quanh nét mẫu (đơn vị; 1 li = 10).
+const TOLERANCE: Record<Level, number> = { easy: 8, medium: 6, hard: 4.5 }
 const GUIDE_OPACITY: Record<Level, number> = { easy: 1, medium: 0.45, hard: 0 }
 
 const INK = '#1e63c6'
@@ -40,6 +47,47 @@ function sample(path: SVGPathElement): Pt[] {
 
 const dist = (a: Pt, b: Pt) => Math.hypot(a.x - b.x, a.y - b.y)
 
+/** Chèn thêm điểm để hai điểm liền nhau cách nhau không quá STEP (tay di nhanh thì điểm thưa). */
+function densify(pts: Pt[]): Pt[] {
+  const out: Pt[] = [pts[0]]
+  for (let i = 1; i < pts.length; i++) {
+    const a = pts[i - 1]
+    const b = pts[i]
+    const n = Math.ceil(dist(a, b) / STEP)
+    for (let k = 1; k <= n; k++) out.push({ x: a.x + ((b.x - a.x) * k) / n, y: a.y + ((b.y - a.y) * k) / n })
+  }
+  return out
+}
+
+/** Nét bé viết (`drawn`) có khớp nét mẫu (`guide`, các điểm cách nhau STEP) không. */
+function strokeMatches(drawn: Pt[], guide: Pt[], tol: number): boolean {
+  if (drawn.length === 0) return false
+  const last = guide.length - 1
+  // Dấu chấm: chỉ cần chạm gần đúng chỗ, không kéo đi xa.
+  if (last * STEP < DOT_LEN) return drawn.every((p) => dist(p, guide[0]) <= tol * 1.5)
+  if (dist(drawn[0], guide[0]) > tol * 1.5) return false
+  if (dist(drawn[drawn.length - 1], guide[last]) > tol * 1.5) return false
+  const pts = densify(drawn)
+  let k = 0
+  let off = 0
+  for (const p of pts) {
+    // Đi dọc nét mẫu theo chiều viết: tiến tới điểm xa nhất (trong LOOKAHEAD) còn nằm trong khoảng cho phép.
+    const limit = Math.min(last, k + Math.round(LOOKAHEAD / STEP))
+    for (let j = limit; j > k; j--) {
+      if (dist(p, guide[j]) <= tol) {
+        k = j
+        break
+      }
+    }
+    // Lệch khỏi nét mẫu (so với điểm gần nhất trên cả nét).
+    let near = Infinity
+    for (const g of guide) near = Math.min(near, dist(p, g))
+    if (near > tol * 2.2) return false
+    if (near > tol) off++
+  }
+  return last - k <= Math.round(3 / STEP) && off <= pts.length * OFF_RATIO
+}
+
 type Props = {
   glyph: Glyph
   kind: GlyphKind
@@ -55,11 +103,14 @@ export function Writer({ glyph, kind, level, phase, onWatched, onDone, onMiss }:
   const measureRefs = useRef<(SVGPathElement | null)[]>([])
   const svgRef = useRef<SVGSVGElement>(null)
   const [samples, setSamples] = useState<Pt[][]>([])
-  // Tiến độ tô của từng nét: số điểm mẫu đã đi qua.
-  const [progress, setProgress] = useState<number[]>(() => glyph.strokes.map(() => 0))
+  // Nét bé đã viết đạt (giữ nguyên đường tay của bé), nét đang viết, và nét vừa viết sai (đang mờ đi).
+  const [inks, setInks] = useState<Pt[][]>([])
+  const [live, setLive] = useState<Pt[] | null>(null)
+  const [failed, setFailed] = useState<Pt[] | null>(null)
+  const pointer = useRef<number | null>(null)
+  const failTimer = useRef(0)
   // Hoạt ảnh: nét đang vẽ và độ dài đã vẽ của nét đó.
   const [anim, setAnim] = useState<{ stroke: number; len: number } | null>(null)
-  const drawing = useRef(false)
   const reduced = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
   // Mỗi chữ (và mỗi lần xem lại) là một Writer mới (khác key), nên chỉ cần đo một lần.
@@ -107,58 +158,48 @@ export function Writer({ glyph, kind, level, phase, onWatched, onDone, onMiss }:
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, samples])
 
-  const current = progress.findIndex((p, i) => samples[i] && p < samples[i].length - 1)
+  useEffect(() => () => clearTimeout(failTimer.current), [])
+
+  const current = phase === 'trace' && inks.length < samples.length ? inks.length : -1
   const tol = TOLERANCE[level]
 
-  const finishStroke = (next: number[]) => {
-    setProgress(next)
-    if (next.every((p, i) => p >= samples[i].length - 1)) {
-      drawing.current = false
-      onDone()
-    }
-  }
+  const point = (e: PointerEvent<SVGSVGElement>) => svgPoint(svgRef.current!, e.clientX, e.clientY)
 
   const down = (e: PointerEvent<SVGSVGElement>) => {
-    if (phase !== 'trace' || current < 0 || !svgRef.current) return
-    const f = svgPoint(svgRef.current, e.clientX, e.clientY)
-    const pts = samples[current]
-    if (dist(f, pts[progress[current]]) > tol * 1.6) {
-      onMiss()
-      return
-    }
+    if (current < 0 || !svgRef.current || pointer.current !== null) return
     e.currentTarget.setPointerCapture(e.pointerId)
-    if (lengths[current] < DOT_LEN) {
-      finishStroke(progress.map((p, i) => (i === current ? pts.length - 1 : p)))
-      return
-    }
-    drawing.current = true
+    pointer.current = e.pointerId
+    setFailed(null)
+    setLive([point(e)])
   }
 
   const move = (e: PointerEvent<SVGSVGElement>) => {
-    if (!drawing.current || current < 0 || !svgRef.current) return
-    const f = svgPoint(svgRef.current, e.clientX, e.clientY)
-    const pts = samples[current]
-    let k = progress[current]
-    const limit = Math.min(pts.length - 1, k + Math.round(LOOKAHEAD / STEP))
-    let best = k
-    for (let j = k + 1; j <= limit; j++) if (dist(f, pts[j]) < tol) best = j
-    if (best === k) return
-    k = best
-    // Gần hết nét thì coi như xong (đỡ phải kéo tới đúng điểm cuối).
-    if (pts.length - 1 - k <= 2) k = pts.length - 1
-    const next = progress.map((p, i) => (i === current ? k : p))
-    if (k === pts.length - 1) {
-      drawing.current = false
-      finishStroke(next)
-    } else setProgress(next)
+    if (e.pointerId !== pointer.current || !svgRef.current) return
+    // Bút / ngón tay di nhanh: lấy cả các điểm trình duyệt gộp lại để nét mượt và đúng.
+    const evs = e.nativeEvent.getCoalescedEvents?.() ?? []
+    const added = evs.length > 0 ? evs.map((c) => svgPoint(svgRef.current!, c.clientX, c.clientY)) : [point(e)]
+    setLive((l) => (l ? [...l, ...added] : l))
   }
 
-  const up = () => {
-    drawing.current = false
+  const up = (e: PointerEvent<SVGSVGElement>) => {
+    if (e.pointerId !== pointer.current) return
+    pointer.current = null
+    const drawn = live ?? []
+    setLive(null)
+    if (current < 0 || drawn.length === 0) return
+    if (strokeMatches(drawn, samples[current], tol)) {
+      const next = [...inks, drawn]
+      setInks(next)
+      if (next.length === samples.length) onDone()
+    } else {
+      setFailed(drawn)
+      clearTimeout(failTimer.current)
+      failTimer.current = window.setTimeout(() => setFailed(null), FAIL_MS)
+      onMiss()
+    }
   }
 
-  const showAll = phase === 'done'
-  const startPt = current >= 0 && samples[current] ? samples[current][progress[current]] : null
+  const startPt = current >= 0 && samples[current] ? samples[current][0] : null
 
   return (
     <svg
@@ -197,36 +238,31 @@ export function Writer({ glyph, kind, level, phase, onWatched, onDone, onMiss }:
           ),
         )}
       </g>
-      {/* Mực: hoạt ảnh hoặc phần bé đã tô. */}
-      {glyph.strokes.map((d, i) => {
-        const len = lengths[i] ?? 0
-        const shown = showAll
-          ? len
-          : phase === 'watch'
-            ? anim
-              ? i < anim.stroke
-                ? len
-                : i === anim.stroke
-                  ? anim.len
-                  : 0
-              : 0
-            : (progress[i] ?? 0) * STEP
-        if (shown <= 0 && len >= DOT_LEN) return null
-        const isDot = len < DOT_LEN
-        if (isDot && shown <= 0 && !(phase === 'watch' && anim && i === anim.stroke)) return null
-        return (
-          <path
-            key={`i${i}`}
-            d={d}
-            fill="none"
-            stroke={INK}
-            strokeWidth={isDot ? 4.5 : 3.2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeDasharray={isDot ? undefined : `${shown} 9999`}
-          />
-        )
-      })}
+      {/* Mực của hoạt ảnh hướng dẫn. */}
+      {phase === 'watch' &&
+        anim &&
+        glyph.strokes.map((d, i) => {
+          if (i > anim.stroke) return null
+          const len = lengths[i] ?? 0
+          if (len < DOT_LEN)
+            return <circle key={`a${i}`} cx={samples[i][0].x} cy={samples[i][0].y} r="2.3" fill={INK} />
+          return (
+            <path
+              key={`a${i}`}
+              d={d}
+              fill="none"
+              stroke={INK}
+              strokeWidth="3.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeDasharray={`${i < anim.stroke ? len : anim.len} 9999`}
+            />
+          )
+        })}
+      {/* Mực bé viết: các nét đạt, nét đang viết, nét vừa sai (mờ đi). */}
+      {phase !== 'watch' && inks.map((pts, i) => <Ink key={`k${i}`} pts={pts} />)}
+      {live && <Ink pts={live} />}
+      {failed && <Ink pts={failed} className="w-fail" />}
       {/* Bút chì trong hoạt ảnh. */}
       {phase === 'watch' && anim && samples[anim.stroke] && (
         (() => {
@@ -245,11 +281,30 @@ export function Writer({ glyph, kind, level, phase, onWatched, onDone, onMiss }:
         ))}
       {phase === 'trace' && startPt && current >= 0 && (
         <>
-          <StartDot p={startPt} n={current + 1} pulse />
-          {progress[current] === 0 && <Arrow pts={samples[current]} />}
+          <StartDot p={startPt} n={current + 1} pulse={!live} />
+          {!live && <Arrow pts={samples[current]} />}
         </>
       )}
     </svg>
+  )
+}
+
+/** Một nét bé viết, vẽ đúng theo các điểm tay đi qua (chạm một chỗ thì là chấm tròn). */
+function Ink({ pts, className }: { pts: Pt[]; className?: string }) {
+  const tap = pts.every((p) => dist(p, pts[0]) < 1)
+  if (tap) return <circle className={className} cx={pts[0].x} cy={pts[0].y} r="2.3" fill={INK} pointerEvents="none" />
+  const d = pts.map((p, i) => `${i ? 'L' : 'M'}${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(' ')
+  return (
+    <path
+      className={className}
+      d={d}
+      fill="none"
+      stroke={INK}
+      strokeWidth="3.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      pointerEvents="none"
+    />
   )
 }
 

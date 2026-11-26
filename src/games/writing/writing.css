@@ -234,3 +234,22 @@
     min-height: 0;
   }
 }
+
+/* Nét bé viết sai: chuyển sang đỏ nhạt rồi mờ dần trước khi biến mất. */
+path.w-fail {
+  stroke: #e57373;
+}
+
+circle.w-fail {
+  fill: #e57373;
+}
+
+.w-fail {
+  animation: w-fade 0.7s ease-in forwards;
+}
+
+@keyframes w-fade {
+  to {
+    opacity: 0;
+  }
+}

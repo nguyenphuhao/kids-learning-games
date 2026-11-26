@@ -1,7 +1,8 @@
 // Trò "Tập viết chữ" và "Tập viết số".
 // Bé chọn một chữ trong bảng (chữ thường / chữ hoa, hoặc số 0–9), xem hoạt ảnh viết từng nét
-// theo thứ tự, rồi tô theo bằng ngón tay. Chữ đã viết xong có dấu sao trên bảng (lưu trên máy).
-// Mức chơi là độ hỗ trợ khi tô: Dễ (chữ mẫu nét đứt đậm, vệt tô rộng), Vừa (nét đứt nhạt), Khó (chỉ có chấm đặt bút).
+// theo thứ tự, rồi tự viết theo bằng ngón tay / bút; từng nét được chấm, sai thì viết lại (Writer.tsx).
+// Chữ đã viết xong có dấu sao trên bảng (lưu trên máy).
+// Mức chơi: Dễ (chữ mẫu nét đứt đậm, cho lệch nhiều), Vừa (nét đứt nhạt), Khó (chỉ có chấm đặt bút, cho lệch ít).
 // Mỗi chữ viết xong được một sao; đủ 5 sao thì được một cúp.
 //
 // Âm thanh: write-pick-letter / write-pick-number, write-watch, write-trace, common-great, common-retry.
