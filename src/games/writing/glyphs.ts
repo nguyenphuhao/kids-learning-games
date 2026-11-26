@@ -91,6 +91,8 @@ const foot = (x: number) => `C${x},0 ${x + 4},0 ${x + 7},-8`
 // Nét móc hai đầu (phần sau của n, h, p): từ thân chữ rê lên, vòng qua đỉnh, móc ở chân.
 const hump = (x: number) => `L${x},-12 C${x + 2},-18 ${x + 6},-20 ${x + 8},-20 C${x + 10},-20 ${x + 11},-18 ${x + 11},-15 L${x + 11},-5 ${foot(x + 11)}`
 // Thân chữ của u, ư, y: nét hất, móc ngược, rê lên đường kẻ 3.
+// Đầu chữ r, s theo mẫu: nét hất từ đường kẻ 1 lên quá đường kẻ 3 một chút, vòng thắt nhỏ ở đầu.
+const RS_TOP = 'M0,0 L8,-23 C9,-26 12,-26 11.5,-23.5 C11,-21.5 8.5,-21 7.6,-22'
 const U_BODY = 'M0,-10 L6,-20 L6,-6 C6,1 15,1 17,-6 L17,-20'
 
 const LOWER_VI: Glyph[] = [
@@ -122,8 +124,9 @@ const LOWER_VI: Glyph[] = [
   { id: 'ơ', char: 'ơ', w: 20, strokes: [oval(8, -10, 8, 10), 'M14,-17 C18,-17 20,-19 19,-23'] },
   { id: 'p', char: 'p', w: 24, strokes: ['M0,-12 L6,-20 L6,20 ' + hump(6)] },
   { id: 'q', char: 'q', w: 17, strokes: [A_BOWL, 'M16,-20 L16,20'] },
-  { id: 'r', char: 'r', w: 20, strokes: [`M0,-10 L5,-22 C8,-21 11,-21 13,-19 L13,-5 ${foot(13)}`] },
-  { id: 's', char: 's', w: 15, strokes: ['M0,-10 L7,-24 C9,-21 14,-16 14,-9 C14,-3 10,0 7,0 C3,0 1,-2 1,-5'] },
+  // r: nét ngang ngắn rồi nét móc ngược; s: nét cong phải, cuối nét chạm vào nét hất.
+  { id: 'r', char: 'r', w: 24, strokes: [`${RS_TOP} C11,-22 14,-22 16,-20 C17.5,-18 17,-14 16.5,-10 L16.5,-5 ${foot(16.5)}`] },
+  { id: 's', char: 's', w: 16, strokes: [`${RS_TOP} C10.5,-18 15,-13 15,-7.5 C15,-2.5 11,0 7,0 C4,0 2,-1 1,-2.5`] },
   { id: 't', char: 't', w: 14, strokes: [`M0,-12 L6,-20 L6,-30 L6,-5 ${foot(6)}`, 'M0,-20 L12,-20'] },
   { id: 'u', char: 'u', w: 24, strokes: [`${U_BODY} L17,-5 ${foot(17)}`] },
   { id: 'ư', char: 'ư', w: 24, strokes: [`${U_BODY} L17,-5 ${foot(17)}`, 'M17,-19 C21,-19 23,-21 22,-25'] },
