@@ -8,8 +8,9 @@ import { FlagBuilderGame } from './flag-builder/FlagBuilderGame'
 import { FlagDriveGame } from './flag-drive/FlagDriveGame'
 import type { GameProps } from './shared/session'
 import { ShapesGame } from './shapes/ShapesGame'
+import { LettersGame, NumbersGame } from './writing/WritingGame'
 
-export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags' | 'builder'
+export type GameId = 'counting' | 'colors' | 'shapes' | 'compare' | 'flags' | 'builder' | 'letters' | 'numbers'
 
 export type GameDef = {
   id: GameId
@@ -74,6 +75,26 @@ const builderIcon = (
   </svg>
 )
 
+// Biểu tượng trò tập viết: chữ viết tay trên dòng kẻ, bút chì đang viết.
+const lettersIcon = (
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <rect x="8" y="14" width="84" height="72" rx="8" fill="#fff" />
+    <line x1="8" x2="92" y1="66" y2="66" stroke="#7fa7d9" strokeWidth="2" />
+    <line x1="8" x2="92" y1="42" y2="42" stroke="#7fa7d9" strokeWidth="2" />
+    <path d="M38,45 C30,40 20,46 20,55 C20,63 26,67 31,67 C36,67 40,61 40,54 M40,42 L40,62 C40,67 45,67 49,60" fill="none" stroke="#1e63c6" strokeWidth="5" strokeLinecap="round" />
+    <path d="M58,60 L82,28 L88,33 L64,65 L56,68 Z" fill="#fdd835" stroke="#5d4037" strokeWidth="2" strokeLinejoin="round" />
+  </svg>
+)
+
+const numbersIcon = (
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <rect x="8" y="14" width="84" height="72" rx="8" fill="#fff" />
+    <line x1="8" x2="92" y1="72" y2="72" stroke="#7fa7d9" strokeWidth="2" />
+    <path d="M18,40 L30,26 L30,72 M40,36 C40,28 46,25 51,25 C57,25 61,29 61,35 C61,43 52,52 40,72 L62,72" fill="none" stroke="#1e63c6" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M64,62 L84,34 L90,39 L70,67 L62,70 Z" fill="#fdd835" stroke="#5d4037" strokeWidth="2" strokeLinejoin="round" />
+  </svg>
+)
+
 export const GAMES: GameDef[] = [
   { id: 'flags', color: '#d1c4e9', icon: flagsIcon, component: FlagDriveGame },
   { id: 'builder', color: '#ffe0b2', icon: builderIcon, component: FlagBuilderGame },
@@ -81,4 +102,6 @@ export const GAMES: GameDef[] = [
   { id: 'colors', color: '#fff9c4', icon: colorsIcon, component: ColorsGame },
   { id: 'shapes', color: '#c8e6c9', icon: shapesIcon, component: ShapesGame },
   { id: 'compare', color: '#bbdefb', icon: compareIcon, component: CompareGame },
+  { id: 'letters', color: '#f8bbd0', icon: lettersIcon, component: LettersGame },
+  { id: 'numbers', color: '#b2ebf2', icon: numbersIcon, component: NumbersGame },
 ]

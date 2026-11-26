@@ -28,6 +28,7 @@ src/
   games/shared/            Thanh câu hỏi, mức Dễ/Khó, hàm dùng chung
   games/counting, colors, shapes, compare   4 trò học số, màu, hình
   games/flag-builder/      Trò "Ghép quốc kỳ" (cắt mảnh và mức chơi trong puzzle.ts, vẽ mảnh trong FlagPiece.tsx)
+  games/writing/           Trò "Tập viết chữ" và "Tập viết số" (nét chữ trong glyphs.ts, khung tô trong Writer.tsx)
   games/flag-drive/        Trò "Lái xe tìm cờ" (100 nước và các vòng trong countries.ts, cảnh nền trong themes.ts + Scenery.tsx)
   i18n/strings.ts          Chữ giao diện VI/EN
   i18n/                   Ngôn ngữ hiện tại (LanguageProvider, useLanguage)
@@ -55,11 +56,23 @@ Mỗi lượt chơi gồm 5 câu; mỗi câu đúng thêm một ngôi sao trên 
 | Đếm đồ vật / Counting | Chạm từng quả táo (giọng đọc đếm theo), rồi chọn đúng số | 1–3 quả | 1–6 quả | 1–10 quả |
 | Tìm màu / Find the color | Chạm quả bóng đúng màu, bóng bay lên | 2 bóng, đỏ/xanh dương/vàng | 3 bóng, 6 màu | 5 bóng, 6 màu |
 | Xếp hình / Shape match | Kéo hình vào ô cùng hình dạng | 2 hình (tròn, vuông, tam giác) | 3 hình | 4 hình (thêm ngôi sao) |
+| Tập viết chữ / Write letters | Chọn chữ trên bảng (tab chữ thường / chữ hoa), xem hoạt ảnh viết từng nét theo thứ tự, rồi tô theo bằng ngón tay (xem mục bên dưới) | Chữ mờ đậm, vệt tô rộng | Chữ mờ nhạt | Chỉ có chấm đặt bút, vệt tô hẹp |
+| Tập viết số / Write numbers | Như trên, với các số 0–9 | Như trên | Như trên | Như trên |
 | Nhiều hay ít / More or less | Chạm giỏ có nhiều hơn (hoặc ít hơn) | "Nhiều hơn", 1–5 quả, chênh ≥ 3 | "Nhiều hơn", 1–7 quả, chênh ≥ 2 | "Nhiều hơn" hoặc "ít hơn", 1–9 quả, chênh ≥ 1 |
 
 Đồ hoạ của các trò học số, màu, hình vẽ bằng SVG. Trò lái xe và trò ghép cờ dùng chung 100 hình cờ của flag-icons; trò lái xe dùng xe của Kenney.
 
 Trong trò ghép cờ, mảnh nhiễu cắt từ cờ nước khác (cùng nhóm nước của mức chơi). Đặt sai ô hoặc đặt mảnh nhiễu thì mảnh quay về khay và game nhắc "Thử lại nhé!". Mảnh nào trông giống hệt một ô khác (ví dụ hai mảnh đỏ trơn của cờ Madagascar, hay mảnh trắng của cờ khác) thì đặt vào ô đó cũng được tính đúng; game so sánh điểm ảnh của mảnh lúc bắt đầu mỗi cờ.
+
+### Tập viết chữ, tập viết số
+
+- Kiểu chữ: chữ viết tay đứng theo mẫu chữ lớp 1 ở Việt Nam (chữ thường có nét khuyết, nét móc; chữ hoa có vòng xoắn). Hình nét do app tự vẽ theo mô tả mẫu chữ, không lấy từ font; nên đối chiếu với vở tập viết của bé.
+- Bảng chữ theo ngôn ngữ: tiếng Việt 29 chữ (có ă â đ ê ô ơ ư), tiếng Anh 26 chữ (f, j, w, z vẽ cùng kiểu). Chữ hoa và chữ thường ở hai tab.
+- Chữ nằm trên dòng kẻ như vở ô li (1 li = 10 đơn vị): chữ thường cao 2 li; b, g, h, k, l, y cao 5 li; d, đ, p, q 4 li; t 3 li; chữ hoa 5 li; chữ số 4 li.
+- Mở một chữ: hoạt ảnh vẽ từng nét theo thứ tự (chấm cam là đầu bút, số ở điểm đặt bút). Xong thì bé tô theo: đặt tay vào chấm có số, kéo theo hướng mũi tên; nét chỉ tiến lên khi ngón tay đi đúng đường và đúng chiều. Nhấc tay giữa chừng thì phần đã tô vẫn giữ. Đặt tay sai chỗ thì game nhắc "Thử lại nhé!".
+- Nút dưới khung viết: ▦ về bảng chữ, 👀 xem lại cách viết, ▶ sang chữ tiếp theo.
+- Chữ đã viết xong có dấu ★ trên bảng (lưu trên máy). Mỗi chữ viết xong được một sao, đủ 5 sao được một cúp.
+- Bản dev có trang xem trước nét của mọi chữ và số: mở `/#glyphs` (mỗi nét một màu, số thứ tự ở điểm đặt bút).
 
 ### Lái xe tìm cờ
 
@@ -91,6 +104,7 @@ File âm thanh của các trò khác:
 - Tìm màu: `colors-find-<red|blue|yellow|green|orange|purple>`
 - Xếp hình: `shapes-intro`, `shape-<circle|square|triangle|star>`
 - Nhiều hay ít: `compare-more`, `compare-less`
+- Tập viết: `write-pick-letter`, `write-pick-number`, `write-watch`, `write-trace`
 - Ghép quốc kỳ: `build-<MÃ NƯỚC>` cho cả 100 nước (tải khi mở trò)
 
 ## Truyện tương tác

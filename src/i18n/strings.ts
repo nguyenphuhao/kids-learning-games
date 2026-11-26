@@ -16,6 +16,8 @@ export const strings = {
       compare: 'Nhiều hay ít',
       flags: 'Lái xe tìm cờ',
       builder: 'Ghép quốc kỳ',
+      letters: 'Tập viết chữ',
+      numbers: 'Tập viết số',
     },
     tabs: {
       stories: 'Truyện',
@@ -70,6 +72,17 @@ export const strings = {
         star: 'Ngôi sao',
       },
     },
+    writing: {
+      pickLetter: 'Bé chọn một chữ để viết nhé!',
+      pickNumber: 'Bé chọn một số để viết nhé!',
+      watch: 'Bé xem cách viết nhé!',
+      trace: 'Bé viết theo nhé!',
+      lower: 'Chữ thường',
+      upper: 'Chữ hoa',
+      board: 'Bảng chữ',
+      watchAgain: 'Xem lại cách viết',
+      next: 'Chữ tiếp theo',
+    },
     compare: {
       more: 'Giỏ nào có nhiều hơn?',
       less: 'Giỏ nào có ít hơn?',
@@ -86,6 +99,8 @@ export const strings = {
       compare: 'More or less',
       flags: 'Flag drive',
       builder: 'Build a flag',
+      letters: 'Write letters',
+      numbers: 'Write numbers',
     },
     tabs: {
       stories: 'Stories',
@@ -139,6 +154,17 @@ export const strings = {
         triangle: 'Triangle',
         star: 'Star',
       },
+    },
+    writing: {
+      pickLetter: 'Pick a letter to write!',
+      pickNumber: 'Pick a number to write!',
+      watch: 'Watch how to write it!',
+      trace: 'Now you trace it!',
+      lower: 'Lowercase',
+      upper: 'Uppercase',
+      board: 'Letter board',
+      watchAgain: 'Watch again',
+      next: 'Next one',
     },
     compare: {
       more: 'Which basket has more?',

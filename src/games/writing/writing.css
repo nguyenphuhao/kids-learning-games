@@ -1,0 +1,120 @@
+/* Trò tập viết chữ / số */
+.w-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.w-tabs button {
+  flex: 1;
+  min-height: 52px;
+  border-radius: 16px;
+  background: rgb(255 255 255 / 60%);
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.w-tabs button small {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.w-tabs button.active {
+  background: #fff;
+  box-shadow: 0 4px 0 rgb(0 0 0 / 12%);
+}
+
+.w-board {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 8px;
+  align-content: start;
+  padding: 2px 2px 12px;
+}
+
+.w-board.numbers {
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+}
+
+.w-tile {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 4px 0 rgb(0 0 0 / 12%);
+  padding: 4px;
+}
+
+.w-tile svg {
+  width: 100%;
+  height: 100%;
+}
+
+.w-star {
+  position: absolute;
+  top: 2px;
+  right: 6px;
+  color: #ffb300;
+  font-size: 1.1rem;
+  text-shadow: 0 1px 0 rgb(0 0 0 / 15%);
+}
+
+.w-canvas {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 4px 0 rgb(0 0 0 / 12%);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.w-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  padding-bottom: 6px;
+}
+
+.w-actions button {
+  width: 68px;
+  height: 60px;
+  border-radius: 18px;
+  background: #fff;
+  font-size: 1.7rem;
+  box-shadow: 0 4px 0 rgb(0 0 0 / 12%);
+}
+
+.w-actions button:disabled {
+  opacity: 0.4;
+}
+
+.w-actions button.w-next {
+  background: #ffb300;
+  animation: g-bounce 0.8s ease infinite;
+}
+
+.w-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: w-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes w-pulse {
+  50% {
+    transform: scale(1.6);
+    opacity: 0.1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .w-pulse,
+  .w-actions button.w-next {
+    animation: none;
+  }
+}

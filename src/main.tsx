@@ -6,7 +6,10 @@ import App from './App.tsx'
 const root = createRoot(document.getElementById('root')!)
 const preview = import.meta.env.DEV ? /^#art=(\w+)/.exec(location.hash) : null
 
-if (import.meta.env.DEV && preview) {
+if (import.meta.env.DEV && location.hash === '#glyphs') {
+  // Bản dev: /#glyphs xem trước nét viết của mọi chữ và số.
+  import('./games/writing/GlyphPreview').then(({ GlyphPreview }) => root.render(<GlyphPreview />))
+} else if (import.meta.env.DEV && preview) {
   // Bản dev: /#art=<storyId> mở trang xem trước hình vẽ của truyện.
   import('./stories/ArtPreview').then(({ ArtPreview }) => root.render(<ArtPreview id={preview[1]} />))
 } else {
