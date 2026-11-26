@@ -21,10 +21,12 @@ const LOOKAHEAD = 10 // mỗi lần di tay chỉ tiến tối đa chừng này �
 const DOT_LEN = 3 // nét ngắn hơn thì là dấu chấm: chỉ cần chạm
 
 const TOLERANCE: Record<Level, number> = { easy: 9, medium: 7, hard: 5.5 }
-const GUIDE_OPACITY: Record<Level, number> = { easy: 1, medium: 0.4, hard: 0 }
+const GUIDE_OPACITY: Record<Level, number> = { easy: 1, medium: 0.45, hard: 0 }
 
 const INK = '#1e63c6'
-const GUIDE = '#cfd8dc'
+const GUIDE = '#78909c'
+// Chữ mẫu vẽ bằng nét đứt như vở tô chữ: gạch dài 2,6 đơn vị, cách 2,4 (1 li = 10 đơn vị).
+const GUIDE_DASH = '2.6 2.4'
 const PEN = '#fb8c00'
 
 function sample(path: SVGPathElement): Pt[] {
@@ -176,11 +178,24 @@ export function Writer({ glyph, kind, level, phase, onWatched, onDone, onMiss }:
       {glyph.strokes.map((d, i) => (
         <path key={`m${i}`} ref={(el) => void (measureRefs.current[i] = el)} d={d} fill="none" stroke="none" />
       ))}
-      {/* Chữ mờ để tô theo (lúc xem hướng dẫn luôn hiện). */}
+      {/* Chữ mẫu nét đứt để tô theo (lúc xem hướng dẫn luôn hiện). Dấu chấm (i, j) vẽ thành chấm tròn. */}
       <g opacity={phase === 'watch' ? 1 : GUIDE_OPACITY[level]}>
-        {glyph.strokes.map((d, i) => (
-          <path key={`g${i}`} d={d} fill="none" stroke={GUIDE} strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-        ))}
+        {glyph.strokes.map((d, i) =>
+          (lengths[i] ?? DOT_LEN) < DOT_LEN ? (
+            <circle key={`g${i}`} cx={samples[i][0].x} cy={samples[i][0].y} r="1.6" fill={GUIDE} />
+          ) : (
+            <path
+              key={`g${i}`}
+              d={d}
+              fill="none"
+              stroke={GUIDE}
+              strokeWidth="1.4"
+              strokeDasharray={GUIDE_DASH}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          ),
+        )}
       </g>
       {/* Mực: hoạt ảnh hoặc phần bé đã tô. */}
       {glyph.strokes.map((d, i) => {

@@ -65,7 +65,7 @@ Mỗi lượt chơi gồm 5 câu; mỗi câu đúng thêm một ngôi sao trên 
 | Đếm đồ vật / Counting | Chạm từng quả táo (giọng đọc đếm theo), rồi chọn đúng số | 1–3 quả | 1–6 quả | 1–10 quả |
 | Tìm màu / Find the color | Chạm quả bóng đúng màu, bóng bay lên | 2 bóng, đỏ/xanh dương/vàng | 3 bóng, 6 màu | 5 bóng, 6 màu |
 | Xếp hình / Shape match | Kéo hình vào ô cùng hình dạng | 2 hình (tròn, vuông, tam giác) | 3 hình | 4 hình (thêm ngôi sao) |
-| Tập viết chữ / Write letters | Chọn chữ trên bảng (tab chữ thường / chữ hoa), xem hoạt ảnh viết từng nét theo thứ tự, rồi tô theo bằng ngón tay (xem mục bên dưới) | Chữ mờ đậm, vệt tô rộng | Chữ mờ nhạt | Chỉ có chấm đặt bút, vệt tô hẹp |
+| Tập viết chữ / Write letters | Chọn chữ trên bảng (tab chữ thường / chữ hoa), xem hoạt ảnh viết từng nét theo thứ tự, rồi tô theo bằng ngón tay (xem mục bên dưới) | Chữ mẫu nét đứt đậm, vệt tô rộng | Chữ mẫu nét đứt nhạt | Không có chữ mẫu, chỉ có chấm đặt bút, vệt tô hẹp |
 | Tập viết số / Write numbers | Như trên, với các số 0–9 | Như trên | Như trên | Như trên |
 | Nhiều hay ít / More or less | Chạm giỏ có nhiều hơn (hoặc ít hơn) | "Nhiều hơn", 1–5 quả, chênh ≥ 3 | "Nhiều hơn", 1–7 quả, chênh ≥ 2 | "Nhiều hơn" hoặc "ít hơn", 1–9 quả, chênh ≥ 1 |
 | Tô theo nét / Trace the dots | Đặt ngón tay lên chú ong, kéo theo đường chấm tới bông hoa | Nét thẳng: ngang, dọc, xiên, chữ V, mái nhà | Nét cong: cầu vồng, cái chén, sóng, cong hở phải/trái, vòng tròn | Nét kết hợp: móc (như n, u, m), răng cưa, vòng (như l), xoắn ốc; phải tô sát đường hơn |
@@ -81,7 +81,7 @@ Trong trò ghép cờ, mảnh nhiễu cắt từ cờ nước khác (cùng nhóm
 - Kiểu chữ: dáng chữ viết tay đứng của mẫu chữ lớp 1 ở Việt Nam nhưng đơn giản hơn cho bé nhỏ: không có nét khuyết (b, h, k, l, g, y dùng nét thẳng), chữ hoa không có vòng xoắn, chỉ giữ móc nhỏ ở chân chữ (a, i, u…). Các nét còn lại (độ rộng, nét móc, vòng thắt nhỏ của b, k, r, s, v) đã đối chiếu với bảng mẫu chữ viết thường và chữ số lớp 1. Hình nét do app tự vẽ, không lấy từ font.
 - Bảng chữ theo ngôn ngữ: tiếng Việt 29 chữ (có ă â đ ê ô ơ ư), tiếng Anh 26 chữ (f, j, w, z vẽ cùng kiểu). Chữ hoa và chữ thường ở hai tab.
 - Chữ nằm trên dòng kẻ như vở ô li (1 li = 10 đơn vị): chữ thường cao 2 li; b, g, h, k, l, y cao 5 li; d, đ, p, q 4 li; t 3 li; chữ hoa 5 li; chữ số 4 li.
-- Mở một chữ: hoạt ảnh vẽ từng nét theo thứ tự (chấm cam là đầu bút, số ở điểm đặt bút). Xong thì bé tô theo: đặt tay vào chấm có số, kéo theo hướng mũi tên; nét chỉ tiến lên khi ngón tay đi đúng đường và đúng chiều. Nhấc tay giữa chừng thì phần đã tô vẫn giữ. Đặt tay sai chỗ thì game nhắc "Thử lại nhé!".
+- Mở một chữ: hoạt ảnh vẽ từng nét theo thứ tự (chấm cam là đầu bút, số ở điểm đặt bút). Xong thì bé tô theo chữ mẫu nét đứt (như vở tô chữ): đặt tay vào chấm có số, kéo theo hướng mũi tên; nét chỉ tiến lên khi ngón tay đi đúng đường và đúng chiều. Nhấc tay giữa chừng thì phần đã tô vẫn giữ. Đặt tay sai chỗ thì game nhắc "Thử lại nhé!".
 - Nút dưới khung viết: ▦ về bảng chữ, 👀 xem lại cách viết, ▶ sang chữ tiếp theo.
 - Dùng được trên điện thoại và iPad, dọc hoặc ngang. Điện thoại xoay ngang: khung viết bên trái, sao và các nút xếp dọc bên phải; iPad: ô chữ và nút to hơn.
 - Chữ đã viết xong có dấu ★ trên bảng (lưu trên máy). Mỗi chữ viết xong được một sao, đủ 5 sao được một cúp.
