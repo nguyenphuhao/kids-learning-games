@@ -132,3 +132,24 @@
     font-size: 2.1rem;
   }
 }
+
+/* Truyện trên máy tính: lời kể và nút chọn to hơn cho màn lớn. */
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) and (min-aspect-ratio: 5/4) {
+  .game-body .story-text {
+    padding: 18px 22px;
+    font-size: clamp(1.4rem, 1rem + 0.5vw, 1.8rem);
+  }
+
+  .game-body .story-choice {
+    padding: 14px;
+    font-size: 1.4rem;
+  }
+
+  .game-body .story-choice svg {
+    max-width: 180px;
+  }
+
+  .game-body .story-choice:hover {
+    filter: brightness(1.04);
+  }
+}

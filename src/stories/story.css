@@ -224,6 +224,25 @@
   }
 }
 
+/* iPad xoay ngang và máy tính: game.css chia màn làm hai cột và đẩy mọi thứ sang cột trái.
+   Ở truyện, hình minh hoạ sang cột phải và cao hết màn; lời kể, nút chọn ở cột trái. */
+@media (min-width: 900px) and (min-aspect-ratio: 5/4) {
+  .game-body .g-game.story > .story-scene {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    /* Khung ôm vừa tranh (tỉ lệ 320×200), canh giữa theo chiều dọc. */
+    align-self: center;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    max-height: 100%;
+  }
+
+  .story-text {
+    font-size: 1.4rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .story-choice,
   .story-scene,
