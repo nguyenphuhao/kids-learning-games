@@ -1,6 +1,7 @@
 // Nét viết của chữ cái và chữ số, theo dáng chữ viết tay đứng của mẫu chữ lớp 1 ở Việt Nam nhưng
 // đơn giản hơn cho bé nhỏ: không có nét khuyết (b, h, k, l, g, y dùng nét thẳng), chữ hoa không có
-// vòng xoắn; chỉ giữ móc nhỏ ở chân chữ (a, i, u…). Hình nét do app tự vẽ, không chép từ font nào.
+// vòng xoắn; chỉ giữ móc nhỏ ở chân chữ (a, i, u…). Riêng b có nét khuyết như mẫu.
+// Hình nét do app tự vẽ, không chép từ font nào.
 //
 // Toạ độ: 1 li = 10 đơn vị, đường kẻ chân chữ (đường kẻ 1) ở y = 0, đi lên là y âm.
 //   Chữ thường cao 2 li (y = -20); b, h, k, l, g, y cao 5 li; d, đ, p, q cao 4 li; t cao 3 li.
@@ -103,7 +104,16 @@ const LOWER_VI: Glyph[] = [
   { id: 'ă', char: 'ă', w: 23, strokes: [A_BOWL, `M16,-20 L16,-5 ${foot(16)}`, breve(8, -24)] },
   { id: 'â', char: 'â', w: 23, strokes: [A_BOWL, `M16,-20 L16,-5 ${foot(16)}`, hat(8, -24)] },
   // Không có nét khuyết: thân chữ là nét thẳng từ đường kẻ 6 xuống.
-  { id: 'b', char: 'b', w: 21, strokes: ['M4,-50 L4,-6 C4,-1 7,0 11,0 C17,0 20,-5 19.5,-11 C19,-17 17,-20 15,-20 C13,-20 13,-17 15.5,-16.5 L20,-17'] },
+  // b theo đúng mẫu (có nét khuyết): nét hất từ đường kẻ 2 lên thành vòng khuyết chạm đường kẻ 6,
+  // xuống thân chữ, bụng hẹp cao chừng 1,5 li, vòng thắt nhỏ rồi đuôi sang phải.
+  {
+    id: 'b',
+    char: 'b',
+    w: 30,
+    strokes: [
+      'M6.5,-9.5 C10,-14 20,-26 20,-37 C20,-46 18,-49.8 16.5,-50 C14,-50 12.5,-45 12.5,-37 L13,-6 C13,-2 15,0 18,0 C22,0 25.5,-4 25.5,-9 C25.5,-13 24.5,-16.5 22.5,-16.5 C20.5,-16.5 20.5,-14 23,-14 L30,-15.5',
+    ],
+  },
   { id: 'c', char: 'c', w: 16, strokes: ['M14,-16 C12,-19 10,-20 8,-20 C3,-20 0,-15 0,-10 C0,-4 3,0 8,0 C11,0 14,-2 16,-5'] },
   { id: 'd', char: 'd', w: 23, strokes: [A_BOWL, `M16,-40 L16,-5 ${foot(16)}`] },
   { id: 'đ', char: 'đ', w: 23, strokes: [A_BOWL, `M16,-40 L16,-5 ${foot(16)}`, 'M10,-30 L22,-30'] },

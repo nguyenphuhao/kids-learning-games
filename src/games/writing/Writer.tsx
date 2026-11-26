@@ -28,7 +28,9 @@ const FAIL_MS = 700 // nét sai mờ đi trong chừng này rồi biến mất
 
 // Khoảng lệch cho phép quanh nét mẫu (đơn vị; 1 li = 10).
 const TOLERANCE: Record<Level, number> = { easy: 8, medium: 6, hard: 4.5 }
-const GUIDE_OPACITY: Record<Level, number> = { easy: 1, medium: 0.45, hard: 0 }
+// Chữ không phóng to quá mức này (điểm ảnh CSS cho mỗi đơn vị; 1 li = 56 điểm ảnh, chữ thường cao 2 li
+// chừng 2 cm trên iPad) để vừa tay bé; màn nhỏ hơn thì thu nhỏ cho vừa khung.
+const MAX_PX_PER_UNIT = 5.6
 
 const INK = '#1e63c6'
 const GUIDE = '#78909c'
@@ -99,7 +101,28 @@ type Props = {
 }
 
 export function Writer({ glyph, kind, level, phase, onWatched, onDone, onMiss }: Props) {
-  const box = glyphBox(glyph, kind, 0, true)
+  const glyphFrame = glyphBox(glyph, kind, 0, true)
+  // Kích thước khung viết trên màn hình, để giữ chữ ở cỡ vừa tay (không phóng to theo khung).
+  const [size, setSize] = useState<{ w: number; h: number } | null>(null)
+  useLayoutEffect(() => {
+    const el = svgRef.current
+    if (!el) return
+    const measure = () => setSize({ w: el.clientWidth, h: el.clientHeight })
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+  // Khung nhìn: chữ ở giữa; phần còn lại của khung viết là dòng kẻ ô li như trang vở.
+  const box = (() => {
+    if (!size || size.w === 0 || size.h === 0) return glyphFrame
+    const scale = Math.min(size.w / glyphFrame.w, size.h / glyphFrame.h, MAX_PX_PER_UNIT)
+    const w = size.w / scale
+    const h = size.h / scale
+    const cx = glyphFrame.x + glyphFrame.w / 2
+    const cy = glyphFrame.y + glyphFrame.h / 2
+    return { x: cx - w / 2, y: cy - h / 2, w, h }
+  })()
   const measureRefs = useRef<(SVGPathElement | null)[]>([])
   const svgRef = useRef<SVGSVGElement>(null)
   const [samples, setSamples] = useState<Pt[][]>([])
@@ -219,7 +242,7 @@ export function Writer({ glyph, kind, level, phase, onWatched, onDone, onMiss }:
         <path key={`m${i}`} ref={(el) => void (measureRefs.current[i] = el)} d={d} fill="none" stroke="none" />
       ))}
       {/* Chữ mẫu nét đứt để tô theo (lúc xem hướng dẫn luôn hiện). Dấu chấm (i, j) vẽ thành chấm tròn. */}
-      <g opacity={phase === 'watch' ? 1 : GUIDE_OPACITY[level]}>
+      <g>
         {glyph.strokes.map((d, i) =>
           (lengths[i] ?? DOT_LEN) < DOT_LEN ? (
             <circle key={`g${i}`} cx={samples[i][0].x} cy={samples[i][0].y} r="1.6" fill={GUIDE} />
