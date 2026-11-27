@@ -1,8 +1,10 @@
 import { useLanguage } from '../i18n/useLanguage'
 import { GAMES, type GameId } from '../games/registry'
 import { trophyCount } from '../games/shared/session'
+import { BOOKS } from '../stories/books'
 import { STORY_DATA } from '../stories/data'
 import { endingsBadge } from '../stories/endings'
+import { HenryCarCover } from '../stories/henry-car/Cover'
 import { StoryCover } from '../stories/StoryCover'
 import { LanguageToggle } from './LanguageToggle'
 
@@ -59,6 +61,16 @@ export function HomeScreen({
               </button>
             )
           })}
+          {/* Truyện kể thẳng chỉ có tiếng Việt: chỉ hiện khi chọn tiếng Việt. */}
+          {lang === 'vi' &&
+            BOOKS.map((b) => (
+              <button key={b.id} type="button" className="story-card" style={{ background: b.color }} onClick={() => onOpenStory(b.id)}>
+                <span className="story-cover">
+                  <HenryCarCover />
+                </span>
+                <span className="story-card-title">{b.title}</span>
+              </button>
+            ))}
         </div>
       ) : (
         <div className="game-grid" role="tabpanel">

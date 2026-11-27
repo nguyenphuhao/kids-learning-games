@@ -1,0 +1,480 @@
+/* Truyện "Chiếc xe đèn nhấp nháy của Henry" (lớp hc-…). Chuyển động lấy từ bản HTML gốc. */
+
+.hc-scene {
+  position: relative;
+  background: var(--hc-bg, #0b0d22);
+  transition: background 1s;
+}
+
+.hc-text {
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: 40%;
+  overflow: auto;
+}
+
+.hc-p {
+  display: block;
+  margin: 0 0 0.5em;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: hc-up 0.8s ease forwards;
+}
+
+.hc-p:last-child {
+  margin-bottom: 0;
+}
+
+.hc-say {
+  color: #b35c00;
+  font-style: italic;
+}
+
+.hc-cover {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.hc-cover h3 {
+  margin: 0;
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  color: #3f2a8c;
+}
+
+.hc-cover small {
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.hc-play {
+  margin-top: 4px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: #fac775;
+  font-size: 1.1rem;
+  font-weight: 800;
+  box-shadow: 0 4px 0 rgb(0 0 0 / 12%);
+}
+
+.hc-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hc-nav button {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  font-size: 1.5rem;
+  font-weight: 800;
+  box-shadow: 0 4px 0 rgb(0 0 0 / 12%);
+}
+
+.hc-nav button:disabled {
+  opacity: 0.35;
+}
+
+.hc-dots {
+  display: flex;
+  gap: 7px;
+}
+
+.hc-dots i {
+  width: 9px;
+  height: 9px;
+  border-radius: 5px;
+  background: rgb(0 0 0 / 20%);
+  transition: 0.3s;
+}
+
+.hc-dots i.on {
+  width: 22px;
+  background: #3f2a8c;
+}
+
+.hc-gear {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 35%);
+  font-size: 1.4rem;
+}
+
+.hc-panel {
+  /* top, right đặt theo vị trí nút 🎨 lúc mở. */
+  position: fixed;
+  z-index: 6;
+  width: 250px;
+  max-width: calc(100vw - 32px);
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgb(255 255 255 / 15%);
+  background: rgb(15 17 38 / 94%);
+  color: #fbfaf5;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.hc-panel b {
+  display: block;
+  margin: 0 0 8px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.hc-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.hc-swatch {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+}
+
+.hc-chip {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background: rgb(255 255 255 / 12%);
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.hc-swatch.on,
+.hc-chip.on {
+  border-color: #fff;
+}
+
+.hc-auto {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.hc-auto input {
+  width: 22px;
+  height: 22px;
+}
+
+.hc-fx {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Tên truyện dài: chữ ở thanh trên nhỏ hơn để không chiếm nhiều dòng trên điện thoại. */
+.game-screen:has(.hc-book) .game-header h2 {
+  font-size: clamp(1.05rem, 4.5vw, 1.5rem);
+  line-height: 1.2;
+}
+
+/* Bầu trời: mặt trời lặn và cực quang chỉ hiện khi chọn. */
+.hc-book .hc-sun,
+.hc-book .hc-aurora {
+  display: none;
+}
+
+.hc-sky-sunset .hc-sun,
+.hc-sky-aurora .hc-aurora {
+  display: block;
+}
+
+/* Chuyển động trong tranh */
+.hc-bl {
+  animation: hc-bl 0.9s infinite;
+}
+.hc-bl2 {
+  animation: hc-bl 0.9s 0.45s infinite;
+}
+.hc-sleepy .hc-bl,
+.hc-sleepy .hc-bl2 {
+  animation-duration: 2.6s;
+}
+.hc-uglow {
+  animation: hc-ug 3.6s linear infinite;
+}
+.hc-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hc-spin 0.5s linear infinite;
+}
+.hc-tw {
+  animation: hc-tw 2.5s infinite;
+}
+.hc-tw2 {
+  animation: hc-tw 3.4s 1s infinite;
+}
+.hc-tw3 {
+  animation: hc-tw 4.2s 0.5s infinite;
+}
+.hc-shoot {
+  animation: hc-shoot 7s linear infinite;
+}
+.hc-au {
+  animation: hc-au 7s ease-in-out infinite alternate;
+}
+.hc-au2 {
+  animation: hc-au 9s ease-in-out infinite alternate-reverse;
+}
+.hc-bob {
+  animation: hc-bob 0.5s ease-in-out infinite alternate;
+}
+.hc-drive {
+  animation: hc-drive 6s linear infinite;
+}
+.hc-driveS {
+  animation: hc-drive 9s linear infinite;
+}
+.hc-wind {
+  animation: hc-wind 0.8s linear infinite;
+}
+.hc-zz {
+  animation: hc-zz 2.6s infinite;
+}
+.hc-wave {
+  transform-box: fill-box;
+  transform-origin: 0% 100%;
+  animation: hc-wave 0.6s ease-in-out infinite alternate;
+}
+.hc-laugh {
+  animation: hc-laugh 0.4s ease-in-out infinite alternate;
+}
+.hc-pass {
+  animation: hc-pass 7s ease-in-out infinite;
+}
+.hc-slow {
+  animation: hc-slow 4.5s cubic-bezier(0.1, 0.7, 0.2, 1) forwards;
+}
+.hc-breathe {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: hc-br 3.2s ease-in-out infinite;
+}
+.hc-beam {
+  animation: hc-beam 3s ease-in-out infinite;
+}
+.hc-float {
+  animation: hc-fl 4s ease-in-out infinite;
+}
+.hc-fly {
+  animation: hc-fly 6s ease-in-out infinite;
+}
+.hc-fly2 {
+  animation: hc-fly 8s -3s ease-in-out infinite reverse;
+}
+
+@keyframes hc-up {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes hc-bl {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+@keyframes hc-ug {
+  0%,
+  100% {
+    fill: #5dcaa5;
+  }
+  25% {
+    fill: #afa9ec;
+  }
+  50% {
+    fill: #fac775;
+  }
+  75% {
+    fill: #ed93b1;
+  }
+}
+@keyframes hc-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes hc-tw {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+@keyframes hc-shoot {
+  0% {
+    transform: translate(400px, 0);
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  16% {
+    transform: translate(140px, 95px);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(140px, 95px);
+    opacity: 0;
+  }
+}
+@keyframes hc-au {
+  from {
+    transform: translate(-18px, 0) skewX(-6deg);
+    opacity: 0.35;
+  }
+  to {
+    transform: translate(18px, 8px) skewX(8deg);
+    opacity: 0.8;
+  }
+}
+@keyframes hc-bob {
+  to {
+    transform: translateY(-3px);
+  }
+}
+@keyframes hc-drive {
+  0% {
+    transform: translateX(-220px);
+  }
+  100% {
+    transform: translateX(420px);
+  }
+}
+@keyframes hc-wind {
+  0% {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(-60px);
+    opacity: 0;
+  }
+}
+@keyframes hc-zz {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+@keyframes hc-wave {
+  from {
+    transform: rotate(-15deg);
+  }
+  to {
+    transform: rotate(20deg);
+  }
+}
+@keyframes hc-laugh {
+  to {
+    transform: translateY(-4px) rotate(-3deg);
+  }
+}
+@keyframes hc-pass {
+  0% {
+    transform: translate(-170px, 0);
+  }
+  45% {
+    transform: translate(60px, 30px);
+  }
+  100% {
+    transform: translate(420px, 0);
+  }
+}
+@keyframes hc-slow {
+  from {
+    transform: translateX(-170px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes hc-br {
+  50% {
+    transform: scale(1.025);
+  }
+}
+@keyframes hc-beam {
+  50% {
+    opacity: 0.12;
+  }
+}
+@keyframes hc-fl {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes hc-fly {
+  0%,
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.2;
+  }
+  25% {
+    transform: translate(14px, -16px);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-8px, -26px);
+    opacity: 0.3;
+  }
+  75% {
+    transform: translate(-18px, -8px);
+    opacity: 1;
+  }
+}
+
+/* iPad xoay ngang và máy tính: tranh ở cột phải (story.css), khung theo tỉ lệ tranh 380×240. */
+@media (min-width: 900px) and (min-aspect-ratio: 5/4) {
+  .game-body .g-game.story > .story-scene.hc-scene {
+    aspect-ratio: 19 / 12;
+  }
+
+  .hc-text {
+    max-height: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hc-book * {
+    animation: none !important;
+  }
+
+  .hc-p {
+    opacity: 1;
+    transform: none;
+  }
+}

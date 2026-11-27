@@ -153,6 +153,16 @@ Trang chủ có hai tab: **📖 Truyện** và **🎮 Trò chơi** (tab đang ch
 - Thêm truyện mới: khai báo trong `data.ts`, vẽ `src/stories/art/<id>.tsx` (xuất `Scene` và `Icon`), thêm vào `art/index.ts`, tạo 9 file âm thanh mỗi thứ tiếng.
 - Âm thanh: `story-<id>-<đoạn>.mp3` (đoạn: `start`, `fork`, hai nhánh, bốn `end-…`, `outro`), chỉ tải khi mở truyện đó.
 
+### Truyện kể thẳng
+
+Ngoài 6 truyện tương tác, tab Truyện có truyện kể trước giờ đi ngủ **Chiếc xe đèn nhấp nháy của Henry** (bìa + 7 trang, không có lựa chọn). Truyện chỉ có tiếng Việt nên chỉ hiện ở tab Truyện khi chọn tiếng Việt (mở thẳng link `/stories/henry-car` thì vẫn đọc tiếng Việt).
+
+- Lật trang bằng nút ← / →, vuốt ngang trên tranh, hoặc phím mũi tên. Mỗi trang tự đọc lời kể; chạm lời kể để nghe lại. Đọc xong trang cuối thì hiện màn hình cúp.
+- Nút 🎨 trên tranh: đổi màu xe (đỏ, xanh dương, vàng, tím, xanh lá; tên màu trong lời kể trang 2 đổi theo) và bầu trời (Đêm sao, Hoàng hôn, Cực quang), lưu trên máy; ô "Tự lật trang" (nút ▶ Nghe kể chuyện ở bìa cũng bật ô này).
+- Chạm màn hình rắc sao, đốm sáng bay lơ lửng (`henry-car/Sparkles.tsx`). Máy bật "giảm chuyển động" thì tắt hết chuyển động.
+- Lời kể trong `src/stories/books.ts`, tranh và trình đọc trong `src/stories/henry-car/`. Tranh chuyển từ bản HTML gốc (khung 380×240).
+- Âm thanh: `public/audio/vi/story-henry-car-p0.mp3` … `p7.mp3` (p0 là bìa), lấy từ bản HTML gốc, đã chuẩn hoá lên đỉnh khoảng −1 dB.
+
 Hình vẽ bằng SVG (`src/stories/art/`): `kit.tsx` chứa dải màu dùng chung (trời, biển, cỏ, lớp đổ bóng và độ bóng), nhân vật Henry, Ba, Bà và cảnh vật; mỗi truyện một file cảnh riêng. Một số chi tiết chuyển động nhẹ (lá cây, mây, đom đóm, sao); máy bật "giảm chuyển động" thì đứng yên. Bản dev (`npm run dev`) có trang xem trước mọi cảnh của một truyện: mở `/#art=<id>`, ví dụ `/#art=tet`.
 
 ## Logo

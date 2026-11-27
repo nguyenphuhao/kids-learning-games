@@ -5,6 +5,7 @@
 
 import type { GameId } from '../games/registry'
 import { strings, type Lang } from '../i18n/strings'
+import { BOOKS } from '../stories/books'
 import { STORY_DATA } from '../stories/data'
 
 /** Tên miền chính thức (Vercel). Đổi ở đây nếu gắn tên miền riêng. */
@@ -92,7 +93,7 @@ export function pageFromPath(path: string): Page {
     const id = GAME_IDS.find((g) => g === m[2])
     return id ? { kind: 'game', id } : null
   }
-  const story = STORY_DATA.find((s) => s.id === m[2])
+  const story = [...STORY_DATA, ...BOOKS].find((s) => s.id === m[2])
   return story ? { kind: 'story', id: story.id } : null
 }
 
@@ -109,6 +110,9 @@ export function pageMeta(page: Page, lang: Lang): { title: string; description: 
       description: `${GAME_DESCRIPTIONS[page.id][lang]} ${SUFFIX[lang]}`,
     }
   }
+  // Truyện kể thẳng: chỉ có tiếng Việt, nên tên và mô tả giống nhau ở hai ngôn ngữ.
+  const book = BOOKS.find((b) => b.id === page.id)
+  if (book) return { title: `${book.title} · ${app}`, description: book.description }
   const story = STORY_DATA.find((s) => s.id === page.id)!
   const intro = lang === 'vi' ? 'Truyện tương tác, bé chọn hướng đi cho câu chuyện.' : 'An interactive story where kids choose what happens next.'
   return { title: `${story.title[lang]} · ${app}`, description: `${intro} ${SUFFIX[lang]}` }
@@ -116,5 +120,5 @@ export function pageMeta(page: Page, lang: Lang): { title: string; description: 
 
 /** Mọi trang có link riêng (dùng để tạo HTML và sitemap lúc build). */
 export function allPages(): Page[] {
-  return [null, ...GAME_IDS.map((id) => ({ kind: 'game' as const, id })), ...STORY_DATA.map((s) => ({ kind: 'story' as const, id: s.id }))]
+  return [null, ...GAME_IDS.map((id) => ({ kind: 'game' as const, id })), ...[...STORY_DATA, ...BOOKS].map((s) => ({ kind: 'story' as const, id: s.id }))]
 }

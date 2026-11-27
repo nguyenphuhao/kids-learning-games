@@ -3,9 +3,17 @@ import { preloadLines } from '../audio/audio'
 import { PlayScreen } from '../components/PlayScreen'
 import { useLanguage } from '../i18n/useLanguage'
 import { STORY_DATA } from './data'
+import { HENRY_CAR } from './books'
+import { HenryCarScreen } from './henry-car/HenryCarScreen'
 import { StoryPlayer } from './StoryPlayer'
 
 export function StoryScreen({ id, onBack }: { id: string; onBack: () => void }) {
+  // Truyện kể thẳng (books.ts) có trình đọc riêng.
+  if (id === HENRY_CAR.id) return <HenryCarScreen onBack={onBack} />
+  return <InteractiveStoryScreen id={id} onBack={onBack} />
+}
+
+function InteractiveStoryScreen({ id, onBack }: { id: string; onBack: () => void }) {
   const { lang } = useLanguage()
   const story = STORY_DATA.find((s) => s.id === id)!
 
